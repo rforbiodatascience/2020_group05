@@ -1,4 +1,4 @@
-# Run all scripts
+# Run all scripts!
 # ------------------------------------------------------------------------------
 setwd('/cloud/project/week6_github/project_root')
 source(file = "R/01_load.R")
