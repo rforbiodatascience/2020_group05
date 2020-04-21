@@ -6,29 +6,33 @@ rm(list = ls())
 # ------------------------------------------------------------------------------
 library("tidyverse")
 
-# Define functions
-# ------------------------------------------------------------------------------
-source(file = "R/99_project_functions.R")
-
 # Load data
 # ------------------------------------------------------------------------------
-df <- read_tsv(file = "data/01_my_data.tsv")
+df <- read_csv(file = "_raw/01_dmd.csv")
 
 # Wrangle data
 # ------------------------------------------------------------------------------
-View(df)
-# we look through our data to see if there are anything missing. 
 
+# View data to check for anomalities, NAs and other elements in the data.
+View(df)
 count(df)
-#192 patients
+
+# Are there any numbers we should round up/down?
+df <- df %>% 
+  mutate(pk = round(pk, 3))
+
+# Are there anything we should group?
+
+# Are there any NAs?
+# Yes
+
+
+# Alternatively, make a tibble and look through this
+
 
 #we want to see if we can remove patients that has NA values and we do this by visualising 
-
-# remove the patients that have NA values
-
 df <- drop_na(df)
 count(df)
-
 #178 patients, so we dropped 14
 
 
