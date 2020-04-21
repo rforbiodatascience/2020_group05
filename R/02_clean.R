@@ -1,7 +1,21 @@
-#This script wil clean the data 
-library(tidyverse)
-df <- read_csv(file = '/cloud/project/_raw/dmd_1.csv')
+# Clear workspace
+# ------------------------------------------------------------------------------
+rm(list = ls())
 
+# Load libraries
+# ------------------------------------------------------------------------------
+library("tidyverse")
+
+# Define functions
+# ------------------------------------------------------------------------------
+source(file = "R/99_project_functions.R")
+
+# Load data
+# ------------------------------------------------------------------------------
+df <- read_tsv(file = "data/01_my_data.tsv")
+
+# Wrangle data
+# ------------------------------------------------------------------------------
 View(df)
 # we look through our data to see if there are anything missing. 
 
@@ -16,4 +30,11 @@ df <- drop_na(df)
 count(df)
 
 #178 patients, so we dropped 14
+
+
+
+# Write data
+# ------------------------------------------------------------------------------
+write_tsv(x = my_data_clean,
+          path = "data/02_my_data_clean.tsv")
 
