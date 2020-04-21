@@ -19,9 +19,8 @@ Investigate the chance of a women being a carrier of DMD  based on serum markers
 Another question of interest is whether age and season should be taken into account. It is of interest to measure how much pk and ld add toward predicting the carrier status. The importance of age and sample date is also of interest.
  
 ## Plan for project
-
-* Clean data (Contains 8 NAs)
-* Separate the data into 2 groups, so that patients with multiple tests are seperated into a second group
+* Separate the data into 2 groups, so that patients with multiple tests are seperated into a second group (ASTRID)
+* Clean data (Contains 8 NAs) (CECILIE)
 * Make sure that the data is in tidy-format
 * Make a PCA analysis in order to find the correlation between level of enzyme and carrier status
 * Add the second group of blood samples to the already-existing patients (make the data into LONG format)
