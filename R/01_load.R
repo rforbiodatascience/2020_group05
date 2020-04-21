@@ -1,18 +1,11 @@
 #This script will load the data from either the package or from Raw depending.. 
-
-library(readxl)
-df <- read.csv(file = '/cloud/project/_raw/dmd.csv')
-df
-
-#To use tibble load tidyverse 
 library(tidyverse)
-filter(data = df, obsno== 1)
-df_split
-#---------------------Forget the following 
-#Seperating the table (raw) into two tables
-#We need to group the data in order to split it with dplyr
-df_grouped <- df %>% 
-  group_by(obsno)
+df <- read_csv(file = '/cloud/project/_raw/dmd.csv')
 
-df_split <- group_split(df_grouped)
-df_split
+#Splitting the data so we can fake joining 
+df_split1 <- df %>% filter(obsno == 1)
+df_split2 <- df %>% filter(obsno == 2)
+
+#Moving the two new 'raw data sets' into _raw 
+write_csv(df_split1, '/cloud/project/_raw/dmd_1.csv', append = FALSE, quote_escape = "double")
+write_csv(df_split2, '/cloud/project/_raw/dmd_2.csv', append = FALSE, quote_escape = "double")
