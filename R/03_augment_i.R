@@ -1,3 +1,2 @@
 #Augment (add variables) 
-#Maybe we can do something with the sdate? Just show we can e.g all that 
-#start with 68 is january... 
+#Add season 
