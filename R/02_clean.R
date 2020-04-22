@@ -8,34 +8,49 @@ library("tidyverse")
 
 # Load data
 # ------------------------------------------------------------------------------
-df <- read_csv(file = "data/_raw/dmd_obsno_1.csv")
+df <- read_tsv(file = "data/_raw/T38.tsv", col_names = FALSE)
 
 # Wrangle data
 # ------------------------------------------------------------------------------
 
 # View data to check for anomalities, NAs and other elements in the data.
 View(df)
-count(df)
 
-# Are there any numbers we should round up/down?
+# We need to remove the first three columns, since they are redundant for the data.
+# Additionally, we need to remove the 8th column since it only contains 0s
+
 df <- df %>% 
-  mutate(pk = round(pk, 3))
+  select(- c(X1, X2, X3, X8))
 
-# Are there anything we should group?
+# Add column names
 
-# Are there any NAs?
-# Yes
+df <- df %>% 
+  rename( ObservationNumber = X4, 
+          ID = X5,
+          Age = X6,
+          Month = X7,
+          Year = X9,
+          CK = X10,
+          H = X11,
+          PK = X12,
+          LD = X13)
+
+# We also need to change the 9th column from 079 etc. to year (1979)
+df <- df %>% 
+  mutate(Year = case_when(Year == '077' ~ 1977,
+                          Year == '078' ~ 1978,
+                          Year == '079' ~ 1979,
+                          Year == '080' ~ 1980
+                          ))
+
+# Change values of -9999 to NA
+df <- df %>% 
+# Count the NAs to see if we can remove the observation
 
 
-# Alternatively, make a tibble and look through this
 
 
-#we want to see if we can remove patients that has NA values and we do this by visualising 
-df <- drop_na(df)
-count(df)
-#178 patients, so we dropped 14
-
-
+View(df)
 
 # Write data
 # ------------------------------------------------------------------------------
