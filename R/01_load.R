@@ -1,24 +1,13 @@
-# Clear workspace
-# ------------------------------------------------------------------------------
-rm(list = ls())
+#This script will load the data from either the package or from Raw depending.. 
+library(tidyverse)
+df <- read_csv(file = '/cloud/project/data/_raw/dmd.csv')
 
-# Load libraries
-# ------------------------------------------------------------------------------
-library("tidyverse")
+#Splitting the data so we can fake joining 
+df_split1 <- df %>% filter(obsno == 1)
+df_split2 <- df %>% filter(obsno == 2)
 
-# Define functions
-# ------------------------------------------------------------------------------
-source(file = "R/99_project_functions.R")
-
-# Load data
-# ------------------------------------------------------------------------------
-df <- read_csv(file = '/cloud/project/_raw/dmd_1.csv')
-
-# Wrangle data
-# ------------------------------------------------------------------------------
+#Moving the two new 'raw data sets' into _raw 
+write_csv(df_split1, '/cloud/project/data/_raw/dmd_1.csv', append = FALSE, quote_escape = "double")
+write_csv(df_split2, '/cloud/project/data/_raw/dmd_2.csv', append = FALSE, quote_escape = "double")
 
 
-# Write data
-# ------------------------------------------------------------------------------
-write_tsv(x = df,
-          path = "data/01_my_data.tsv")
