@@ -8,7 +8,7 @@ library("tidyverse")
 
 # Load data
 # ------------------------------------------------------------------------------
-df <- read_csv(file = "data/_raw/01_dmd.csv")
+df <- read_csv(file = "data/_raw/dmd_obsno_1.csv")
 
 # Wrangle data
 # ------------------------------------------------------------------------------
@@ -39,6 +39,5 @@ count(df)
 
 # Write data
 # ------------------------------------------------------------------------------
-write_tsv(x = my_data_clean,
-          path = "data/02_my_data_clean.tsv")
-
+write_csv(x = df,
+          path = "data/02_clean_data.csv")
