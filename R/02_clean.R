@@ -5,6 +5,8 @@ rm(list = ls())
 # Load libraries
 # ------------------------------------------------------------------------------
 library("tidyverse")
+library("ggplot")
+
 
 # Load data
 # ------------------------------------------------------------------------------
@@ -44,15 +46,15 @@ df <- df %>%
                           ))
 
 # Change values of -9999 to NA
-df <- df %>% 
+df <- df %>%
+  mutate(LD = na_if(LD, '-9999'), 
+         PK = na_if(PK, '-9999'))
+
 # Count the NAs to see if we can remove the observation
+# FIND A WAY TO MAKE THIS WORK
 
-
-
-
-View(df)
 
 # Write data
 # ------------------------------------------------------------------------------
-write_csv(x = df,
-          path = "data/02_clean_data.csv")
+write_tsv(x = df,
+          path = "data/02_clean_data.tsv")

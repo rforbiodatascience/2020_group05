@@ -1,5 +1,7 @@
 #Analysis of clean data to explore the general features of the data
 
+#ASTRID DO THIS
+
 # Clear workspace
 # ------------------------------------------------------------------------------
 rm(list = ls())
