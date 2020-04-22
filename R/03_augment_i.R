@@ -1,12 +1,38 @@
-#Augment (add variables) 
-<<<<<<< HEAD
-#Maybe we can do something with the sdate? Just show we can e.g all that 
-#start with 68 is january... 
+# Clear workspace
+# ------------------------------------------------------------------------------
+rm(list = ls())
 
-# CARINA do this
+# Load libraries
+# ------------------------------------------------------------------------------
+library("tidyverse")
 
-# Join carrier status to 02_clean_data
-# Lave sub-groups med dato (seasons) - factor level osv.
-=======
-#Add season 
->>>>>>> b2b5508dcd3be2b1e7ed00287a0c1500ab026461
+# Define functions
+# ------------------------------------------------------------------------------
+source(file = "R/99_proj_func.R")
+
+# Load data
+# ------------------------------------------------------------------------------
+df <- read_tsv(file = "data/02_clean_data.tsv")
+df_carrier <- read_csv(file = "data/_raw/dmd.csv")
+
+# Wrangle data
+# ------------------------------------------------------------------------------
+# Add season to the data set based on month
+df_aug <- df %>% mutate(season = case_when(Month == '1'| Month == '2' | Month == '12' ~ 'Winter',
+                                           Month == '3'| Month == '4' | Month == '5' ~ 'Spring',
+                                           Month == '6'| Month == '7' | Month == '8' ~ 'Summer',
+                                           Month == '9'| Month == '10' | Month == '11' ~ 'Fall'))
+# Add carrier information from new data set
+# First select the columns from the carrier data set and change it to factor
+df_carrier <- df_carrier %>% select(hospid, carrier) %>% rename(ID = hospid)
+df_carrier <- df_carrier %>% mutate_at(vars(carrier), as_factor)
+
+# Mutate with a left join for addition of carrier info to the data set
+df_aug <- left_join(df_aug, df_carrier)
+
+View(df_aug)
+
+# Write data
+# ------------------------------------------------------------------------------
+write_tsv(x = df_aug,
+          path = "data/03_df_clean_aug.tsv")

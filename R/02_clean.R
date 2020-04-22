@@ -5,7 +5,7 @@ rm(list = ls())
 # Load libraries
 # ------------------------------------------------------------------------------
 library("tidyverse")
-library("ggplot")
+#library("ggplot")
 
 
 # Load data
