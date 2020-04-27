@@ -12,8 +12,8 @@ source(file = "R/99_proj_func.R")
 
 # Load data
 # ------------------------------------------------------------------------------
-df <- read_tsv(file = "data/02_clean_data.tsv")
-df_carrier <- read_csv(file = "data/_raw/dmd.csv")
+df <- read_tsv(file = "data/02_clean_data_df.tsv")
+df_carrier <- read_tsv(file = "data/02_clean_data_df_carrier.tsv")
 
 # Wrangle data
 # ------------------------------------------------------------------------------
@@ -22,9 +22,9 @@ df_aug <- df %>% mutate(season = case_when(Month == '1'| Month == '2' | Month ==
                                            Month == '3'| Month == '4' | Month == '5' ~ 'Spring',
                                            Month == '6'| Month == '7' | Month == '8' ~ 'Summer',
                                            Month == '9'| Month == '10' | Month == '11' ~ 'Fall'))
+
 # Add carrier information from new data set
-# First select the columns from the carrier data set and change it to factor
-df_carrier <- df_carrier %>% select(hospid, carrier) %>% rename(ID = hospid)
+# Change carrier to factor
 df_carrier <- df_carrier %>% mutate_at(vars(carrier), as_factor)
 
 # Mutate with a left join for addition of carrier info to the data set
