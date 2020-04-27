@@ -38,7 +38,7 @@ data_subset <- data %>%
 # ------------------------------------------------------------------------------
 #Age distribution of the data: 
 pl1 <- data %>% 
-  ggplot(mapping = aes(x = Age, fill = as.factor(carrier), alpha = 0.5)) +
+  ggplot(mapping = aes(x = Age, fill = carrier, alpha = 0.5)) +
   geom_density() + 
   labs(title = "Distribution of Age and Carrier")
 pl1 #Possibly we need to make it different so it is easier to see, is bar better? 
@@ -51,21 +51,24 @@ pl1 #Possibly we need to make it different so it is easier to see, is bar better
 pl2_ck <- data %>% 
   ggplot(mapping = aes(x = Age, y = CK)) +
   geom_point() + 
-  labs(title = "Distribution of levels of ck to age")
+  labs(title = "Distribution of levels of creatine kinase (CK) to age")
 pl2_ck
 
 #age group - long format? with the different protein values to make grid?
 pl2_age_group <- data_subset %>% 
   ggplot(mapping = aes(x = age_group, y = Level, fill = as.factor(carrier)), alpha = 0.8) +
   geom_boxplot()+
-  labs(title = 'The levels of protein shown among age groups') + 
+  labs(title = 'The levels of protein shown among age groups', 
+       fill = "Carrier Status",
+       x = "Age group",
+       y = "Protein level") + 
   facet_grid(Protein ~.)
 pl2_age_group
 
 
 #--------------------------------------------
 #Are there two which are coorelated? 
-pl2_ck_h <- my_data_subset %>% 
+pl2_ck_h <- data_subset %>% 
   ggplot(mapping = aes(x = CK, y = H, fill = as.factor(carrier))) +
   geom_point(pch = 21) + 
   labs(title = "Distribution of levels of ck to age")
