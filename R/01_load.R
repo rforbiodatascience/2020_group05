@@ -1,6 +1,23 @@
-#This script will load the data from either the package or from Raw depending.. 
-library(tidyverse)
+# Clear workspace
+# ------------------------------------------------------------------------------
+rm(list = ls())
+
+# Load libraries
+# ------------------------------------------------------------------------------
+library("tidyverse")
+
+# Define functions
+# ------------------------------------------------------------------------------
+source(file = "R/99_proj_func.R")
+
+# Load data
+# ------------------------------------------------------------------------------
 df <- read_tsv(file = '/cloud/project/data/_raw/T38.tsv', col_names = FALSE)
+df_carrier <- read_csv(file = "/cloud/project/data/_raw/dmd.csv")
 
-View(df)
-
+# Write data
+# ------------------------------------------------------------------------------
+write_tsv(x = df,
+          path = "data/01_df.tsv")
+write_tsv(x = df_carrier,
+          path = "data/01_carrier_data.tsv")
