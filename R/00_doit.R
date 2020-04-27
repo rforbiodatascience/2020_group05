@@ -4,8 +4,7 @@ setwd('/cloud/project/')
 
 # Checking for the required packages
 # downloading if not present
-packages <- c("tidyverse", 
-              "keras",
+packages <- c("tidyverse",
               "caret")
 install.packages(setdiff(packages, rownames(installed.packages())))
 

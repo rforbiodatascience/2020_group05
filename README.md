@@ -1,4 +1,4 @@
-# 2020_your_github_user_name
+# 2020_group05
 
 ## Questions/Agenda for 20-04-2020
 
