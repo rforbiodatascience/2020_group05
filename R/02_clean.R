@@ -5,7 +5,7 @@ rm(list = ls())
 # Load libraries
 # ------------------------------------------------------------------------------
 library("tidyverse")
-
+library("naniar")
 
 # Load data
 # ------------------------------------------------------------------------------
@@ -17,6 +17,14 @@ df_carrier <- read_tsv(file = "data/01_carrier_data.tsv")
 
 # View data to check for anomalities, NAs and other elements in the data.
 df
+
+# Visual of missing data
+vis_miss(df)
+
+# Plot of missing data, 
+# where the missing data is shifted 10% under the minimum value
+ggplot(df, aes(x = LD,  y = PK)) +
+  geom_miss_point()
 
 # We need to remove the first three columns, since they are redundant for the data.
 # Additionally, we need to remove the 8th column since it only contains 0s
@@ -64,3 +72,4 @@ write_tsv(x = df,
           path = "data/02_clean_data_df.tsv")
 write_tsv(x = df_carrier,
           path = "data/02_clean_data_df_carrier.tsv")
+
