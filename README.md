@@ -4,7 +4,7 @@
 
 * Are the dataset okay?
 * What we imagine we can do with the data
-* When is the hand-in
+* HAND-IN is **13th of May**
 
 ## Description of the data: 
 209 observations correspond to blood samples on 192 patients (17 patients have two samples in the dataset)
