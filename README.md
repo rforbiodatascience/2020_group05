@@ -34,6 +34,8 @@ Another question of interest is whether age and season should be taken into acco
 * Add the second group of blood samples to the already-existing patients (make the data into LONG format)
 * Make the PCA analysis again to see if there is a new result or if it is still possible to predict carrier status based on enzyme levels
 * Make a Shiny app that can predict carrier status based on enzyme levels
+* ANN classification model 
+* LM classification model
 >>>>>>> f6265d6f46adb27387415c98d96882e5152ed8b1
 
 
