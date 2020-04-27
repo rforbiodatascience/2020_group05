@@ -7,7 +7,6 @@ rm(list = ls())
 # Load libraries
 # ------------------------------------------------------------------------------
 library("tidyverse")
-library("keras")
 library("caret")
 library("MASS")
 
@@ -17,7 +16,7 @@ library("MASS")
 
 # Load data
 # ------------------------------------------------------------------------------
-data <- read_tsv(file = "data/03_aug_data.tsv") #possibly change to aug data?
+data <- read_tsv(file = "data/03_aug_data.tsv")
 
 # Wrangle data
 # ------------------------------------------------------------------------------
