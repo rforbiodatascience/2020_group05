@@ -1,3 +1,4 @@
+#Descriptive data visulisation 
 #Analysis of clean data to explore the general features of the data
 #Are there any obvios trends in the data
 
@@ -21,6 +22,8 @@ data <- read_tsv(file = "data/03_aug_data.tsv") #possibly change to aug data?
 
 # Wrangle data
 # ------------------------------------------------------------------------------
+data <- data %>% mutate_at(vars(carrier), as_factor)
+
 #creating age groups
 data_subset <- data %>% 
   mutate(age_group = cut(x = Age, breaks = seq(10,100, by = 10))) %>% 
@@ -56,7 +59,7 @@ pl2_ck
 
 #age group - long format? with the different protein values to make grid?
 pl2_age_group <- data_subset %>% 
-  ggplot(mapping = aes(x = age_group, y = Level, fill = as.factor(carrier)), alpha = 0.8) +
+  ggplot(mapping = aes(x = age_group, y = Level, fill = carrier), alpha = 0.8) +
   geom_boxplot()+
   labs(title = 'The levels of protein shown among age groups', 
        fill = "Carrier Status",
@@ -68,8 +71,13 @@ pl2_age_group
 
 #--------------------------------------------
 #Are there two which are coorelated? 
+<<<<<<< HEAD
 pl2_ck_h <- data_subset %>% 
   ggplot(mapping = aes(x = CK, y = H, fill = as.factor(carrier))) +
+=======
+pl2_ck_h <- my_data_subset %>% 
+  ggplot(mapping = aes(x = CK, y = H, fill = carrier)) +
+>>>>>>> d0e32a61f10291f30af13b25b41b02443946777d
   geom_point(pch = 21) + 
   labs(title = "Distribution of levels of ck to age")
 pl2_ck_h

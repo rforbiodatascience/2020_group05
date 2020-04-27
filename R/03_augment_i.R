@@ -13,7 +13,7 @@ source(file = "R/99_proj_func.R")
 # Load data
 # ------------------------------------------------------------------------------
 df <- read_tsv(file = "data/02_clean_data_df.tsv")
-df_carrier <- read_tsv(file = "data/02_clean_data_df_carrier.tsv")
+df_carrier <- read_tsv(file = "data/02_clean_data_df_carrier.tsv", col_types = cols(carrier = col_factor()))
 
 # Wrangle data
 # ------------------------------------------------------------------------------
@@ -24,9 +24,6 @@ df_aug <- df %>% mutate(season = case_when(Month == '1'| Month == '2' | Month ==
                                            Month == '9'| Month == '10' | Month == '11' ~ 'Fall'))
 
 # Add carrier information from new data set
-# Change carrier to factor
-df_carrier <- df_carrier %>% mutate_at(vars(carrier), as_factor)
-
 # Mutate with a left join for addition of carrier info to the data set
 df_aug <- left_join(df_aug, df_carrier)
 
