@@ -5,14 +5,14 @@ rm(list = ls())
 # Load libraries
 # ------------------------------------------------------------------------------
 library("tidyverse")
-#library("ggplot")
 
 
 # Load data
 # ------------------------------------------------------------------------------
-df <- read_tsv(file = "data/_raw/T38.tsv", col_names = FALSE)
+df <- read_tsv(file = "data/01_df.tsv", col_names = TRUE)
+df_carrier <- read_tsv(file = "data/01_carrier_data.tsv")
 
-# Wrangle data
+# Wrangle data df
 # ------------------------------------------------------------------------------
 
 # View data to check for anomalities, NAs and other elements in the data.
@@ -53,8 +53,13 @@ df <- df %>%
 # Count the NAs to see if we can remove the observation
 # FIND A WAY TO MAKE THIS WORK
 
+# Wrangle data df_carrier
+# ------------------------------------------------------------------------------
+df_carrier <- df_carrier %>% select(hospid, carrier) %>% rename(ID = hospid)
 
 # Write data
 # ------------------------------------------------------------------------------
 write_tsv(x = df,
-          path = "data/02_clean_data.tsv")
+          path = "data/02_clean_data_df.tsv")
+write_tsv(x = df_carrier,
+          path = "data/02_clean_data_df_carrier.tsv")
