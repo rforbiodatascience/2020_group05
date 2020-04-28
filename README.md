@@ -41,7 +41,7 @@ Another question of interest is whether age and season should be taken into acco
 * Make the PCA analysis again to see if there is a new result or if it is still possible to predict carrier status based on enzyme levels
 * Make a Shiny app that can predict carrier status based on enzyme levels
 * ANN classification model 
-![Possible ANN vizz](possible_ann.png)
+![Possible ANN vizz](possible_nn.png)
 * LM classification model
 >>>>>>> f6265d6f46adb27387415c98d96882e5152ed8b1
 
