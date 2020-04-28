@@ -6,8 +6,11 @@ rm(list = ls())
 # ------------------------------------------------------------------------------
 library("tidyverse")
 library("keras")
+<<<<<<< HEAD
 library("devtools")
 # install_keras(tensorflow = "1.13.1") # KØR DENNE FØRSTE GANG PÅ DIN RSTUDIO CLOUD
+=======
+>>>>>>> fa389a30c438c1458a92eda9e0254e0d56f7558d
 
 # Define functions
 # ------------------------------------------------------------------------------
@@ -20,6 +23,7 @@ df <- read_tsv(file = "data/03_aug_data.tsv", col_types = cols(carrier = col_fac
 # Wrangle data
 # ------------------------------------------------------------------------------
 head(df)
+<<<<<<< HEAD
 nn_dat <- df %>% 
   select(CK, H, PK, LD, carrier) %>% 
   rename(CK_feat = CK,
@@ -32,6 +36,13 @@ nn_dat %>% head(3)
 
 # Split into training/test set
 test_f = 0.20 # EDIT THIS (LOO??)
+=======
+nn_dat <- df %>% select(CK, H, PK, LD, carrier)
+nn_dat %>% head(3)
+
+# Split into training/test set
+test_f = 0.20
+>>>>>>> fa389a30c438c1458a92eda9e0254e0d56f7558d
 nn_dat = nn_dat %>%
   mutate(partition = sample(x = c('train','test'),
                             size = nrow(.),
@@ -46,7 +57,11 @@ x_train = nn_dat %>%
 y_train = nn_dat %>%
   filter(partition == 'train') %>%
   pull(class_num) %>%
+<<<<<<< HEAD
   to_categorical(2)
+=======
+  to_categorical(3)
+>>>>>>> fa389a30c438c1458a92eda9e0254e0d56f7558d
 
 x_test = nn_dat %>%
   filter(partition == 'test') %>%
@@ -55,6 +70,7 @@ x_test = nn_dat %>%
 y_test = nn_dat %>%
   filter(partition == 'test') %>%
   pull(class_num) %>%
+<<<<<<< HEAD
   to_categorical(2)
 
 ###############################EDIT BELOW###########################
@@ -62,6 +78,14 @@ y_test = nn_dat %>%
 model = keras_model_sequential() %>% 
   layer_dense(units = 4, activation = 'relu', input_shape = 4) %>% 
   layer_dense(units = 2, activation = 'softmax')
+=======
+  to_categorical(3)
+
+# Define the model
+model = keras_model_sequential() %>% 
+  layer_dense(units = 4, activation = 'relu', input_shape = 4) %>% 
+  layer_dense(units = 3, activation = 'softmax')
+>>>>>>> fa389a30c438c1458a92eda9e0254e0d56f7558d
 
 # Compile model
 model %>%
@@ -77,9 +101,15 @@ model %>%
 history = model %>%
   fit(x = x_train,
       y = y_train,
+<<<<<<< HEAD
       epochs = 50,
       batch_size = 20,
       validation_split = 0.2
+=======
+      epochs = 200,
+      batch_size = 20,
+      validation_split = 0
+>>>>>>> fa389a30c438c1458a92eda9e0254e0d56f7558d
   )
 
 plot(history) 
