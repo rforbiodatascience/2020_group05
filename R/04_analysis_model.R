@@ -63,9 +63,9 @@ pl2 <- data_train %>%
 pl2
 
 pl3 <- data_train %>% 
-  ggplot(mapping = aes(CK, carrier))+
+  ggplot(mapping = aes(PK, carrier))+
   geom_point(color = 'blue') + 
-  geom_line(data = grid, color = 'red')
+  geom_smooth() #data = grid, color = 'red'
 pl3
 
 # Write data
