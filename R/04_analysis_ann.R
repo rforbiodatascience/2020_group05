@@ -6,24 +6,20 @@ rm(list = ls())
 # ------------------------------------------------------------------------------
 library("tidyverse")
 library("keras")
-<<<<<<< HEAD
 library("devtools")
-# install_keras(tensorflow = "1.13.1") # KØR DENNE FØRSTE GANG PÅ DIN RSTUDIO CLOUD
-=======
->>>>>>> fa389a30c438c1458a92eda9e0254e0d56f7558d
+#install_keras(tensorflow = "1.13.1") # KØR DENNE FØRSTE GANG PÅ DIN RSTUDIO CLOUD
 
 # Define functions
 # ------------------------------------------------------------------------------
-source(file = "R/99_proj_func.R")
+#source(file = "R/99_proj_func.R")
 
 # Load data
 # ------------------------------------------------------------------------------
 df <- read_tsv(file = "data/03_aug_data.tsv", col_types = cols(carrier = col_factor()))
+df
 
 # Wrangle data
 # ------------------------------------------------------------------------------
-head(df)
-<<<<<<< HEAD
 nn_dat <- df %>% 
   select(CK, H, PK, LD, carrier) %>% 
   rename(CK_feat = CK,
@@ -32,90 +28,71 @@ nn_dat <- df %>%
          LD_feat = LD) %>% 
   mutate(class_num = carrier,
          class_label = ifelse(carrier == 0, 'non-carrier', 'carrier'))
-nn_dat %>% head(3)
+
+nn_dat %>% 
+  head(3)
 
 # Split into training/test set
-test_f = 0.20 # EDIT THIS (LOO??)
-=======
-nn_dat <- df %>% select(CK, H, PK, LD, carrier)
-nn_dat %>% head(3)
-
-# Split into training/test set
+# ------------------------------------------------------------------------------
 test_f = 0.20
->>>>>>> fa389a30c438c1458a92eda9e0254e0d56f7558d
 nn_dat = nn_dat %>%
   mutate(partition = sample(x = c('train','test'),
                             size = nrow(.),
                             replace = TRUE,
                             prob = c(1 - test_f, test_f)))
+
 nn_dat %>% count(partition)
 
+# Train partition
 x_train = nn_dat %>%
   filter(partition == 'train') %>%
   select(contains("feat")) %>%
   as.matrix
+
 y_train = nn_dat %>%
   filter(partition == 'train') %>%
   pull(class_num) %>%
-<<<<<<< HEAD
   to_categorical(2)
-=======
-  to_categorical(3)
->>>>>>> fa389a30c438c1458a92eda9e0254e0d56f7558d
 
+# Test partition
 x_test = nn_dat %>%
   filter(partition == 'test') %>%
   select(contains("feat")) %>%
   as.matrix
+
 y_test = nn_dat %>%
   filter(partition == 'test') %>%
   pull(class_num) %>%
-<<<<<<< HEAD
   to_categorical(2)
 
 ###############################EDIT BELOW###########################
 # Define the model
 model = keras_model_sequential() %>% 
   layer_dense(units = 4, activation = 'relu', input_shape = 4) %>% 
-  layer_dense(units = 2, activation = 'softmax')
-=======
-  to_categorical(3)
-
-# Define the model
-model = keras_model_sequential() %>% 
-  layer_dense(units = 4, activation = 'relu', input_shape = 4) %>% 
   layer_dense(units = 3, activation = 'softmax')
->>>>>>> fa389a30c438c1458a92eda9e0254e0d56f7558d
 
 # Compile model
 model %>%
   compile(loss = 'categorical_crossentropy',
           optimizer = optimizer_rmsprop(),
-          metrics = c('accuracy')
-  )
+          metrics = c('accuracy'))
 
 model %>%
   summary
 
 # Train the ANN
 history = model %>%
-  fit(x = x_train,
-      y = y_train,
-<<<<<<< HEAD
-      epochs = 50,
-      batch_size = 20,
-      validation_split = 0.2
-=======
-      epochs = 200,
-      batch_size = 20,
-      validation_split = 0
->>>>>>> fa389a30c438c1458a92eda9e0254e0d56f7558d
-  )
+          fit(x = x_train,
+              y = y_train,
+              epochs = 200,
+              batch_size = 20,
+              validation_split = 0.2)
 
 plot(history) 
 
 # Evaluate network performance
-perf = model %>% evaluate(x_test, y_test)
+perf = model %>% 
+       evaluate(x_test, y_test)
 perf
 
 plot_dat = nn_dat %>%
@@ -123,7 +100,10 @@ plot_dat = nn_dat %>%
   mutate(class_num = factor(class_num),
          y_pred = factor(predict_classes(model, x_test)),
          Correct = factor(ifelse(class_num == y_pred, "Yes", "No")))
-plot_dat %>% select(-contains("feat")) %>% head(3)
+
+plot_dat %>% 
+  select(-contains("feat")) %>% 
+  head(3)
 
 # Visualization
 title     = "Classification Performance of Artificial Neural Network"
