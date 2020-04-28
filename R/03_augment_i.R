@@ -23,11 +23,12 @@ df_aug <- df %>% mutate(season = case_when(Month == '1'| Month == '2' | Month ==
                                            Month == '6'| Month == '7' | Month == '8' ~ 'Summer',
                                            Month == '9'| Month == '10' | Month == '11' ~ 'Fall'))
 
-# Add carrier information from new data set
+# Change hospital ID from random number to periodical number
+df_aug <- df_aug %>% 
+  mutate(ID = 501:709)
+
 # Mutate with a left join for addition of carrier info to the data set
 df_aug <- left_join(df_aug, df_carrier)
-
-View(df_aug)
 
 # Write data
 # ------------------------------------------------------------------------------

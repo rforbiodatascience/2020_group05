@@ -33,7 +33,6 @@ df <- df %>%
       select(- c(X1, X2, X3, X8))
 
 # Add column names
-
 df <- df %>% 
       rename(ObservationNumber = X4, 
              ID = X5,
@@ -44,6 +43,11 @@ df <- df %>%
              H = X11,
              PK = X12,
              LD = X13)
+
+# Add column names to carrier data
+df_carrier <- df_carrier %>% 
+  rename(ID = X1,
+         carrier = X2)
 
 # We also need to change the 9th column from 079 etc. to year (1979)
 df <- df %>% 

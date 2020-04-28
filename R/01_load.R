@@ -13,7 +13,7 @@ library("tidyverse")
 # Load data
 # ------------------------------------------------------------------------------
 df <- read_tsv(file = 'data/_raw/T38.tsv', col_names = FALSE)
-df_carrier <- read_csv(file = "data/_raw/dmd.csv")
+df_carrier <- read_tsv(file = "data/_raw/dmd_carrier.tsv", col_names = FALSE)
 
 # Write data
 # ------------------------------------------------------------------------------
