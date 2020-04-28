@@ -1,10 +1,10 @@
-# 2020_your_github_user_name
+# 2020_group05
 
 ## Questions/Agenda for 20-04-2020
 
 * Are the dataset okay?
 * What we imagine we can do with the data
-* When is the hand-in
+* HAND-IN is **13th of May**
 
 ## Description of the data: 
 209 observations correspond to blood samples on 192 patients (17 patients have two samples in the dataset)
@@ -20,12 +20,14 @@ Another question of interest is whether age and season should be taken into acco
 <<<<<<< HEAD
 ## To do List: 
 
-* Clean data (Contains 8 NAs)
-* Make it up to tidy-format
-* PCA analysis for at undersøge hvor mange components beskriver variabiliteten.
-* See if there is a correlation between level of enzymes and status of women as carriers. Take age + season into account (optional).
-* Shiny app - Are you a carrier or..? 
+- [x] Clean data (Contains 8 NAs), make viz of missing data @tkragholm
+- [x] Make it up to tidy-format
+- [] PCA analysis for at undersøge hvor mange components beskriver variabiliteten.
+- [] See if there is a correlation between level of enzymes and status of women as carriers. Take age + season into account (optional).
+- [] Shiny app - Are you a carrier or..?
+- [] Add the libraries used in the scripts to the package-vector in **00_doit.R** 
 =======
+
 ## Plan for project
 * Separate the data into 2 groups, so that patients with multiple tests are seperated into a second group (ASTRID)
 * Clean data (Contains 8 NAs) (CECILIE)
@@ -34,6 +36,8 @@ Another question of interest is whether age and season should be taken into acco
 * Add the second group of blood samples to the already-existing patients (make the data into LONG format)
 * Make the PCA analysis again to see if there is a new result or if it is still possible to predict carrier status based on enzyme levels
 * Make a Shiny app that can predict carrier status based on enzyme levels
+* ANN classification model 
+* LM classification model
 >>>>>>> f6265d6f46adb27387415c98d96882e5152ed8b1
 
 
