@@ -18,12 +18,10 @@ library("tidyverse")
 
 # Load data
 # ------------------------------------------------------------------------------
-data <- read_tsv(file = "data/03_aug_data.tsv") #possibly change to aug data?
+data <- read_tsv(file = "data/03_aug_data.tsv",col_types = cols(carrier = col_factor())) 
 
 # Wrangle data
 # ------------------------------------------------------------------------------
-data <- data %>% mutate_at(vars(carrier), as_factor)
-
 #creating age groups
 data_subset <- data %>% 
   mutate(age_group = cut(x = Age, breaks = seq(10,100, by = 10))) %>% 
