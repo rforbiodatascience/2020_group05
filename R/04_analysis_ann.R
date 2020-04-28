@@ -13,21 +13,28 @@ library("devtools")
 # ------------------------------------------------------------------------------
 #source(file = "R/99_proj_func.R")
 
+normalize <- function(x) {
+  return ((x - min(x)) / (max(x) - min(x)))
+}
+
 # Load data
 # ------------------------------------------------------------------------------
 df <- read_tsv(file = "data/03_aug_data.tsv", col_types = cols(carrier = col_factor()))
-df
+df <- df %>% drop_na()
 
 # Wrangle data
 # ------------------------------------------------------------------------------
 nn_dat <- df %>% 
   select(CK, H, PK, LD, carrier) %>% 
-  rename(CK_feat = CK,
-         H_feat = H,
-         PK_feat = PK,
-         LD_feat = LD) %>% 
-  mutate(class_num = carrier,
-         class_label = ifelse(carrier == 0, 'non-carrier', 'carrier'))
+    mutate(CK = normalize(CK),
+           H = normalize(H),
+           PK = normalize(PK),
+           LD = normalize(LD)) %>% 
+      rename(CK_feat = CK,
+             H_feat = H,
+             PK_feat = PK,
+             LD_feat = LD) %>% 
+        mutate(class_label = ifelse(carrier == 0, 'non-carrier', 'carrier'))
 
 nn_dat %>% 
   head(3)
@@ -51,7 +58,7 @@ x_train = nn_dat %>%
 
 y_train = nn_dat %>%
   filter(partition == 'train') %>%
-  pull(class_num) %>%
+  pull(carrier) %>% 
   to_categorical(2)
 
 # Test partition
@@ -62,19 +69,20 @@ x_test = nn_dat %>%
 
 y_test = nn_dat %>%
   filter(partition == 'test') %>%
-  pull(class_num) %>%
+  pull(carrier) %>% 
   to_categorical(2)
 
 ###############################EDIT BELOW###########################
 # Define the model
 model = keras_model_sequential() %>% 
-  layer_dense(units = 4, activation = 'relu', input_shape = 4) %>% 
-  layer_dense(units = 3, activation = 'softmax')
+  layer_dense(units = 2, activation = 'relu', input_shape = 4, kernel_initializer = 'random_normal') %>% 
+  layer_dense(units = 4, activation = 'relu', kernel_initializer = 'random_normal') %>% 
+  layer_dense(units = 2, activation = 'sigmoid', kernel_initializer = 'random_normal')
 
 # Compile model
 model %>%
-  compile(loss = 'categorical_crossentropy',
-          optimizer = optimizer_rmsprop(),
+  compile(loss = 'binary_crossentropy',
+          optimizer = 'adam',
           metrics = c('accuracy'))
 
 model %>%
@@ -85,8 +93,7 @@ history = model %>%
           fit(x = x_train,
               y = y_train,
               epochs = 200,
-              batch_size = 20,
-              validation_split = 0.2)
+              batch_size = 1)
 
 plot(history) 
 
@@ -97,9 +104,9 @@ perf
 
 plot_dat = nn_dat %>%
   filter(partition == 'test') %>%
-  mutate(class_num = factor(class_num),
+  mutate(class_num = factor(carrier),
          y_pred = factor(predict_classes(model, x_test)),
-         Correct = factor(ifelse(class_num == y_pred, "Yes", "No")))
+         Correct = factor(ifelse(carrier == y_pred, "Yes", "No")))
 
 plot_dat %>% 
   select(-contains("feat")) %>% 
@@ -108,8 +115,8 @@ plot_dat %>%
 # Visualization
 title     = "Classification Performance of Artificial Neural Network"
 sub_title = str_c("Accuracy = ", round(perf$acc, 3) * 100, "%")
-x_lab     = "True iris class"
-y_lab     = "Predicted iris class"
+x_lab     = "True carrier"
+y_lab     = "Predicted carrier"
 plot_dat %>% ggplot(aes(x = class_num, y = y_pred, colour = Correct)) +
   geom_jitter() +
   scale_x_discrete(labels = levels(nn_dat$class_label)) +
