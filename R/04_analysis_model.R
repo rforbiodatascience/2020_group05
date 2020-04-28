@@ -15,24 +15,52 @@ library("modelr")
 
 # Load data
 # ------------------------------------------------------------------------------
-my_data <- read_tsv(file = "path/to/my/data.tsv")
+data <- read_tsv(file = "data/03_aug_data.tsv") 
 
 # Wrangle data
 # ------------------------------------------------------------------------------
+data <- data %>% mutate_at(vars(carrier), as_factor)
+
+#splitting data into training and test sets
+data_train <- data %>% 
+  slice(1:168)
+data_test <- data %>% 
+  slice(169:210) ####OBS Change this to correct, when aug has right columns
+
+#Modeling
+#-------------------------------------------------------------------------------
 
 #Simpel linear model - no subcategorising 
+simple_model <- lm(carrier ~ LD+H+PK+CK, data = data_train)
+log_reg_model <- glm(carrier ~ LD+H+PK+CK,family=binomial(link='logit'),data=data_train)
 
 
+grid <- data_train %>% 
+  data_grid(carrier, .model = simple_model) %>% 
+  add_predictions(simple_model)
+grid
 
+grid2 <- data_train %>% 
+  data_grid(carrier, .model = log_reg_model) %>% 
+  add_predictions(log_reg_model)
+View(grid2)
 
-
+data_train <- data_train %>% 
+  add_residuals(simple_model, "resid")
+View(data_train)
 # Visualise
 # ------------------------------------------------------------------------------
-pl1 <- my_data_subset %>% 
-  ggplot(aes(x = var_1, y = var_2)) +
+pl1 <- grid2 %>% 
+  ggplot(mapping = aes(carrier, pred)) +
   geom_point() +
   theme_bw()
+pl1
 
+pl2 <- data_train %>% 
+  ggplot(mapping = aes(CK, resid))+
+  geom_point() +
+  theme_bw
+pl2
 # Write data
 # ------------------------------------------------------------------------------
 ggsave(filename = "path/to/my/results/plot.png",
