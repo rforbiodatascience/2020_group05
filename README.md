@@ -1,10 +1,8 @@
 # 2020_your_github_user_name
 
-## Questions/Agenda for 20-04-2020
+## Questions/Agenda for 27-04-2020
 
-* Are the dataset okay?
-* What we imagine we can do with the data
-* When is the hand-in
+* What is the difference between augment and clean - i.e. which parts should be in augment and which should be in clean?
 
 ## Description of the data: 
 209 observations correspond to blood samples on 192 patients (17 patients have two samples in the dataset)

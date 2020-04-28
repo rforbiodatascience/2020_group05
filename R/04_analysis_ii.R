@@ -16,7 +16,7 @@ library("broom")
 
 # Load data
 # ------------------------------------------------------------------------------
-dmd_data <- read_tsv(file = "data/03_aug_data.tsv") #possibly change to aug data?
+dmd_data <- read_tsv(file = "data/03_aug_data.tsv")
 
 # Wrangle data
 # ------------------------------------------------------------------------------
@@ -35,16 +35,20 @@ dmd_data <- dmd_data %>%
 dmd_pca <- dmd_data %>% 
   prcomp(center = TRUE, scale = TRUE)
 
-#creation of scree plot to see the variation explained
-dmd_pca %>% 
-  tidy("pcs") %>% 
-  ggplot(aes(x = PC, y = percent)) +
-  geom_col() + 
-  theme_classic()
-
 #get the data we want to show
 dmd_pca_aug <- dmd_pca %>% 
   augment(dmd_data)
+
+#variance explained
+var_exp <- dmd_pca %>% 
+  tidy("pcs") %>% 
+  pull(percent)
+
+
+var_exp_plot <- var_exp_plot %>%
+  ggplot(aes(PC, var_exp)) +
+  geom_point() + 
+  geom_line()
 
 #getting x and y values of the two PC components we want to plot
 x <- dmd_pca %>% 
@@ -60,10 +64,29 @@ y <- dmd_pca %>%
 y <- str_c("PC2 (", round(y*100, 2), "%)")
 
 #plotting the PCA
+#PC1 and PC2
 dmd_pca_aug %>%
   ggplot(aes(x = .fittedPC1, y = .fittedPC2,
              label = carrier, colour = carrier)) + 
              geom_label_repel() + 
              theme(legend.position = "bottom") +  
-             #scale_colour_manual(values = c("red", "blue", "black", "purple", "green", "yellow")) +
-             labs(x = x, y = y)
+             labs(x = x, y = y, colour = "Carrier Status")
+
+#plotting the PCA
+#PC1 and PC3
+dmd_pca_aug %>%
+  ggplot(aes(x = .fittedPC1, y = .fittedPC3,
+             label = carrier, colour = carrier)) + 
+  geom_label_repel() + 
+  theme(legend.position = "bottom") +  
+  labs(x = x, y = y, colour = "Carrier Status")
+
+#plotting the PCA
+#PC2 and PC3
+dmd_pca_aug %>%
+  ggplot(aes(x = .fittedPC2, y = .fittedPC3,
+             label = carrier, colour = factor(carrier))) +
+  geom_point(size = 0.5) +
+  geom_label_repel(point.padding = unit(0.5, 'lines')) + 
+  theme(legend.position = "bottom") +  
+  labs(x = x, y = y, colour = "Carrier Status", title = "Principal Component Analysis (PCA)")
