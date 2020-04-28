@@ -37,13 +37,13 @@ log_reg_model <- glm(carrier ~ LD+H+PK+CK,family=binomial(link='logit'),data=dat
 
 grid <- data_train %>% 
   data_grid(carrier, .model = simple_model) %>% 
-  add_predictions(simple_model)
+  add_predictions(simple_model, "carrier")
 grid
 
 grid2 <- data_train %>% 
   data_grid(carrier, .model = log_reg_model) %>% 
   add_predictions(log_reg_model)
-View(grid2)
+grid2
 
 data_train <- data_train %>% 
   add_residuals(simple_model, "resid")
@@ -57,10 +57,17 @@ pl1 <- grid2 %>%
 pl1
 
 pl2 <- data_train %>% 
-  ggplot(mapping = aes(CK, resid))+
+  ggplot(mapping = aes(CK, carrier))+
   geom_point() +
-  theme_bw
+  theme_bw()
 pl2
+
+pl3 <- data_train %>% 
+  ggplot(mapping = aes(CK, carrier))+
+  geom_point(color = 'blue') + 
+  geom_line(data = grid, color = 'red')
+pl3
+
 # Write data
 # ------------------------------------------------------------------------------
 ggsave(filename = "path/to/my/results/plot.png",
