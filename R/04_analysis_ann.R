@@ -11,11 +11,11 @@ library("devtools")
 
 # Define functions
 # ------------------------------------------------------------------------------
-#source(file = "R/99_proj_func.R")
+source(file = "R/99_proj_func.R")
 
-normalize <- function(x) {
-  return ((x - min(x)) / (max(x) - min(x)))
-}
+# normalize <- function(x) {
+#   return ((x - min(x)) / (max(x) - min(x)))
+# }
 
 # Load data
 # ------------------------------------------------------------------------------
@@ -92,7 +92,7 @@ model %>%
 history <- model %>%
           fit(x = x_train,
               y = y_train,
-              epochs = 200,
+              epochs = 300,
               batch_size = 10)
 
 plot(history) 
