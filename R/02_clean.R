@@ -5,7 +5,6 @@ rm(list = ls())
 # Load libraries
 # ------------------------------------------------------------------------------
 library("tidyverse")
-library("naniar")
 
 # Load data
 # ------------------------------------------------------------------------------
@@ -63,12 +62,6 @@ df <- df %>%
 
 # Count the NAs to see if we can remove the observation
 # FIND A WAY TO MAKE THIS WORK
-
-# Wrangle data df_carrier
-# ------------ß------------------------------------------------------------------
-df_carrier <- df_carrier %>% 
-              select(hospid, carrier) %>%
-              rename(ID = hospid)
 
 # Write data
 # ------------------------------------------------------------------------------
