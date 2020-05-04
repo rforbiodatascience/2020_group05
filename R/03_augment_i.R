@@ -30,6 +30,8 @@ df_aug <- df_aug %>%
 # Mutate with a left join for addition of carrier info to the data set
 df_aug <- left_join(df_aug, df_carrier)
 
+df_aug <- drop_na(df_aug)
+
 # Write data
 # ------------------------------------------------------------------------------
 write_tsv(x = df_aug,

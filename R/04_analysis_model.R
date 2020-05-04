@@ -16,7 +16,7 @@ source(file = "R/99_proj_func.R")
 # Load data
 # ------------------------------------------------------------------------------
 data <- read_tsv(file = "data/03_aug_data.tsv") 
-
+View(data)
 # Wrangle data
 # ------------------------------------------------------------------------------
 #splitting data into training and test sets
@@ -29,10 +29,12 @@ data_test <- data %>%
 #-------------------------------------------------------------------------------
 
 #Simpel linear model - no subcategorising 
-simple_model <- lm(carrier ~ LD+H+PK+CK, data = data_train)
-log_reg_model <- glm(carrier ~ PK+LD+H+CK, family=binomial(link='logit'),data=data_train)
+simple_model <- lm(carrier ~ LD + H + PK + CK, data = data_train)
+log_reg_model <- glm(carrier ~ PK + LD + H + CK, 
+                     family = binomial(link = "logit"), 
+                     data = data_train)
 
-
+# skip this!!!!
 #linear model
 grid <- data_train %>% 
   data_grid(PK, .model = simple_model) %>% 
@@ -40,10 +42,20 @@ grid <- data_train %>%
 grid
 
 #logistic model
-grid2 <- data_train %>% 
+grid2_pk <- data_train %>% 
   data_grid(PK, .model = log_reg_model) %>% 
-  add_predictions(log_reg_model, "pred_carrier")
-grid2
+  add_predictions(log_reg_model, "pred_carrier") 
+grid2_pk
+
+grid2_ck <- data_train %>% 
+  data_grid(CK, .model = log_reg_model) %>% 
+  add_predictions(log_reg_model, "pred_carrier") 
+grid2_ck
+
+grid2_ld <- data_train %>% 
+  data_grid(LD, .model = log_reg_model) %>% 
+  add_predictions(log_reg_model, "pred_carrier") 
+grid2_ld
 
 data_train <- data_train %>% 
   add_residuals(simple_model, "resid")

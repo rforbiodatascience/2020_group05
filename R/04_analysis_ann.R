@@ -11,11 +11,7 @@ library("devtools")
 
 # Define functions
 # ------------------------------------------------------------------------------
-#source(file = "R/99_proj_func.R")
-
-normalize <- function(x) {
-  return ((x - min(x)) / (max(x) - min(x)))
-}
+source(file = "R/99_proj_func.R")
 
 # Load data
 # ------------------------------------------------------------------------------
