@@ -11,7 +11,7 @@ library("modelr")
 
 # Define functions
 # ------------------------------------------------------------------------------
-
+source(file = "R/99_proj_func.R")
 
 # Load data
 # ------------------------------------------------------------------------------
@@ -33,22 +33,30 @@ simple_model <- lm(carrier ~ LD+H+PK+CK, data = data_train)
 log_reg_model <- glm(carrier ~ PK+LD+H+CK, family=binomial(link='logit'),data=data_train)
 
 
-
+#linear model
 grid <- data_train %>% 
   data_grid(PK, .model = simple_model) %>% 
-  add_predictions(simple_model, "pred")
+  add_predictions(simple_model, "pred_carrier")
 grid
 
+#logistic model
 grid2 <- data_train %>% 
   data_grid(PK, .model = log_reg_model) %>% 
-  add_predictions(log_reg_model, "carrier")
+  add_predictions(log_reg_model, "pred_carrier")
 grid2
 
 data_train <- data_train %>% 
   add_residuals(simple_model, "resid")
 
-#---residuals 
+data_train <- data_train %>% 
+  add_residuals(log_reg_model, "resid")
 
+#---residuals 
+res_plot <- data_train %>% 
+  ggplot(mapping = aes(x = PK, y = resid)) + 
+  geom_point()
+
+res_plot
 
 # Visualise
 # ------------------------------------------------------------------------------
