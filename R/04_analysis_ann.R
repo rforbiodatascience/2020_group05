@@ -13,10 +13,6 @@ library("devtools")
 # ------------------------------------------------------------------------------
 source(file = "R/99_proj_func.R")
 
-# normalize <- function(x) {
-#   return ((x - min(x)) / (max(x) - min(x)))
-# }
-
 # Load data
 # ------------------------------------------------------------------------------
 df <- read_tsv(file = "data/03_aug_data.tsv", col_types = cols(carrier = col_factor()))
@@ -72,7 +68,6 @@ y_test <- nn_dat %>%
   pull(carrier) %>% 
   to_categorical(2)
 
-###############################EDIT BELOW###########################
 # Define the model
 model <- keras_model_sequential() %>% 
   layer_dense(units = 2, activation = 'relu', input_shape = 4, kernel_initializer = 'random_normal') %>% 
