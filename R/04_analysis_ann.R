@@ -68,8 +68,8 @@ y_test <- nn_dat %>%
   pull(carrier) %>% 
   to_categorical(2)
 
-###############################EDIT BELOW###########################
 # Define the model
+# ------------------------------------------------------------------------------
 model <- keras_model_sequential() %>% 
   layer_dense(units = 2, activation = 'relu', input_shape = 4, kernel_initializer = 'random_normal') %>% 
   layer_dense(units = 4, activation = 'relu', kernel_initializer = 'random_normal') %>% 
@@ -85,10 +85,11 @@ model %>%
   summary
 
 # Train the ANN
+# ------------------------------------------------------------------------------
 history <- model %>%
           fit(x = x_train,
               y = y_train,
-              epochs = 200,
+              epochs = 300,
               batch_size = 10)
 
 plot(history) 
@@ -109,6 +110,7 @@ plot_dat %>%
   head(3)
 
 # Visualization
+# ------------------------------------------------------------------------------
 title     = "Classification Performance of Artificial Neural Network"
 sub_title = str_c("Accuracy = ", round(perf$acc, 3) * 100, "%")
 x_lab     = "True carrier"
