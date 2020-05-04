@@ -30,7 +30,8 @@ nn_dat <- df %>%
              H_feat = H,
              PK_feat = PK,
              LD_feat = LD) %>% 
-        mutate(class_label = ifelse(carrier == 0, 'non-carrier', 'carrier'))
+        mutate(class_num = as.numeric(carrier) - 1,
+               class_label = ifelse(carrier == 0, 'non-carrier', 'carrier'))
 
 nn_dat %>% 
   head(3)
@@ -101,9 +102,9 @@ perf
 
 plot_dat <- nn_dat %>%
   filter(partition == 'test') %>%
-  mutate(class_num = factor(carrier),
+  mutate(class_num = factor(class_num),
          y_pred = factor(predict_classes(model, x_test)),
-         Correct = factor(ifelse(carrier == y_pred, "Yes", "No")))
+         Correct = factor(ifelse(class_num == y_pred, "Yes", "No")))
 
 plot_dat %>% 
   select(-contains("feat")) %>% 
@@ -129,3 +130,4 @@ ggsave(filename = "results/ann_classification.png",
        plot = plt1,
        width = 10,
        height = 6)
+
