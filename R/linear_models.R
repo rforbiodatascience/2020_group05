@@ -44,13 +44,16 @@ data_batch <- data_batch %>%
 
 #Adding a linear model and the using the holdout to predict
 data_batch <- data_batch %>% 
-  mutate(models = map(modeldata, simple_model_def))
-#View(data_batch$model)
+  mutate(models = map(.x = modeldata, .f = simple_model_def))
+#View(data_batch$models)
+View(data_batch$holdout)
 
-library("caret")
+#library("caret")
 data_batch <- data_batch %>% 
-  mutate(predicted_value = map_dbl(models, 1:194, ~predict(newdata = holdout)))
-View(data_batch$predicted_value)
+  mutate(predicted_value = map(.x = models, 
+                              #1:194, #this shouldn't be nessesary but it is..
+                               ~predict(models, newdata = holdout, type = class)))
+View(data_batch$predicted_value) #result is just NULL 
 View(data_batch)
 #data_batch %>% tidy()
 
@@ -76,7 +79,7 @@ predict(simple_model, newdata = data_batch())
 model_1 <- data_batch$splits[[1]] %>% analysis()
 
 hold_out_1 <- data_batch$splits[[1]] %>% assessment()
-
+hold_out_1
 data_with_model <- lm(carrier ~ LD + H + PK + CK, data = model_1)
 View(data_with_model)
 predict(object = data_with_model, newdata = hold_out_1)
