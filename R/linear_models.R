@@ -33,10 +33,34 @@ simple_model <- lm(carrier ~ LD + H + PK + CK, data = data)
 log_reg_model <- glm(carrier ~ PK + LD + H + CK, 
                      family = binomial(link = "logit"), 
                      data = data)
-simple_model <- function(df) {
+simple_model_def <- function(df) {
   lm(carrier ~ LD + H + PK + CK, data = data)}
 
+#------------------
+#splitting data into Model-data and Holdout-datapoint:
+data_batch <- data_batch %>%
+  mutate(modeldata = map(splits, analysis),
+         holdout = map(splits, assessment))
 
+#Adding a linear model and the using the holdout to predict
+data_batch <- data_batch %>% 
+  mutate(models = map(modeldata, simple_model_def))
+#View(data_batch$model)
+
+library("caret")
+data_batch <- data_batch %>% 
+  mutate(predicted_value = map_dbl(models, 1:194, ~predict(newdata = holdout)))
+View(data_batch$predicted_value)
+View(data_batch)
+#data_batch %>% tidy()
+
+
+
+
+
+
+
+#------------------------------------------------------------------------
 #----Notes from Leon
 #coefficients for the models
 simple_model %>% tidy()
@@ -54,21 +78,7 @@ model_1 <- data_batch$splits[[1]] %>% analysis()
 hold_out_1 <- data_batch$splits[[1]] %>% assessment()
 
 data_with_model <- lm(carrier ~ LD + H + PK + CK, data = model_1)
-data_with_model
+View(data_with_model)
 predict(object = data_with_model, newdata = hold_out_1)
-
-#------------------
-#splitting data into Model-data and Holdout-datapoint:
-data_batch <- data_batch %>%
-  mutate(modeldata = map(splits, analysis),
-         holdout = map(splits, assessment))
-data_batch
-
-#Adding a linear model and the using the holdout to predict
-data_batch <- data_batch %>% 
-  mutate(model = map(modeldata, simple_model))
-
-data_batch <- data_batch %>% 
-  mutate(predicted_value = map(model, predict(newdata = holdout)))
-
-data_batch %>% tidy()
+pred <- data_with_model %>% predict(newdata = hold_out_1)
+pred
