@@ -54,6 +54,7 @@ model_1 <- data_batch$splits[[1]] %>% analysis()
 hold_out_1 <- data_batch$splits[[1]] %>% assessment()
 
 data_with_model <- lm(carrier ~ LD + H + PK + CK, data = model_1)
+data_with_model
 predict(object = data_with_model, newdata = hold_out_1)
 
 #------------------
@@ -66,8 +67,8 @@ data_batch
 #Adding a linear model and the using the holdout to predict
 data_batch <- data_batch %>% 
   mutate(model = map(modeldata, simple_model))
-data_batch
+
 data_batch <- data_batch %>% 
-  mutate(predicted_value = map(predict(object = model, newdata = holdout))         )
+  mutate(predicted_value = map(model, predict(newdata = holdout)))
 
 data_batch %>% tidy()
