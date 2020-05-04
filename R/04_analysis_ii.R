@@ -28,7 +28,6 @@ dmd_data <- drop_na(dmd_data) %>%
 #makes a 20x20 matrix with the values againt each other 
 dmd_data <- dmd_data %>% 
   select(carrier:LD) %>%
-  slice(1:20) %>%
   write_tsv(path = "data/04_PCA_table.tsv")
 
 #creation of PCA object
@@ -43,7 +42,6 @@ dmd_pca_aug <- dmd_pca %>%
 var_exp <- dmd_pca %>% 
   tidy("pcs") %>% 
   pull(percent)
-
 
 var_exp_plot <- var_exp_plot %>%
   ggplot(aes(PC, var_exp)) +
