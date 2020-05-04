@@ -19,7 +19,6 @@ library("tidyverse")
 # Load data
 # ------------------------------------------------------------------------------
 data <- read_tsv(file = "data/03_aug_data.tsv",col_types = cols(carrier = col_factor())) 
-View(data)
 
 
 # Wrangle data
@@ -107,7 +106,10 @@ pl3_h_ld <- data %>%
   labs(title = "Distribution of levels of H and LD")
 pl3_h_ld
 
-
+#----------Season and Protein------------------
+#pl3_seasons <- data %>% 
+#  ggpplot(mapping aes(x = season)) +
+#  geom_density(aes(y = CK))
 
 # Write data
 # ---------Age and protein---------------------------------------------------------------------
@@ -158,6 +160,6 @@ ggsave(filename = "results/H-LD.png",
        height = 10)
 
 #---------------Season-Protein-------------
-ggsave(filename = "results/season-LD.png")
+#ggsave(filename = "results/season-LD.png")
 
 #write_tsv(x = my_data_subset, path = "path/to/my/data_subset.tsv")

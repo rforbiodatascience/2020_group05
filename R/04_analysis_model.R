@@ -19,8 +19,6 @@ data <- read_tsv(file = "data/03_aug_data.tsv")
 
 # Wrangle data
 # ------------------------------------------------------------------------------
-data <- data %>% mutate_at(vars(carrier), as_factor)
-
 #splitting data into training and test sets
 data_train <- data %>% 
   slice(1:168)
@@ -32,22 +30,26 @@ data_test <- data %>%
 
 #Simpel linear model - no subcategorising 
 simple_model <- lm(carrier ~ LD+H+PK+CK, data = data_train)
-log_reg_model <- glm(carrier ~ LD+H+PK+CK,family=binomial(link='logit'),data=data_train)
+log_reg_model <- glm(carrier ~ PK+LD+H+CK, family=binomial(link='logit'),data=data_train)
+
 
 
 grid <- data_train %>% 
-  data_grid(carrier, .model = simple_model) %>% 
-  add_predictions(simple_model, "carrier")
+  data_grid(PK, .model = simple_model) %>% 
+  add_predictions(simple_model, "pred")
 grid
 
 grid2 <- data_train %>% 
-  data_grid(carrier, .model = log_reg_model) %>% 
-  add_predictions(log_reg_model)
+  data_grid(PK, .model = log_reg_model) %>% 
+  add_predictions(log_reg_model, "carrier")
 grid2
 
 data_train <- data_train %>% 
   add_residuals(simple_model, "resid")
-View(data_train)
+
+#---residuals 
+
+
 # Visualise
 # ------------------------------------------------------------------------------
 pl1 <- grid2 %>% 
@@ -57,15 +59,16 @@ pl1 <- grid2 %>%
 pl1
 
 pl2 <- data_train %>% 
-  ggplot(mapping = aes(CK, carrier))+
+  ggplot(mapping = aes(PK, carrier))+
   geom_point() +
+  geom_line(data = grid, color = 'red')
   theme_bw()
 pl2
 
 pl3 <- data_train %>% 
-  ggplot(mapping = aes(PK, carrier))+
-  geom_point(color = 'blue') + 
-  geom_smooth() #data = grid, color = 'red'
+  ggplot(mapping = aes(x=PK, fill = as.factor(carrier)), alpha = 0.5)+
+  geom_point(pch = 21, aes(y = H)) +
+  geom_line(data = grid2, color = 'red', aes(y = carrier))
 pl3
 
 # Write data
