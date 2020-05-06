@@ -95,6 +95,12 @@ roc <- data_batch2 %>%
   mutate(TPR = cumsum(carrier) / sum(carrier),
          FPR = cumsum(!carrier) / sum(!carrier))
 
+roc <- data_batch2 %>% 
+  select(CM) %>% 
+  filter(CM == "TP") %>% 
+  summarise()
+
+View(roc)
 
 roc %>% 
   ggplot(aes( x = FPR, y = TPR)) +
