@@ -7,8 +7,22 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Introduction
+```{r}
+#install.packages("knitcitations")
+library(knitcitations)
+cleanbib()
+```
 
+
+```{r}
+options("citation_format" = "pandoc")
+citep("10.1016/S1474-4422(18)30024-3")
+write.bibtex(file="references.bib")
+```
+
+
+## Introduction
+Duchenne Muscular Dystrophy (DMD) is a rare, genetic disease that affects the skeletal muscles [@Birnkrant_2018]. 
 ## Methods
 
 ## Results 
@@ -16,4 +30,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Discussion 
 
 ## Conclusion 
+
+## References
 
