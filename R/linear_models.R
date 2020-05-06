@@ -40,22 +40,69 @@ simple_model_def <- function(df) {
 #splitting data into Model-data and Holdout-datapoint:
 data_batch <- data_batch %>%
   mutate(modeldata = map(splits, analysis),
-         holdout = map(splits, assessment))
+         leaveout = map(splits, assessment))
 
 #Adding a linear model and the using the holdout to predict
 data_batch <- data_batch %>% 
   mutate(models = map(.x = modeldata, .f = simple_model_def))
-#View(data_batch$models)
-View(data_batch$holdout)
+View(data_batch$leaveout)
 
-#library("caret")
 data_batch <- data_batch %>% 
-  mutate(predicted_value = map(.x = models, 
-                              #1:194, #this shouldn't be nessesary but it is..
-                               ~predict(models, newdata = holdout, type = class)))
-View(data_batch$predicted_value) #result is just NULL 
-View(data_batch)
-#data_batch %>% tidy()
+  mutate(pred = map2(models, leaveout, predict))
+
+data_batch <- data_batch %>%
+  mutate(pred_binary = case_when(pred > 0.5 ~ 1,
+                                 pred < 0.5 ~ 0))
+
+data_batch2 <- data_batch %>% 
+  unnest(leaveout)
+
+#confusionmatrix
+data_batch2 <- data_batch2 %>% 
+  mutate(CM = case_when(pred_binary == 1 & carrier == 1 ~ "TP",
+                        pred_binary == 1 & carrier == 0 ~ "FP",
+                        pred_binary == 0 & carrier == 1 ~ "FN",
+                        pred_binary == 0 & carrier == 0 ~ "TN"))
+
+#make confusion matrix
+confusion_matrix <- data_batch2 %>% 
+  select(CM) %>% 
+  group_by(CM) %>% 
+  summarise(freq = n())
+
+View(confusion_matrix) 
+
+Actual_values <- factor(c("non_carrier", "non_carrier", "carrier", "carrier"))
+Predicted_values <- factor(c("non_carrier", "carrier", "non_carrier", "carrier"))
+Y <- c(44,7,23,120) #LOOK AT THIS LATER!!!!!!!
+
+df <- data.frame(Actual_values, Predicted_values, Y)
+ggplot(data =  df, mapping = aes(x = Actual_values, y = Predicted_values)) +
+  geom_tile(aes(fill = Y), colour = "white") +
+  geom_text(aes(label = sprintf("%1.0f", Y)), vjust = 1) +
+  scale_fill_gradient(low = "lightblue", high = "lightgreen") +
+  theme_bw() + theme(legend.position = "none") +
+  labs(x = "Actual values", y = "Predicted values", 
+       title = "Confusion Matrix of Simple Linear Model")
+
+#AUC/ROC
+#TPR = TP / (TP + FN)
+#FPR = TN / (TN + FP)
+
+#calculation of conditional true = carrier status to find TPR/FPR
+roc <- data_batch2 %>% 
+  select(CM, carrier) %>% 
+  mutate(TPR = cumsum(carrier) / sum(carrier),
+         FPR = cumsum(!carrier) / sum(!carrier))
+
+
+roc %>% 
+  ggplot(aes( x = FPR, y = TPR)) +
+  geom_line() +
+  geom_abline(lty = 2) +
+  xlab("False positive rate (1-specificity)") + 
+  ylab("True positive rate (sensitivity)") +
+  ggtitle("ROC")
 
 
 
@@ -63,25 +110,18 @@ View(data_batch)
 
 
 
-#------------------------------------------------------------------------
-#----Notes from Leon
-#coefficients for the models
-simple_model %>% tidy()
-# only intercept, LD and H 
 
-log_reg_model %>% tidy()
-# only intercept, H and CK
 
-# brug den her function på en eller anden maade
-predict(simple_model, newdata = data_batch())
 
-#-----A single sample: 
-model_1 <- data_batch$splits[[1]] %>% analysis()
 
-hold_out_1 <- data_batch$splits[[1]] %>% assessment()
-hold_out_1
-data_with_model <- lm(carrier ~ LD + H + PK + CK, data = model_1)
-View(data_with_model)
-predict(object = data_with_model, newdata = hold_out_1)
-pred <- data_with_model %>% predict(newdata = hold_out_1)
-pred
+#roc <- pivot_wider(confusion_matrix, names_from = CM, values_from = freq) %>% 
+  #mutate(TPR = TP / (TP + FN),
+         #FPR = TN / (TN + FP))
+
+roc %>% 
+  ggplot(aes( x = FPR, y = TPR)) +
+  geom_line() +
+  geom_abline(lty = 2) +
+  xlab("False positive rate (1-specificity)") + 
+  ylab("True positive rate (sensitivity)") +
+  ggtitle("ROC")
