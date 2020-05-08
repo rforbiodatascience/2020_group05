@@ -5,23 +5,62 @@ bibliography: R-course.bib
 ---
 
 ```{r setup, include=FALSE}
+library(knitr)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
 ## Introduction
-Duchenne Muscular Dystrophy (DMD) is a rare, genetic disorder that progressive degeneration and atrophy of skeletal and heart muscles (@Science2020.)
+Duchenne Muscular Dystrophy (DMD) is a rare, genetic disorder that causes progressive degeneration and atrophy of skeletal and heart muscles (@Science2020). It it caused by a mutation on the dystrophin gene, located on chromosome Xp21, and affects 1 in every 3600 male live-born infants worldwide (@Venugopal2019). Most females with this mutation show no evidence of muscular weakness, but they are able to pass the mutation on to their offspring without showing any symptoms (@Birnkrant2018).
+
+
+Four enzyme and serum proteins have been linked to carrier status in asymptomatic females. These include creatine kinase (CK), hemopexin (H), lactate dehydroginase (LD) and pyruvate kinase (PK), which are measured in blood samples from serum (@Percy1981).
+
+Since the outcome for patients suffering from DMD is often fatal, it would be of interest to make a model that can predict the carrier status of a female (carrier/non-carrier) based on the four enzymes levels in the blood sample. 
 
 
 
-## Methods
 
-![Flowchart showing the pipeline for the project.](/cloud/project/pictures/pipeline.png)
+## Materials and Methods
+### Pipeline for project
 
+
+<center>
+
+![*Figure 1: Flowchart showing the pipeline for the project.*](/cloud/project/doc/pictures/pipeline.png)
+
+</center>
+
+
+### Preparation of data set
+- Dataset originally belongs to the 1985 book (get link from Astrid)
+- data was obtained from (give link)
+- below shows how the data looked after clean up
+
+
+
+The dataset included 192 patients, where  
+
+| Attributes    | Example       |
+|---------------|:-------------:|
+| col 3 is      | right-aligned | 
+| col 2 is      | centered      |
+| zebra stripes | are neat      |
+
+### PCA maybe
+
+### Linear and logistic models
+
+### ANN
 
 
 ## Results 
 
+### PC Analysis
+
+### Prediction models (lin+log)
+
+### Prediction model with ANN
 
 
 ## Discussion 
