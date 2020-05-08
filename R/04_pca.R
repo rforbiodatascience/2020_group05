@@ -63,28 +63,16 @@ y <- str_c("PC2 (", round(y*100, 2), "%)")
 
 #plotting the PCA
 #PC1 and PC2
-dmd_pca_aug %>%
+pc1_pc2 <- dmd_pca_aug %>%
   ggplot(aes(x = .fittedPC1, y = .fittedPC2,
-             label = carrier, colour = carrier)) + 
-             geom_label_repel() + 
-             theme(legend.position = "bottom") +  
-             labs(x = x, y = y, colour = "Carrier Status")
-
-#plotting the PCA
-#PC1 and PC3
-dmd_pca_aug %>%
-  ggplot(aes(x = .fittedPC1, y = .fittedPC3,
-             label = carrier, colour = carrier)) + 
-  geom_label_repel() + 
-  theme(legend.position = "bottom") +  
-  labs(x = x, y = y, colour = "Carrier Status")
-
-#plotting the PCA
-#PC2 and PC3
-dmd_pca_aug %>%
-  ggplot(aes(x = .fittedPC2, y = .fittedPC3,
-             label = carrier, colour = factor(carrier))) +
-  geom_point(size = 0.5) +
-  geom_label_repel(point.padding = unit(0.5, 'lines')) + 
+             colour = factor(carrier))) +
+  geom_point(size = 1.0) +
   theme(legend.position = "bottom") +  
   labs(x = x, y = y, colour = "Carrier Status", title = "Principal Component Analysis (PCA)")
+
+# Write data
+# -----------------------------------------------------------------
+ggsave(filename = "results/pc1_pc2.png",
+       plot = pc1_pc2,
+       width = 10, 
+       height = 6)
