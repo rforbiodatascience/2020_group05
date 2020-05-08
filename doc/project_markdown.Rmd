@@ -10,19 +10,34 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 #install.packages("knitcitations")
 library(knitcitations)
+library(citr)
 cleanbib()
+
+options("citation_format" = "pandoc")
+
 ```
+
 
 
 ```{r}
-options("citation_format" = "pandoc")
 citep("10.1016/S1474-4422(18)30024-3")
+```
+```{r}
 write.bibtex(file="references.bib")
 ```
 
+```{r}
+citep("https://rarediseases.info.nih.gov/diseases/6291/duchenne-muscular-dystrophy")
+```
 
 ## Introduction
-Duchenne Muscular Dystrophy (DMD) is a rare, genetic disease that affects the skeletal muscles [@Birnkrant_2018]. 
+Duchenne Muscular Dystrophy (DMD) is a rare, genetic disorder that progressive degeneration and atrophy of skeletal and heart muscles citet("10.1016/S1474-4422(18)30024-3").
+
+
+
+[@Birnkrant_2018]. 
+
+
 ## Methods
 
 ## Results 

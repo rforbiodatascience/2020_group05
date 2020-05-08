@@ -368,16 +368,22 @@ summary {
 
 <pre class="r"><code>#install.packages(&quot;knitcitations&quot;)
 library(knitcitations)
-cleanbib()</code></pre>
-<pre class="r"><code>options(&quot;citation_format&quot; = &quot;pandoc&quot;)
-citep(&quot;10.1016/S1474-4422(18)30024-3&quot;)</code></pre>
-<pre><code>## [1] &quot;[@Birnkrant_2018]&quot;</code></pre>
+library(citr)
+cleanbib()
+
+options(&quot;citation_format&quot; = &quot;pandoc&quot;)</code></pre>
+<pre class="r"><code>citet(&quot;10.1016/S1474-4422(18)30024-3&quot;)</code></pre>
+<pre><code>## [1] &quot;@Birnkrant_2018&quot;</code></pre>
+<pre class="r"><code>citet(&quot;https://rarediseases.info.nih.gov/diseases/6291/duchenne-muscular-dystrophy&quot;)</code></pre>
+<pre><code>## No encoding supplied: defaulting to UTF-8.</code></pre>
+<pre><code>## [1] &quot;@greycite382296&quot;</code></pre>
 <pre class="r"><code>write.bibtex(file=&quot;references.bib&quot;)</code></pre>
-<pre><code>## Writing 1 Bibtex entries ... OK
+<pre><code>## Writing 2 Bibtex entries ... OK
 ## Results written to file 'references.bib'</code></pre>
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>Duchenne Muscular Dystrophy (DMD) is a rare, genetic disease that affects the skeletal muscles citep(“10.1016/S1474-4422(18)30024-3”).</p>
+<p>Duchenne Muscular Dystrophy (DMD) is a rare, genetic disorder that progressive degeneration and atrophy of skeletal and heart muscles citet(“10.1016/S1474-4422(18)30024-3”).</p>
+<p><span class="citation">[@Birnkrant_2018]</span>.</p>
 </div>
 <div id="methods" class="section level2">
 <h2>Methods</h2>
