@@ -1,14 +1,4 @@
 # 2020_group05
-
-## Questions/Agenda for 27-04-2020
-
-
-* What is the difference between augment and clean - i.e. which parts should be in augment and which should be in clean?
-
-* Are the dataset okay?
-* What we imagine we can do with the data
-* HAND-IN is **13th of May**
-
 ## Description of the data: 
 209 observations correspond to blood samples on 192 patients (17 patients have two samples in the dataset)
 
@@ -20,6 +10,11 @@ Anomaly of the dataset: 16 out of 17 subjects having two blood samples drawn had
 Investigate the chance of a women being a carrier of DMD  based on serum markers and family pedigree. 
 Another question of interest is whether age and season should be taken into account. It is of interest to measure how much pk and ld add toward predicting the carrier status. The importance of age and sample date is also of interest.
  
+##How to run the scripts
+Add text here!
+
+
+#-----Delete this at some point:!!!!
 ## To do List: 
 
 - [x] Clean data (Contains 8 NAs), make viz of missing data @tkragholm
@@ -40,5 +35,6 @@ Another question of interest is whether age and season should be taken into acco
 * ANN classification model 
 ![Possible ANN vizz](possible_nn.png)
 * LM classification model
+
 
 

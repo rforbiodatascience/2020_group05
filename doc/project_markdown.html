@@ -366,8 +366,18 @@ summary {
 </div>
 
 
+<pre class="r"><code>#install.packages(&quot;knitcitations&quot;)
+library(knitcitations)
+cleanbib()</code></pre>
+<pre class="r"><code>options(&quot;citation_format&quot; = &quot;pandoc&quot;)
+citep(&quot;10.1016/S1474-4422(18)30024-3&quot;)</code></pre>
+<pre><code>## [1] &quot;[@Birnkrant_2018]&quot;</code></pre>
+<pre class="r"><code>write.bibtex(file=&quot;references.bib&quot;)</code></pre>
+<pre><code>## Writing 1 Bibtex entries ... OK
+## Results written to file 'references.bib'</code></pre>
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
+<p>Duchenne Muscular Dystrophy (DMD) is a rare, genetic disease that affects the skeletal muscles citep(“10.1016/S1474-4422(18)30024-3”).</p>
 </div>
 <div id="methods" class="section level2">
 <h2>Methods</h2>
@@ -380,6 +390,9 @@ summary {
 </div>
 <div id="conclusion" class="section level2">
 <h2>Conclusion</h2>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
 </div>
 
 
