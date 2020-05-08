@@ -52,19 +52,28 @@ data_batch <- unnest(data_batch, testdata) %>%
   group_by(id) %>% 
   nest(x_test = c(LD_feat, CK_feat, H_feat, PK_feat),
        y_test = c(carrier),
-       perf = c(class_label, class_num))
+       perf2 = c(class_label, class_num))
 
 # Model building --------------------------------------------------------
 model <- keras_model_sequential() %>% 
-  layer_dense(units = 2, activation = 'relu', input_shape = 4, kernel_initializer = 'random_normal') %>% 
-  layer_dense(units = 4, activation = 'relu', kernel_initializer = 'random_normal') %>% 
-  layer_dense(units = 2, activation = 'sigmoid', kernel_initializer = 'random_normal')
+  layer_dense(units = 4, activation = 'relu', input_shape = 4, kernel_initializer = 'random_normal') %>% 
+  layer_dense(units = 3, activation = 'relu', kernel_initializer = 'random_normal') %>% 
+  layer_dense(units = 1, activation = 'sigmoid', kernel_initializer = 'random_normal')
+
+# NOTE: relu is very computational efficient, quick convergence. sigmoid is computational 
+# expensive but gives clear predictions.
+# Input shape = 4 because we have four variables. 
+# kernel_initializer = the start weights, random_normal takes random values from a normal distribution
+# units = number of hidden units, input should be same as amount of variables, output layer should 
+# be 1 when it is a classifier like ours, hidden layer somewhere in between.
 
 # Compile model
 model %>%
   compile(loss = 'binary_crossentropy',
           optimizer = 'adam',
           metrics = c('accuracy'))
+
+# NOTE: binary_crossentropy is the default and preferred loss function for binary classification problem
 
 model %>%
   summary
