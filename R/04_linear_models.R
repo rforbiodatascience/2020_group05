@@ -62,7 +62,7 @@ roc <- data_batch %>%
 #Calculating the area under the curve (AUC)
 auc_value <- roc %>% 
   summarise(AUC = sum(diff(FPR) * na.omit(lead(TPR) + TPR)) / 2)
-
+auc_value
 
 #---Calculating Confusion matrix when threshold is 0.5
 #Change to binary prediction
@@ -115,7 +115,7 @@ confusion_matrix_plot <- df %>%
 
 # Write data
 # ------------------------------------------------------------------------------
-ggsave(filename = "results/roc.png",
+ggsave(filename = "results/roc_log.png",
        plot = roc_plot,
        width = 10,
        height = 6)
