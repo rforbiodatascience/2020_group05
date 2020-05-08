@@ -1,46 +1,28 @@
 ---
 title: "Project"
 output: html_document
+bibliography: R-course.bib
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
-#install.packages("knitcitations")
-library(knitcitations)
-library(citr)
-cleanbib()
-
-options("citation_format" = "pandoc")
-
-```
-
-
-
-```{r}
-citep("10.1016/S1474-4422(18)30024-3")
-```
-```{r}
-write.bibtex(file="references.bib")
-```
-
-```{r}
-citep("https://rarediseases.info.nih.gov/diseases/6291/duchenne-muscular-dystrophy")
-```
 
 ## Introduction
-Duchenne Muscular Dystrophy (DMD) is a rare, genetic disorder that progressive degeneration and atrophy of skeletal and heart muscles citet("10.1016/S1474-4422(18)30024-3").
+Duchenne Muscular Dystrophy (DMD) is a rare, genetic disorder that progressive degeneration and atrophy of skeletal and heart muscles (@Science2020.)
 
-
-
-[@Birnkrant_2018]. 
 
 
 ## Methods
 
+![Flowchart showing the pipeline for the project.](/cloud/project/pictures/pipeline.png)
+
+
+
 ## Results 
+
+
 
 ## Discussion 
 
