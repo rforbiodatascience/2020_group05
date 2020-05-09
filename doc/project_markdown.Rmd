@@ -23,7 +23,9 @@ Since the outcome for patients suffering from DMD is often fatal, it would be of
 
 ## Materials and Methods
 ### Pipeline for project
+In order to answer the question as to whether carrier status of DMD could be predicted using the levels of the four enzymes, a pipeline was established. 
 
+Figure 1 shows the general workflow of this project. First, the data set with the 192 observations were cleaned and augmented, and the data was visualized in order to look for potential outliers and other aspects that could enhance the analysis. Afterwards, a Principal Component (PC) analysis was performed in order to look for patterns in our data set. Afterwards, based on the levels of the four enzymes, three models were constructed for prediction of carrier status in the 192 patients, which included a linear model, a logistic model and a XXXXX model, based on an artificial neural network (ANN). At last, the model with the highest accuracy was applied to a Shiny application, which can predict the carrier status of a female, based on the four enzyme levels. 
 
 <center>
 
@@ -47,6 +49,8 @@ The dataset included 192 patients, where
 | col 2 is      | centered      |
 | zebra stripes | are neat      |
 
+### Data Visualization
+
 ### PCA maybe
 
 ### Linear and logistic models
@@ -57,6 +61,12 @@ The dataset included 192 patients, where
 ## Results 
 
 ### PC Analysis
+
+<center>
+
+![*Figure XX: PC analysis*](/cloud/project/results/pc1_pc2.png)
+
+</center>
 
 ### Prediction models (lin+log)
 
