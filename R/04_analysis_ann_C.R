@@ -35,30 +35,42 @@ nn_dat %>%
 
 # Split into training/test set --------------------------------------------
 # leave one out
-data_batch <- loo_cv(nn_dat)
+test_f <- 0.20
+nn_dat <- nn_dat %>%
+  mutate(partition = sample(x = c('train','test'),
+                            size = nrow(.),
+                            replace = TRUE,
+                            prob = c(1 - test_f, test_f)))
 
-# Splitting data into training and test set:
-data_batch <- data_batch %>%
-  mutate(traindata = map(splits, analysis),
-         testdata = map(splits, assessment))
+nn_dat %>% count(partition)
 
-data_batch <- unnest(data_batch, traindata) %>% 
-  group_by(id) %>% 
-  nest(x_train = c(LD_feat, CK_feat, H_feat, PK_feat),
-                   y_train = c(carrier),
-                   perf = c(class_label, class_num))
+# Train partition
+x_train <- nn_dat %>%
+  filter(partition == 'train') %>%
+  select(contains("feat")) %>%
+  as.matrix
 
-data_batch <- unnest(data_batch, testdata) %>% 
-  group_by(id) %>% 
-  nest(x_test = c(LD_feat, CK_feat, H_feat, PK_feat),
-       y_test = c(carrier),
-       perf2 = c(class_label, class_num))
+y_train <- nn_dat %>%
+  filter(partition == 'train') %>%
+  pull(carrier) %>% 
+  to_categorical(2)
+
+# Test partition
+x_test <- nn_dat %>%
+  filter(partition == 'test') %>%
+  select(contains("feat")) %>%
+  as.matrix
+
+y_test <- nn_dat %>%
+  filter(partition == 'test') %>%
+  pull(carrier) %>% 
+  to_categorical(2)
 
 # Model building --------------------------------------------------------
 model <- keras_model_sequential() %>% 
   layer_dense(units = 4, activation = 'relu', input_shape = 4, kernel_initializer = 'random_normal') %>% 
   layer_dense(units = 3, activation = 'relu', kernel_initializer = 'random_normal') %>% 
-  layer_dense(units = 1, activation = 'sigmoid', kernel_initializer = 'random_normal')
+  layer_dense(units = 2, activation = 'sigmoid', kernel_initializer = 'random_normal')
 
 # NOTE: relu is very computational efficient, quick convergence. sigmoid is computational 
 # expensive but gives clear predictions.
@@ -80,9 +92,6 @@ model %>%
 
 # Train the ANN
 # ------------------------------------------------------------------------------
-data_batch <- data_batch %>% 
-  mutate(history = map2(x_train, y_train, fit(model, epochs = 200, batch_size = 5)))
-
 history <- model %>%
   fit(x = x_train,
       y = y_train,
@@ -102,7 +111,7 @@ nn_dat <- nn_dat %>%
          y_pred = factor(predict_classes(model, x_test)),
          Correct = factor(ifelse(class_num == y_pred, "Yes", "No")))
 
-plot_dat %>% 
+nn_dat %>% 
   select(-contains("feat")) %>% 
   head(3)
 
@@ -112,13 +121,36 @@ title     = "Classification Performance of Artificial Neural Network"
 sub_title = str_c("Accuracy = ", round(perf$acc, 3) * 100, "%")
 x_lab     = "True carrier"
 y_lab     = "Predicted carrier"
-plt1 <- plot_dat %>% 
+plt1 <- nn_dat %>% 
   ggplot(aes(x = class_num, y = y_pred, colour = Correct)) +
   geom_jitter() +
   scale_x_discrete(labels = levels(nn_dat$class_label)) +
   scale_y_discrete(labels = levels(nn_dat$class_label)) +
   theme_bw() +
   labs(title = title, subtitle = sub_title, x = x_lab, y = y_lab)
+
+# AUC / ROC 
+# ------------------------------------------------------------------------------
+#Calculating True-positive rate (TPR) and False-positive rate (FPR)
+roc <- nn_dat %>% 
+  select(carrier, y_pred) %>%
+  mutate(Positive = carrier == 1) %>%            #Carrier holds the real information (True/False)
+  group_by(y_pred) %>%                            
+  summarise(Positive = sum(Positive),            #Turned to integers
+            Negative = n() - sum(Positive)) %>% 
+  arrange(-y_pred) %>%
+  mutate(TPR = cumsum(Positive) / sum(Positive),
+         FPR = cumsum(Negative) / sum(Negative))
+
+#Calculating the area under the curve (AUC)
+auc_value <- roc %>% 
+  summarise(AUC = sum(diff(FPR) * na.omit(lead(TPR) + TPR)) / 2)
+
+auc_value
+
+# Confusing matrix
+# ------------------------------------------------------------------------------
+
 
 # Write data
 # ------------------------------------------------------------------------------
