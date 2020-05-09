@@ -37,7 +37,7 @@ nn_dat %>%
 # leave one out
 data_batch <- loo_cv(nn_dat)
 
-#splitting data into Model-data and leave-one-out-datapoint:
+# Splitting data into training and test set:
 data_batch <- data_batch %>%
   mutate(traindata = map(splits, analysis),
          testdata = map(splits, assessment))
@@ -83,7 +83,7 @@ model %>%
 history <- model %>%
   fit(x = x_train,
       y = y_train,
-      epochs = 300,
+      epochs = 200,
       batch_size = 10)
 
 plot(history) 
