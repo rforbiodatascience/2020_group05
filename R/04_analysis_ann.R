@@ -72,8 +72,8 @@ y_test <- nn_dat %>%
 # Define the model
 # ------------------------------------------------------------------------------
 model <- keras_model_sequential() %>% 
-  layer_dense(units = 2, activation = 'relu', input_shape = 4, kernel_initializer = 'random_normal') %>% 
-  layer_dense(units = 4, activation = 'relu', kernel_initializer = 'random_normal') %>% 
+  layer_dense(units = 4, activation = 'relu', input_shape = 4, kernel_initializer = 'random_normal') %>% 
+  layer_dense(units = 3, activation = 'relu', kernel_initializer = 'random_normal') %>% 
   layer_dense(units = 2, activation = 'sigmoid', kernel_initializer = 'random_normal')
 
 # Compile model
@@ -169,7 +169,7 @@ confmatplot <- function(G, GHAT){
   errorrate <- (sum(cm)-sum(diag(cm)))/sum(cm)*100 # error rate
   accuracy <- (sum(diag(cm)))/sum(cm)*100 # accuracy
   
-  mtext(paste('Accuracy = ', round(accuracy, digits=3), '%, Error Rate = ', round(errorrate, digits=3), '%', sep=''))
+  mtext(paste('Accuracy = ', round(accuracy, digits = 2), '%, Error Rate = ', round(errorrate, digits = 2), '%', sep=''))
   
   axisseq <- 1:nclasses
   axis(1, at=axisseq, labels=FALSE)
