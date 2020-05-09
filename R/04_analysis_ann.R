@@ -185,7 +185,7 @@ confmatplot <- function(G, GHAT){
   }
 }
 
-confmatplot(as.numeric(nn_dat$class_num) -  1, as.numeric(nn_dat$y_pred) - 1)
+confmatplot(as.numeric(nn_dat$class_num)-1, as.numeric(nn_dat$y_pred)-1)
 
 # Write data
 # ------------------------------------------------------------------------------

@@ -5,10 +5,10 @@ setwd('/cloud/project/')
 # Checking for the required packages
 # download if not present
 packages <- c("tidyverse",
-              "caret",
-              "naniar",
               "devtools",
-              "keras")
+              "keras",
+              "devtools",
+              "rsample")
 install.packages(setdiff(packages, rownames(installed.packages())))
 
 source(file = "R/01_load.R")
