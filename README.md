@@ -17,24 +17,20 @@ Add text here!
 #-----Delete this at some point:!!!!
 ## To do List: 
 
-- [x] Clean data (Contains 8 NAs), make viz of missing data @tkragholm
-- [x] Make it up to tidy-format
-- [x] PCA analysis for at undersøge hvor mange components beskriver variabiliteten.
-- [] See if there is a correlation between level of enzymes and status of women as carriers. Take age + season into account (optional).
-- [] Shiny app - Are you a carrier or..?
-- [] Add the libraries used in the scripts to the package-vector in **00_doit.R** 
+Monday:
+- [x] Finish Shiny App
+- [x] Make functions work 
+- [x] make function for confusionmatrix 
+- [x] Make stratification for ANN work 
 
-## Plan for project
-* Separate the data into 2 groups, so that patients with multiple tests are seperated into a second group (ASTRID)
-* Clean data (Contains 8 NAs) (CECILIE)
-* Make sure that the data is in tidy-format
-* Make a PCA analysis in order to find the correlation between level of enzyme and carrier status
-* Add the second group of blood samples to the already-existing patients (make the data into LONG format)
-* Make the PCA analysis again to see if there is a new result or if it is still possible to predict carrier status based on enzyme levels
-* Make a Shiny app that can predict carrier status based on enzyme levels
-* ANN classification model 
-![Possible ANN vizz](possible_nn.png)
-* LM classification model
+Tuesday:
+- [x] Make sure it can run start to finish in one go
+- [x] Finished markdown
+- [x] Written here 'how to run the scripts'
+- [x] Go though scripts to make sure everything is 'Tidy'
+- [x] Go thoug learning objectives
 
+Wednesday:
+- [x] Practice presentation
 
-
+##Questions
