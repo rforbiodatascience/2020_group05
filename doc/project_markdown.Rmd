@@ -34,21 +34,27 @@ Figure 1 shows the general workflow of this project. First, the data set with th
 </center>
 
 
-### Preparation of data
+### Selection and preparation of data
 The data set was obtained from the 1985 book from Andrews et. al., which contained several small data sets from previous studies(@Andrews1985), which originated from the 1981 study from Percy et. al. (@Percy1981). 
 
 The original data had the following attributes, but were seperated into carriers and non-carriers, so the data set in this project consists of two datasets merged together.
 (MÅSKE SKRIV DETTE OM)
 
-
-
+	10.9	176	Summer	0
 The dataset included 192 patients, where  
 
-| Attributes    | Example       |
-|---------------|:-------------:|
-| col 3 is      | right-aligned | 
-| col 2 is      | centered      |
-| zebra stripes | are neat      |
+| Attributes         | Example       |
+|--------------------|:-------------:|
+| Observation Number | ``1``         | 
+| ID                 | ``509``       |
+| Age                | ``22``        |
+| Month              | ``6``         |
+| Year               | ``1979``      |
+| CK                 | ``52``      |
+| LD                 | ``83.5``      |
+| H                  | are neat      |
+| PK                 | are neat      |
+| season             |               |
 
 ### Data Visualization
 
