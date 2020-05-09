@@ -34,10 +34,11 @@ Figure 1 shows the general workflow of this project. First, the data set with th
 </center>
 
 
-### Preparation of data set
-- Dataset originally belongs to the 1985 book (get link from Astrid)
-- data was obtained from (give link)
-- below shows how the data looked after clean up
+### Preparation of data
+The data set was obtained from the 1985 book from Andrews et. al., which contained several small data sets from previous studies(@Andrews1985), which originated from the 1981 study from Percy et. al. (@Percy1981). 
+
+The original data had the following attributes, but were seperated into carriers and non-carriers, so the data set in this project consists of two datasets merged together.
+(MÅSKE SKRIV DETTE OM)
 
 
 
