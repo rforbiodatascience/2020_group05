@@ -80,6 +80,9 @@ model %>%
 
 # Train the ANN
 # ------------------------------------------------------------------------------
+data_batch <- data_batch %>% 
+  mutate(history = map2(x_train, y_train, fit(model, epochs = 200, batch_size = 5)))
+
 history <- model %>%
   fit(x = x_train,
       y = y_train,
