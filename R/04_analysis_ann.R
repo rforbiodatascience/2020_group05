@@ -7,6 +7,7 @@ rm(list = ls())
 library("tidyverse")
 library("keras")
 library("devtools")
+library("rsample")
 #install_keras(tensorflow = "1.13.1") # KØR DENNE FØRSTE GANG PÅ DIN RSTUDIO CLOUD
 
 # Define functions
@@ -38,14 +39,21 @@ nn_dat %>%
 
 # Split into training/test set
 # ------------------------------------------------------------------------------
-test_f <- 0.20
-nn_dat <- nn_dat %>%
-  mutate(partition = sample(x = c('train','test'),
-                            size = nrow(.),
-                            replace = TRUE,
-                            prob = c(1 - test_f, test_f)))
+
+test_size = 0.15
+
+nn_dat_test <- nn_dat %>%
+  group_by(carrier) %>% 
+    sample_frac(size = test_size,
+                replace = FALSE) %>% 
+  mutate(partition = "test")
+
+nn_dat <- nn_dat %>% 
+      full_join(nn_dat_test) %>%
+      replace_na(list(partition = 'train'))
 
 nn_dat %>% count(partition)
+
 
 # Train partition
 x_train <- nn_dat %>%
@@ -90,7 +98,7 @@ model %>%
 history <- model %>%
           fit(x = x_train,
               y = y_train,
-              epochs = 300,
+              epochs = 200,
               batch_size = 10)
 
 plot(history) 
@@ -106,7 +114,7 @@ nn_dat <- nn_dat %>%
          y_pred = factor(predict_classes(model, x_test)),
          Correct = factor(ifelse(class_num == y_pred, "Yes", "No")))
 
-plot_dat %>% 
+nn_dat %>% 
   select(-contains("feat")) %>% 
   head(3)
 
@@ -116,7 +124,7 @@ title     = "Classification Performance of Artificial Neural Network"
 sub_title = str_c("Accuracy = ", round(perf$acc, 3) * 100, "%")
 x_lab     = "True carrier"
 y_lab     = "Predicted carrier"
-plt1 <- plot_dat %>% 
+plt1 <- nn_dat %>% 
   ggplot(aes(x = class_num, y = y_pred, colour = Correct)) +
   geom_jitter() +
   scale_x_discrete(labels = levels(nn_dat$class_label)) +

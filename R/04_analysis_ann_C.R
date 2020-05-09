@@ -34,14 +34,18 @@ nn_dat %>%
   head(3)
 
 # Split into training/test set --------------------------------------------
-# leave one out
-test_f <- 0.20
-nn_dat <- nn_dat %>%
-  mutate(partition = sample(x = c('train','test'),
-                            size = nrow(.),
-                            replace = TRUE,
-                            prob = c(1 - test_f, test_f)))
+# Stratification
+test_size <- 0.25
 
+nn_dat_test <- nn_dat %>%
+  group_by(carrier) %>% 
+  sample_frac(size = test_size,
+              replace = FALSE) %>% 
+  mutate(partition = "test")
+
+nn_dat <- nn_dat %>% 
+  full_join(nn_dat_test) %>%
+  replace_na(list(partition = 'train'))
 nn_dat %>% count(partition)
 
 # Train partition
