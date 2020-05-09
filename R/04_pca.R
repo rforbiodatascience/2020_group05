@@ -22,7 +22,6 @@ dmd_data <- read_tsv(file = "data/03_aug_data.tsv")
 # ------------------------------------------------------------------------------
 dmd_data <- drop_na(dmd_data) %>%
   select(carrier, CK, H, PK, LD)
-  #add_column(X1 = 0, .before = "carrier")
 
 #wrangle and save data
 #makes a 20x20 matrix with the values againt each other 
