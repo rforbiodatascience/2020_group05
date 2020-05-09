@@ -129,6 +129,29 @@ plt1 <- nn_dat %>%
   theme_bw() +
   labs(title = title, subtitle = sub_title, x = x_lab, y = y_lab)
 
+# AUC / ROC 
+# ------------------------------------------------------------------------------
+#Calculating True-positive rate (TPR) and False-positive rate (FPR)
+roc <- nn_dat %>% 
+  select(carrier, y_pred) %>%
+  mutate(Positive = carrier == 1) %>%            #Carrier holds the real information (True/False)
+  group_by(y_pred) %>%                            
+  summarise(Positive = sum(Positive),            #Turned to integers
+            Negative = n() - sum(Positive)) %>% 
+  arrange(-y_pred) %>%
+  mutate(TPR = cumsum(Positive) / sum(Positive),
+         FPR = cumsum(Negative) / sum(Negative))
+
+#Calculating the area under the curve (AUC)
+auc_value <- roc %>% 
+  summarise(AUC = sum(diff(FPR) * na.omit(lead(TPR) + TPR)) / 2)
+
+auc_value
+
+# Confusing matrix
+# ------------------------------------------------------------------------------
+
+
 # Write data
 # ------------------------------------------------------------------------------
 ggsave(filename = "results/ann_classification.png",

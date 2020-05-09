@@ -7,8 +7,10 @@ setwd('/cloud/project/')
 packages <- c("tidyverse",
               "devtools",
               "keras",
-              "devtools",
-              "rsample")
+              "rsample",
+              "tidymodels",
+              "broom",
+              "purrr")
 install.packages(setdiff(packages, rownames(installed.packages())))
 
 source(file = "R/01_load.R")
