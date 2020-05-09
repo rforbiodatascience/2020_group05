@@ -13,15 +13,7 @@ library("tidymodels")
 
 # Define functions
 # ------------------------------------------------------------------------------
-log_reg_model_def <- function(df) {
-  glm(carrier ~ PK + LD + H + CK, 
-      family = binomial(link = "logit"), 
-      data = data)}
-
-#obs - this is not used: 
-simple_model_def <- function(df) {
-  lm(carrier ~ LD + H + PK + CK,
-     data = data)}
+source(file = "R/99_proj_func.R")
 
 
 # Load data

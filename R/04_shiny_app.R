@@ -40,3 +40,10 @@ server <- function(input, output) {
     })
   }
 shinyApp(ui, server)
+
+#ld_value <- 200
+#ld <- data %>% 
+#  ggplot(mapping = aes(x = LD, fill = carrier, alpha = 0.5)) +
+#  geom_density() + 
+#  geom_vline(xintercept = ld_value)
+#  labs(title = "Distribution of Age and Carrier")
