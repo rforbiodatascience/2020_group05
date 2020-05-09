@@ -18,19 +18,19 @@ Add text here!
 ## To do List: 
 
 Monday:
-- [x] Finish Shiny App
-- [x] Make functions work 
-- [x] make function for confusionmatrix 
+- [] Finish Shiny App
+- [] Make functions work 
+- [] make function for confusionmatrix 
 - [x] Make stratification for ANN work 
 
 Tuesday:
-- [x] Make sure it can run start to finish in one go
-- [x] Finished markdown
-- [x] Written here 'how to run the scripts'
-- [x] Go though scripts to make sure everything is 'Tidy'
-- [x] Go thoug learning objectives
+- [] Make sure it can run start to finish in one go
+- [] Finished markdown
+- [] Written here 'how to run the scripts'
+- [] Go through scripts to make sure everything is 'Tidy'
+- [] Go throug learning objectives
 
 Wednesday:
-- [x] Practice presentation
+- [] Practice presentation
 
 ##Questions
