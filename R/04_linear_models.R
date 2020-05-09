@@ -110,8 +110,10 @@ confusion_matrix_plot <- df %>%
     scale_fill_gradient(low = "lightblue", high = "lightgreen") +
     theme_bw() + 
     theme(legend.position = "none") +
-    labs(x = "Actual values", y = "Predicted values", 
-       title = "Confusion Matrix of Simple Linear Model")
+    labs(x = "Actual values", 
+         y = "Predicted values", 
+         title = "Confusion Matrix of Simple Linear Model",
+        subtitle = "Threshold = 0.5")
 
 # Write data
 # ------------------------------------------------------------------------------
@@ -125,6 +127,4 @@ ggsave(filename = "results/confusion_matrix.png",
        width = 10, 
        height = 6)
 
-#write_tsv(x = my_data_subset,
-#          path = "path/to/my/data_subset.tsv")
 
