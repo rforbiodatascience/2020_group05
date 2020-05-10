@@ -22,6 +22,7 @@ Monday:
 - [] Make functions work 
 - [] make function for confusionmatrix 
 - [x] Make stratification for ANN work 
+- [] Maybe add AGE as a variable to the models?
 
 Tuesday:
 - [] Make sure it can run start to finish in one go
