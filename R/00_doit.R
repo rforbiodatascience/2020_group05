@@ -10,7 +10,11 @@ packages <- c("tidyverse",
               "rsample",
               "tidymodels",
               "broom",
-              "purrr")
+              "purrr",
+              "ggrepel",
+              "shiny",
+              "patchwork")
+
 install.packages(setdiff(packages, rownames(installed.packages())))
 
 source(file = "R/01_load.R")
