@@ -6,6 +6,7 @@ rm(list = ls())
 # ------------------------------------------------------------------------------
 library("tidyverse")
 library("shiny")
+library("keras")
 
 # Define functions
 # ------------------------------------------------------------------------------
@@ -14,6 +15,7 @@ source(file = "R/99_proj_func.R")
 # Load data
 # ------------------------------------------------------------------------------
 df <- read_tsv(file = "data/03_aug_data.tsv", col_types = cols(carrier = col_factor()))
+ann_model <- load_model_hdf5("data/04_ANN_model")
 
 # App
 # ------------------------------------------------------------------------------

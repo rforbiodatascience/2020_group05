@@ -106,9 +106,9 @@ ANN_plot <- plot(history)
 
 
 # Evaluate network performance --------------------------------------------
-perf <- model %>% 
+performance <- model %>% 
   evaluate(x_test, y_test)
-perf
+performance
 
 nn_dat <- nn_dat %>%
   filter(partition == "test") %>%
@@ -174,3 +174,7 @@ ggsave(filename = "results/ann_training.png",
        plot     = ANN_plot,
        width    = 10,
        height   = 6)
+
+# Save ANN model for Shiny-App
+save_model_hdf5(model, 
+                filepath = "data/04_ANN_model")
