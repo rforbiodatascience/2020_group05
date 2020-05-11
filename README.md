@@ -56,8 +56,8 @@ Astrid:
 
 Carina:
 - [X] Change confusion matrix axis reversed
-- [] Plots good names and numbers
-- [] Begin tidycheck
+- [X] Plots good names and numbers
+- [X] tidycheck
 
 - [x] Make stratification for ANN work 
 - [X] Maybe add AGE as a variable to the models? - No see plot
