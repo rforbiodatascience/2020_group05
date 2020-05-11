@@ -45,4 +45,14 @@ Maybe something about the attributes?
 
 Add some of the visualisation plots 
 
+## Results | Linear Model
 
+## Results | Logistic Model
+
+## Results | ANN
+
+## Results | Shiny App
+
+## Discussion
+
+## Conclusion

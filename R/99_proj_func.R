@@ -62,7 +62,11 @@ scatter_func <- function(data, x_protein, y_protein, title_input){
 }
 
 # Confusion matrix plot:
-confusion_matrix_plot <- function(Actual_values, Predicted_values, confusion_matrix, goodbad, title_input, subtitle_input){
+confusion_matrix_plot <- function(confusion_matrix, title_input, subtitle_input){
+  Actual_values    <- factor(c(1, 0, 0, 1))
+  Predicted_values <- factor(c(1, 0, 1, 0))
+  goodbad          <- factor(c("good", "good", "bad", "bad"))
+  
   ggplot(mapping = aes(x = Predicted_values, y = Actual_values, fill = goodbad)) +
   geom_tile(color = "grey", size = 1, alpha = 0.9) +
   geom_text(aes(label = sprintf("%1.0f", confusion_matrix)), fontface = "bold", size = 10) +

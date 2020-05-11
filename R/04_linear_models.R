@@ -98,11 +98,6 @@ confusion_matrix2 <- confusion_matrix %>%
   select(freq) %>% 
   unlist(use.names = FALSE)
 
-Actual_values    <- factor(c(1, 0, 0, 1))
-Predicted_values <- factor(c(1, 0, 1, 0))
-goodbad          <- factor(c("good", "good", "bad", "bad"))
-
-
 # Visualise ---------------------------------------------------------------
 roc_plot <- roc %>% 
   ggplot(aes(FPR, TPR, color = pred_type)) +
@@ -114,17 +109,11 @@ roc_plot <- roc %>%
 
 
 
-CM_plot_linear <- confusion_matrix_plot(Actual_values = Actual_values,
-                                        Predicted_values = Predicted_values,
-                                        confusion_matrix = confusion_matrix1,
-                                        goodbad = goodbad,
+CM_plot_linear <- confusion_matrix_plot(confusion_matrix = confusion_matrix1,
                                         title_input = "Confusion Matrix of Linear Model",
                                         subtitle_input = " ")
 
-CM_plot_log <- confusion_matrix_plot(Actual_values = Actual_values,
-                                     Predicted_values = Predicted_values,
-                                     confusion_matrix = confusion_matrix2,
-                                     goodbad = goodbad,
+CM_plot_log <- confusion_matrix_plot(confusion_matrix = confusion_matrix2,
                                      title_input = "Confusion Matrix of Logarithmic Regression Model",
                                      subtitle_input = "  ")
 

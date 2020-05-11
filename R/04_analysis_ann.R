@@ -142,14 +142,8 @@ FN <- nn_dat %>%
 
 # Collect into a matrix and add values for visualisation
 confusion_matrix <- c(TP, TN, FP, FN)
-Actual_values    <- factor(c(1, 0, 0, 1))
-Predicted_values <- factor(c(1, 0, 1, 0))
-goodbad          <- factor(c("good", "good", "bad", "bad"))
 
-CM_plot <- confusion_matrix_plot(Actual_values = Actual_values,
-                                 Predicted_values = Predicted_values,
-                                 confusion_matrix = confusion_matrix,
-                                 goodbad = goodbad,
+CM_plot <- confusion_matrix_plot(confusion_matrix = confusion_matrix,
                                  title_input = "Confusion Matrix of Artificial Neural Network",
                                  subtitle_input = str_c("Accuracy = ", round(performance$acc, 3) * 100, "%"))
 
