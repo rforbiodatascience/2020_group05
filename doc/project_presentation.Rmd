@@ -22,10 +22,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Materials and Methods | Selection and preparation of data
 
-Some words about the data
+- Collected from the 1985 book  
+- Originated from a 1981 study(@Percy1981) 
 
-- selection of the data
-- other things
+Data set of 192 observations, with 10 attrites after cleaning.
+
 
 ## Materials and Methods | Attributes
 
@@ -44,6 +45,8 @@ Maybe something about the attributes?
 ## Results | Data Visualization
 
 Add some of the visualisation plots 
+
+## Results | PCA
 
 ## Results | Linear Model
 
