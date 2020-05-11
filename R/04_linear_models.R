@@ -105,17 +105,11 @@ roc_plot <- roc %>%
                         "AUC Simple Model = ", round(auc_value$AUC[2], 3)))
 roc_plot
 
-confusion_matrix_plot <- df %>% 
-  ggplot(mapping = aes(x = Actual_values, y = Predicted_values)) +
-    geom_tile(aes(fill = Y), colour = "white") +
-    geom_text(aes(label = sprintf("%1.0f", Y))) +
-    scale_fill_gradient(low = "lightblue", high = "lightgreen") +
-    theme_bw() + 
-    theme(legend.position = "none") +
-    labs(x = "Actual values", 
-         y = "Predicted values", 
-         title = "Confusion Matrix of Simple Linear Model",
-        subtitle = "Threshold = 0.5")
+CM_plot <- confusion_matrix_plot(Actual_values = Actual_values, 
+                      Predicted_values = Predicted_values,
+                      Y = Y,
+                      title_input = "Confusion Matrix of Simple Linear Model (Threshold = 0.5)")
+CM_plot
 
 # Write data
 # ------------------------------------------------------------------------------

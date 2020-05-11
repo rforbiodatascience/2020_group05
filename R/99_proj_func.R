@@ -41,4 +41,15 @@ scatter_func <- function(x_protein, y_protein){
 }
 
 #Confusion matrix plot:
-
+confusion_matrix_plot <- function(Actual_values, Predicted_values, Y, title_input){
+  ggplot(mapping = aes(x = Actual_values, y = Predicted_values)) +
+  geom_tile(aes(fill = Y), colour = "white") +
+  geom_text(aes(label = sprintf("%1.0f", Y))) +
+  scale_fill_gradient(low = "lightblue", high = "lightgreen") +
+  theme_bw() + 
+  theme(legend.position = "none") +
+  labs(x = "Actual values", 
+       y = "Predicted values", 
+       title = title_input)
+       #subtitle = "Threshold = 0.5")
+}
