@@ -1,6 +1,7 @@
 library(shiny)
 library(tidyverse)
 library(keras)
+library(patchwork)
 
 # Define functions --------------------------------------------------------
 #source(file = "../R/99_proj_func.R")
@@ -52,22 +53,52 @@ shinyServer(function(input, output) {
         
         vector <- User_vector()
         
-        paste0("The predicted class number is ", predict_classes(ANN_model, vector, verbose = 1))
+        paste0("The ANN has classified you as ", predict_classes(ANN_model, vector, verbose = 1))
+    
     })
     
     # Logistic ---------------------------------------------------------------
+    
     
     
     # Linear ---------------------------------------------------------------
     
     # Distributions ---------------------------------------------------------------
     
-    output$distribution_ld <- renderPlot({ 
-        df %>% 
-            ggplot(aes(LD)) +
+    output$distributions <- renderPlot({
+    
+    dist_ld <- df %>% 
+        ggplot(aes(LD)) +
+        geom_density(fill = "#69b3a2", color="#e9ecef", alpha=0.8) +
+        geom_vline(xintercept = input$ld, colour = "red") +
+        xlab("Enzyme level (unit ?!)") + 
+        ggtitle("Lactate Dehydroginase levels")
+    
+    dist_h <- df %>% 
+        ggplot(aes(H)) +
+        geom_density(fill = "#69b3a2", color="#e9ecef", alpha=0.8) +
+        geom_vline(xintercept = input$h, colour = "red") +
+        xlab("Enzyme level (unit ?!)") + 
+        ggtitle("Hexopexin levels")
+    
+    dist_ck <- df %>% 
+        filter(CK <= 150) %>% 
+            ggplot(aes(CK)) +
             geom_density(fill = "#69b3a2", color="#e9ecef", alpha=0.8) +
-            geom_vline(xintercept = input$ld, colour = "red") +
+            geom_vline(xintercept = input$ck, colour = "red") +
             xlab("Enzyme level (unit ?!)") + 
-            ggtitle("Lactate Dehydroginase levels")
+            ggtitle("Creatine Kinase levels")
+        
+    dist_pk <- df %>% 
+        filter(PK <= 60) %>% 
+            ggplot(aes(PK)) +
+            geom_density(fill = "#69b3a2", color="#e9ecef", alpha=0.8) +
+            geom_vline(xintercept = input$pk, colour = "red") +
+            xlab("Enzyme level (unit ?!)") + 
+            ggtitle("Pyruvate Kinase levels")
+        
+        ((dist_pk/dist_h) | (dist_ld/dist_ck)) + 
+        plot_layout(guides = "collect") & 
+        theme(legend.position = "bottom")
     })
 })

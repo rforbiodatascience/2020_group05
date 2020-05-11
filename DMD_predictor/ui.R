@@ -17,24 +17,24 @@ shinyUI(
                 # Input: Selector for choosing dataset ----
                 radioButtons(inputId = "models",
                              label = "Choose a model:",
-                             choices = c("Linear", "Logistic", "ANN")),
+                             choices = c( "ANN", "Linear", "Logistic")),
                 
                 sliderInput(inputId = "ck", 
                             label = "Creatine Kinase (CK)", 
-                            value = 650, min = 0, max = 1300), # Meget høj MAX-værdi --- muligvis outlier
+                            value = 25, min = 0, max = 150), # Meget høj MAX-værdi --- muligvis outlier
                 
                 sliderInput(inputId = "h", 
                             label = "Hemopexin (H)", 
-                            value = 60, min = 0, max = 120),
+                            value = 80, min = 0, max = 120),
                 
                 sliderInput(inputId = "pk", 
                             label = "Pyruvate Kinase (PK)", 
-                            value = 55, min = 0, max = 110),
+                            value = 10, min = 0, max = 50),
                 
                 # Input: Numeric entry for number of obs to view ----
                 sliderInput(inputId = "ld", 
                             label = "Lactate Dehydroginase (LD)", 
-                            value = 225, min = 0, max = 450),
+                            value = 150, min = 0, max = 450),
                 
                 # Include clarifying text ----
                 helpText("Note: while the data view will show only the specified",
@@ -62,7 +62,7 @@ shinyUI(
                 
                 h1(textOutput("prediction")),
                 
-                plotOutput("distribution_ld")
+                plotOutput("distributions")
             )    
         )
         
