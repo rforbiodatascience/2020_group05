@@ -1,27 +1,25 @@
 # Clear Workspace ---------------------------------------------------------
 rm(list = ls())
 
+
 # Load libraries ----------------------------------------------------------
 library("tidyverse")
 library("keras")
 library("devtools")
-#install_keras(tensorflow = "1.13.1") # KØR DENNE FØRSTE GANG PÅ DIN RSTUDIO CLOUD
 
 
 # Define functions --------------------------------------------------------
 source(file = "R/99_proj_func.R")
 
+
 # Load data ---------------------------------------------------------------
 df <- read_tsv(file = "data/03_aug_data.tsv", 
                col_types = cols(carrier = col_factor()))
 
+
 # Wrangle data ------------------------------------------------------------
 nn_dat <- df %>% 
   select(CK, H, PK, LD, carrier) %>% 
-  mutate(CK = normalize(CK),
-         H  = normalize(H),
-         PK = normalize(PK),
-         LD = normalize(LD)) %>% 
   rename(CK_feat = CK,
          H_feat  = H,
          PK_feat = PK,
@@ -34,7 +32,7 @@ nn_dat %>%
 
 # Split into training/test set --------------------------------------------
 # Stratification
-test_size <- 0.25
+test_size <- 0.20
 
 nn_dat_test <- nn_dat %>%
   group_by(carrier) %>% 
@@ -72,24 +70,18 @@ y_test <- nn_dat %>%
 
 # Model building --------------------------------------------------------
 model <- keras_model_sequential() %>% 
-  layer_dense(units = 4, activation = "relu", kernel_initializer = "random_normal", input_shape = 4) %>% 
-  layer_dense(units = 3, activation = "relu", kernel_initializer = "random_normal") %>% 
-  layer_dense(units = 2, activation = "sigmoid", kernel_initializer = "random_normal")
-
-# NOTE: relu is very computational efficient, quick convergence. sigmoid is computational 
-# expensive but gives clear predictions.
-# Input shape = 4 because we have four variables. 
-# kernel_initializer = the start weights, random_normal takes random values from a normal distribution
-# units = number of hidden units, input should be same as amount of variables, output layer should 
-# be 1 when it is a classifier like ours, hidden layer somewhere in between.
+  layer_dense(units = 4, activation = "relu", 
+              kernel_initializer = "random_normal", input_shape = 4) %>% 
+  layer_dense(units = 3, activation = "relu", 
+              kernel_initializer = "random_normal") %>% 
+  layer_dense(units = 2, activation = "sigmoid", 
+              kernel_initializer = "random_normal")
 
 # Compile model
 model %>%
   compile(loss      = "binary_crossentropy",
           optimizer = "adam",
           metrics   = c("accuracy"))
-
-# NOTE: binary_crossentropy is the default and preferred loss function for binary classification problem
 
 model %>%
   summary
@@ -142,26 +134,28 @@ FN <- nn_dat %>%
 
 # Collect into a matrix and add values for visualisation
 confusion_matrix <- c(TP, TN, FP, FN)
+title <- "Confusion Matrix of Artificial Neural Network"
+subtitle <- str_c("Accuracy = ", round(performance$acc, 3) * 100, "%")
 
 CM_plot <- confusion_matrix_plot(confusion_matrix = confusion_matrix,
-                                 title_input = "Confusion Matrix of Artificial Neural Network",
-                                 subtitle_input = str_c("Accuracy = ", round(performance$acc, 3) * 100, "%"))
+                                 title_input = title,
+                                 subtitle_input = subtitle)
 
-# Write data
-# ------------------------------------------------------------------------------
-ggsave(filename = "results/ann_confusion_matrix.png",
+
+# Write data --------------------------------------------------------------
+ggsave(filename = "results/07_ann_confusion_matrix.png",
        plot     = CM_plot,
        width    = 10,
        height   = 6)
 
-ggsave(filename = "results/ann_training.png",
+ggsave(filename = "results/07_ann_training.png",
        plot     = ANN_plot,
        width    = 10,
        height   = 6)
 
 # Save ANN model for Shiny-App
 save_model_hdf5(model, 
-                filepath = "data/04_ANN_model")
+                filepath = "data/07_ANN_model")
 
 write_tsv(nn_dat,
           path = "data/07_ANN_data.tsv")
