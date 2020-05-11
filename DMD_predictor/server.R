@@ -15,7 +15,7 @@ df <- read_tsv(file = "../data/03_aug_data.tsv",
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
     
-    enzymesValues <- reactive({
+    enzymeValues <- reactive({
         
         data.frame(
             Name = c("Creatine Kinase",
@@ -31,7 +31,7 @@ shinyServer(function(input, output) {
     })
     
     output$values <- renderTable({
-        enzymesValues()
+        enzymeValues()
     })
     
     User_vector <- reactive({
@@ -46,11 +46,8 @@ shinyServer(function(input, output) {
         
     })
     
-    output$vector <- renderPrint({
-        User_vector()
-    })
     
-    
+    # ANN ---------------------------------------------------------------
     output$prediction <- renderText({
         
         vector <- User_vector()
@@ -58,43 +55,19 @@ shinyServer(function(input, output) {
         paste0("The predicted class number is ", predict_classes(ANN_model, vector, verbose = 1))
     })
     
+    # Logistic ---------------------------------------------------------------
     
     
-    # ANN prediction --------------------------------------------
-    #prediction_ANN <- ANN_model %>% 
-    #predict_classes()
-    #test_matrix <- matrix(c(input$ck, input$h, input$pk, input$ld), nrow = 1)
+    # Linear ---------------------------------------------------------------
     
-    #print(test_matrix)
+    # Distributions ---------------------------------------------------------------
     
-    
-    
-    
-    # } else if(modelInput()=="Logistic") {
-    
-    # The Matrix
-    #output$matrix <- renderPrint({
-    # test_matrix <- matrix(c(input$ck, input$h, input$pk, input$ld), nrow = 1)
-    # })
-    
-    # Enzyme levels
-    #output$enzymes <- renderText({
-    # pred_data <- matrix(input$ck, input$h, input$pk, input$ld, nrow = 1)
-    #})
-    
-    
-    # } else if(modelInput()=="ANN") {
-    
-    
-    
-    #asdasdasdasdeasd
-    
-    
-    
-    #}  else{
-    #print("Error no Algorithm selected")
-    # }
-    
-    
-    
+    output$distribution_ld <- renderPlot({ 
+        df %>% 
+            ggplot(aes(LD)) +
+            geom_density(fill = "#69b3a2", color="#e9ecef", alpha=0.8) +
+            geom_vline(xintercept = input$ld, colour = "red") +
+            xlab("Enzyme level (unit ?!)") + 
+            ggtitle("Lactate Dehydroginase levels")
+    })
 })

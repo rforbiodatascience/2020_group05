@@ -21,7 +21,7 @@ shinyUI(
                 
                 sliderInput(inputId = "ck", 
                             label = "Creatine Kinase (CK)", 
-                            value = 650, min = 0, max = 1300),
+                            value = 650, min = 0, max = 1300), # Meget høj MAX-værdi --- muligvis outlier
                 
                 sliderInput(inputId = "h", 
                             label = "Hemopexin (H)", 
@@ -60,7 +60,9 @@ shinyUI(
                 
                 verbatimTextOutput("results"),
                 
-                textOutput("prediction")
+                h1(textOutput("prediction")),
+                
+                plotOutput("distribution_ld")
             )    
         )
         
