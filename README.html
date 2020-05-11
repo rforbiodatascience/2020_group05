@@ -367,23 +367,59 @@ summary {
 
 <div id="group05" class="section level1">
 <h1>2020_group05</h1>
-<div id="description-of-the-data" class="section level2">
-<h2>Description of the data:</h2>
-<p>209 observations correspond to blood samples on 192 patients (17 patients have two samples in the dataset)</p>
-<div id="background-for-study" class="section level3">
-<h3>Background for study:</h3>
-<p>Enzyme levels were measured in known carriers (75 samples) and in a group of non-carriers (134 samples). Anomaly of the dataset: 16 out of 17 subjects having two blood samples drawn had differing carrier status for the two observations.</p>
+<div id="description" class="section level2">
+<h2>Description:</h2>
+<p>Duchenne Muscular Dystrophy (DMD) is a rare, genetic disorder that causes progressive degeneration and atrophy of skeletal and heart muscles. Most females with this mutation show no evidence of muscular weakness, but they are able to pass the mutation on to their offspring without showing any symptoms.our enzyme and serum proteins have been linked to carrier status in asymptomatic females. These include creatine kinase (CK), hemopexin (H), lactate dehydroginase (LD) and pyruvate kinase (PK), which are measured in blood samples from serum.</p>
 </div>
-<div id="goals" class="section level3">
-<h3>Goals:</h3>
-<p>Investigate the chance of a women being a carrier of DMD based on serum markers and family pedigree. Another question of interest is whether age and season should be taken into account. It is of interest to measure how much pk and ld add toward predicting the carrier status. The importance of age and sample date is also of interest.</p>
-<p>##How to run the scripts Add text here!</p>
+<div id="data" class="section level2">
+<h2>Data:</h2>
+<p>The raw data consist of two datasets. One contains 209 observations from bloodsamples, with 13 variables. Most importantly, the measured enzyme levels of the four serum markers. The other dataset contains the information on which observation is a carrier (75 samples) or non-carrier (134 samples).</p>
+<div id="goal" class="section level3">
+<h3>Goal:</h3>
+<p>Create different models which can asses if the woman is likely to be a carrier or not.</p>
+</div>
+</div>
+<div id="software-requirements" class="section level2">
+<h2>Software Requirements:</h2>
+<ul>
+<li>R</li>
+</ul>
+<p>R packages:</p>
+<ul>
+<li>Tidyverse</li>
+<li>Devtools</li>
+<li>Keras</li>
+<li>rsample</li>
+<li>tidymodels</li>
+<li>broom</li>
+<li>purr</li>
+<li>ggrepel</li>
+<li>shiny</li>
+<li>patchwork</li>
+</ul>
+</div>
+<div id="installation" class="section level2">
+<h2>Installation:</h2>
+<p>The following code download this data analysis pipeline, when run in the terminal: ??</p>
+<p>git clone</p>
+<pre class="{r}"><code># execute code if the date is later than a specified day
+git clone https://github.com/rforbiodatascience/2020_group05</code></pre>
+</div>
+<div id="usage" class="section level2">
+<h2>Usage:</h2>
+<p>In the ‘/R’ run ‘00_doit.R’. It will check that all nessary packages are installed and download them in case they are not. Then the script will run every script in the correct order. All generated data will be placed in ‘/data’, while the outputted plots will can be found in ‘/results’. Further documentation can be found in the folder doc.</p>
 <p>#—–Delete this at some point:!!!! ## To do List:</p>
-<p>Monday: - [] Finish Shiny App - [] Make functions work - [] make function for confusionmatrix - [x] Make stratification for ANN work - [] Maybe add AGE as a variable to the models?</p>
-<p>Tuesday: - [] Make sure it can run start to finish in one go - [] Finished markdown - [] Written here ‘how to run the scripts’ - [] Go through scripts to make sure everything is ‘Tidy’ - [] Go throug learning objectives</p>
+<p>Monday: Tobias: - [] Finish Shiny App (make folder or repo as we wish)</p>
+<p>Cecilie: - [x] Make functions work (Non standard evaluation) - [X] Make function for confusionmatrix</p>
+<p>Astrid: - [X] correct linar model confusion matrix - [X] change name of simple model</p>
+<p>Carina: - [X] Change confusion matrix axis reversed - [] Plots good names and numbers - [] Begin tidycheck</p>
+<ul>
+<li>[x] Make stratification for ANN work</li>
+<li>[X] Maybe add AGE as a variable to the models? - No see plot</li>
+</ul>
+<p>Tuesday: - [] Make sure it can run start to finish in one go - [] Make presentation - [] Written here ‘how to run the scripts’ - [] Go through learning objectives</p>
+<p>—-Everything tidy check - [] 00_doit - [] 01_load - [] 02_clean - [] 03_augment - [] 04_ - [] …. - [] pca</p>
 <p>Wednesday: - [] Practice presentation</p>
-<p>##Questions</p>
-</div>
 </div>
 </div>
 
