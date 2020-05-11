@@ -1,6 +1,4 @@
 # Descriptive data visulisation 
-
-
 # Clear workspace ---------------------------------------------------------
 rm(list = ls())
 
@@ -42,7 +40,6 @@ age_distribution_plot <- data %>%
 density_ck <- density_plot(data = data,
                            x_p = CK,
                            title_input = "Density plot of CK values")
-#non-standard evaluation
 
 density_h <- density_plot(data = data,
                           x_p = H,
@@ -57,7 +54,9 @@ density_pk <- density_plot(data = data,
                            title_input = "Density plot of PK values")
 
 density_protein_plot <- ((density_pk/density_h) | (density_ld/density_ck)) + 
-  plot_layout(guides = "collect") & theme(legend.position = "bottom")
+  plot_layout(guides = "collect") & 
+  theme(legend.position = "bottom")
+  
 
 # Age and Protein ---------------------------------------------------------
 boxplot_ck <- boxplot_func(data = data_subset,
@@ -80,10 +79,10 @@ boxplot_pk_h <- data_subset %>%
        y = "Protein level") + 
   facet_grid(Protein ~.) 
 
-protein_ages_plot <- ((boxplot_ck/boxplot_ld) | boxplot_pk_h) #With patchwork
+protein_ages_plot <- ((boxplot_ck/boxplot_ld) | boxplot_pk_h)
 
-#-------------------Protein-protein-------------------------
-#Are there any coorelation with carrier-status and the levels of enzyme?
+# Protein-protein ---------------------------------------------------------
+# Correlation between carrier-status and the levels of enzyme
 CK_vs_LD <- scatter_func(data = data,
                          x_protein = CK,
                          y_protein = LD,
@@ -95,9 +94,9 @@ CK_vs_H <- scatter_func(data = data,
                         title_input = "Distribution of levels of CK and H")
 
 CK_vs_PK <- scatter_func(data = data,
-                        x_protein = CK,
-                        y_protein = PK,
-                        title_input = "Distribution of levels of CK and PK")
+                         x_protein = CK,
+                         y_protein = PK,
+                         title_input = "Distribution of levels of CK and PK")
 
 LD_vs_H <- scatter_func(data = data,
                         x_protein = LD,
@@ -105,35 +104,37 @@ LD_vs_H <- scatter_func(data = data,
                         title_input = "Distribution of levels of LD and H")
 
 LD_vs_PK <- scatter_func(data = data,
-                        x_protein = LD,
-                        y_protein = PK,
-                        title_input = "Distribution of levels of LD and PK")
+                         x_protein = LD,
+                         y_protein = PK,
+                         title_input = "Distribution of levels of LD and PK")
 
 H_vs_PK <- scatter_func(data = data,
                         x_protein = H,
                         y_protein = PK,
                         title_input = "Distribution of levels of H and PK")
 
-protein_protein_plot <- ( CK_vs_H/H_vs_PK | CK_vs_PK/LD_vs_PK | CK_vs_LD/LD_vs_H)
+protein_protein_plot <- ( CK_vs_H/H_vs_PK | CK_vs_PK/LD_vs_PK | CK_vs_LD/LD_vs_H) +
+  plot_layout(guides = "collect") & 
+  theme(legend.position = "bottom")
 
-# Write data
-# ---------Age and protein---------------------------------------------------------------------
-ggsave(filename = "results/age_distribution.png",
+
+# Write data --------------------------------------------------------------
+ggsave(filename = "results/04_age_distribution.png",
        plot = age_distribution_plot,
        width = 10,
        height = 6)
 
-ggsave(filename = "results/density_proteins.png",
+ggsave(filename = "results/04_density_proteins.png",
        plot = density_protein_plot,
        width = 10, 
        height = 10)
 
-ggsave(filename = "results/age_groups_protein_levels.png",
+ggsave(filename = "results/04_age_groups_protein_levels.png",
        plot = protein_ages_plot,
        width = 10,
        height = 6)
 
-ggsave(filename = "results/proteins.png",
+ggsave(filename = "results/04_proteins.png",
        plot = protein_protein_plot,
        width = 10,
        height = 6)
