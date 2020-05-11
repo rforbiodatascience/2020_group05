@@ -50,8 +50,8 @@ df <- df %>%
       mutate(LD = na_if(LD, "-9999"), 
              PK = na_if(PK, "-9999"))
 
-# Write data
-# ------------------------------------------------------------------------------
+
+# Write data --------------------------------------------------------------
 write_tsv(x = df,
           path = "data/02_clean_data_df.tsv")
 write_tsv(x = df_carrier,
