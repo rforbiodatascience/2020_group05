@@ -1,65 +1,64 @@
-#Descriptive data visulisation 
-#Analysis of clean data to explore the general features of the data
-#Are there any obvios trends in the data
+# Descriptive data visulisation 
 
-# Clear workspace
-# ------------------------------------------------------------------------------
+
+# Clear workspace ---------------------------------------------------------
 rm(list = ls())
 
-# Load libraries
-# ------------------------------------------------------------------------------
+
+# Load libraries ----------------------------------------------------------
 library("tidyverse")
 library("patchwork")
 
-# 
+
+# Define functions --------------------------------------------------------
 source(file = "R/99_proj_func.R")
 
-# Load data
-# ------------------------------------------------------------------------------
-data <- read_tsv(file = "data/03_aug_data.tsv") %>% 
-  mutate(carrier = factor(carrier))
+
+# Load data ---------------------------------------------------------------
+data <- read_tsv(file = "data/03_aug_data.tsv", 
+                 col_types = cols(carrier = col_factor()))
 
 
-# Wrangle data
-# ------------------------------------------------------------------------------
-#Creating age groups and merging H and PK (These have similar scale of protein levels)
+# Wrangle data ------------------------------------------------------------
+# Creating age groups and merging H and PK (These have similar scale of protein levels)
 data_subset <- data %>% 
-  mutate(age_group = cut(x = Age, breaks = seq(10,100, by = 10))) %>% 
-  pivot_longer(c('H','PK'), names_to = "Protein", values_to = "Level")
+  mutate(age_group = cut(x = Age, 
+                         breaks = seq(10, 100, by = 10))) %>% 
+  pivot_longer(c("H", "PK"), 
+               names_to = "Protein", 
+               values_to = "Level")
 
 
-# Visualise
-# ----------------Age Distribution----------------------------
-#Age distribution of the data: 
+# Visualise ---------------------------------------------------------------
+# Age Distribution --------------------------------------------------------
 age_distribution_plot <- data %>% 
   ggplot(mapping = aes(x = Age, fill = carrier)) +
   geom_density(alpha = 0.5) + 
-  labs(title = "Distribution of Age and Carrier")
+  labs(title = "Distribution of Age and Carrier",
+       y = "Density")
 
 
-#----------------Protein levels density----------------------
-pl_ck <- density_plot(data = data,
-                      x_p = CK,
-                      title_input = "Density plot of the CK values")
-
+# Protein levels density --------------------------------------------------
+density_ck <- density_plot(data = data,
+                           x_p = CK,
+                           title_input = "Density plot of CK values")
 #non-standard evaluation
 
-pl_h <- density_plot(data = data,
-                     x_p = H,
-                     title_input = "Density plot of the H values")
+density_h <- density_plot(data = data,
+                          x_p = H,
+                          title_input = "Density plot of H values")
 
-pl_ld <- density_plot(data = data,
-                     x_p = LD,
-                     title_input = "Density plot of the LD values")
+density_ld <- density_plot(data = data,
+                           x_p = LD,
+                           title_input = "Density plot of LD values")
 
-pl_pk <- density_plot(data = data,
-                     x_p = PK,
-                     title_input = "Density plot of the PK values")
+density_pk <- density_plot(data = data,
+                           x_p = PK,
+                           title_input = "Density plot of PK values")
 
-density_protein_plot <- ((pl_pk/pl_h) | (pl_ld/pl_ck))
+density_protein_plot <- ((density_pk/density_h) | (density_ld/density_ck))
 
-#----------------Age and Protein-----------------------------
-#Is there a clear pattern depending on age? 
+# Age and Protein ---------------------------------------------------------
 boxplot_ck <- boxplot_func(data = data_subset,
                            x_protein = CK,
                            age_group = age_group,
@@ -74,7 +73,7 @@ boxplot_ld <- boxplot_func(data = data_subset,
 boxplot_pk_h <- data_subset %>% 
   ggplot(mapping = aes(x = age_group, y = Level, fill = carrier)) +
   geom_boxplot(alpha = 0.5)+
-  labs(title = 'The levels of H and PK shown among age groups', 
+  labs(title = "The levels of H and PK shown among age groups", 
        fill = "Carrier Status",
        x = "Age group",
        y = "Protein level") + 
