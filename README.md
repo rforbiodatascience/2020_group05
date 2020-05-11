@@ -24,7 +24,7 @@ Tobias:
 - [] Finish Shiny App (make folder or repo as we wish)
 
 Cecilie:
-- [] Make functions work (Non standard evaluation)
+- [x] Make functions work (Non standard evaluation)
 - [X] Make function for confusionmatrix 
 
 Astrid: 
