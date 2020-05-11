@@ -47,7 +47,7 @@ Tobias:
 - [x] Adding ANN Classification
 - [] Adding Logistic Classification
 - [] Adding Linear Regression
-- [] Make all four responsive distributions (1/4)
+- [x] Make all four responsive distributions (4/4)
 - [] Make the App look nice n tidy :)))
 
 Cecilie:
