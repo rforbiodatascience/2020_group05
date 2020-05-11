@@ -31,7 +31,7 @@ log_reg_model_def <- function(df) {
       data = data)}
 
 # Linear model: 
-simple_model_def <- function(df) {
+linear_model_def <- function(df) {
   lm(carrier ~ LD + H + PK + CK,
      data = data)}
 
@@ -63,14 +63,14 @@ scatter_func <- function(data, x_protein, y_protein, title_input){
 
 # Confusion matrix plot:
 confusion_matrix_plot <- function(Actual_values, Predicted_values, confusion_matrix, goodbad, title_input, subtitle_input){
-  ggplot(mapping = aes(x = Actual_values, y = Predicted_values, fill = goodbad)) +
+  ggplot(mapping = aes(x = Predicted_values, y = Actual_values, fill = goodbad)) +
   geom_tile(color = "grey", size = 1, alpha = 0.9) +
   geom_text(aes(label = sprintf("%1.0f", confusion_matrix)), fontface = "bold", size = 10) +
   scale_fill_manual(values = c(good = "forestgreen", bad = "indianred3")) +
   theme_bw() + 
   theme(legend.position = "none") +
-  labs(x = "Actual values", 
-       y = "Predicted values", 
+  labs(x = "Predicted Values", 
+       y = "Actual Values", 
        title = title_input,
        subtitle = subtitle_input)
 }
