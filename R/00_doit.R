@@ -3,20 +3,22 @@
 setwd('/cloud/project/')
 
 
+# Define functions --------------------------------------------------------
+source(file = "R/99_proj_func.R")
+
+
 # Check packages ----------------------------------------------------------
 # Checking for the required packages download if not present
-packages <- c("tidyverse",
-              "devtools",
-              "keras",
-              "rsample",
-              "tidymodels",
-              "broom",
-              "purrr",
-              "ggrepel",
-              "shiny",
-              "patchwork")
-
-install.packages(setdiff(packages, rownames(installed.packages())))
+install_if_needed(c("tidyverse",
+                    "devtools",
+                    "keras",
+                    "rsample",
+                    "tidymodels",
+                    "broom",
+                    "purrr",
+                    "ggrepel",
+                    "shiny",
+                    "patchwork"))
 
 
 # Run all files -----------------------------------------------------------
