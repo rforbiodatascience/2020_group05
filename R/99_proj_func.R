@@ -16,28 +16,29 @@ simple_model_def <- function(df) {
      data = data)}
 
 #density plot function
-density_plot <- function(data, x_p) {
+density_plot <- function(data, x_p, title_input) {
     ggplot(data = data, 
            mapping = aes(x = {{x_p}}, fill = carrier)) +
     geom_density(alpha = 0.5) + 
-    labs(title = "Density plot of the CK values")
+    labs(title = title_input)
 }
 
 #Boxplot function 
-boxplot_func <- function(x_protein){
+boxplot_func <- function(data, x_protein, age_group, title_input, x_label_input){
   ggplot(data = data, 
-         mapping = aes(x = age_group, y = x_protein, fill = carrier)) +
+         mapping = aes(x = {{age_group}}, y = {{x_protein}}, fill = carrier)) +
   geom_boxplot(alpha = 0.5) + 
-  labs(title = "Distribution of levels of LD to age",
+  labs(title = title_input,
        x = "Age Group")+
   theme(legend.position = "none")
 }
 
 #Scatterplot function
-scatter_func <- function(x_protein, y_protein){
-  ggplot(mapping = aes(x = x_protein, y = y_protein, fill = carrier)) +
+scatter_func <- function(data, x_protein, y_protein, title_input){
+  ggplot(data = data,
+         mapping = aes(x = {{x_protein}}, y = {{y_protein}}, fill = carrier)) +
   geom_point(pch = 21) + 
-  labs(title = "Distribution of levels of CK and LD")
+  labs(title = title_input)
 }
 
 #Confusion matrix plot:
