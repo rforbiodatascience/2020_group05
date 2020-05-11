@@ -46,6 +46,11 @@ data_batch <- data_batch %>%
   pivot_longer(c(log_model, simple_model), names_to = "Model_Type", values_to = "models") %>% 
   pivot_longer(c(pred_log, pred_sim), names_to = "pred_type", values_to = "pred")
 
+#Maybe not the most elegant solution to the double work but it cleans up the dataset
+data_batch <- data_batch %>% 
+  filter(Model_Type == "log_model" & pred_type == "pred_log" | 
+           Model_Type == "simple_model" & pred_type == "pred_sim")
+
 #Calculating True-positive rate (TPR) and False-positive rate (FPR)
 roc <- data_batch %>% 
   select(pred_type, Model_Type, carrier, pred) %>%
@@ -75,20 +80,42 @@ data_batch <- data_batch %>%
                         pred_binary == 0 & carrier == 1 ~ "FN",
                         pred_binary == 0 & carrier == 0 ~ "TN"))
 
-#summaries results of values in new table
 confusion_matrix <- data_batch %>% 
-  select(CM) %>% 
-  group_by(CM) %>% 
-  summarise(freq = n())
+  select(pred_type, CM) %>% 
+  group_by(pred_type, CM) %>% 
+  summarise(freq = n()) 
 
-
-Y <- confusion_matrix %>% 
+confusion_matrix1 <- confusion_matrix %>% 
+  filter(pred_type == "pred_sim") %>% 
+  ungroup() %>% 
   select(freq) %>% 
   unlist(use.names = FALSE)
 
-df <- data.frame(Actual_values, Predicted_values, Y)
+confusion_matrix2 <- confusion_matrix %>% 
+  filter(pred_type == "pred_log") %>% 
+  arrange(desc(CM)) %>% #Maybe nesssary 
+  ungroup() %>% 
+  select(freq) %>% 
+  unlist(use.names = FALSE)
 
+Actual_values    <- factor(c(1, 0, 0, 1))
+Predicted_values <- factor(c(1, 0, 1, 0))
+goodbad          <- factor(c("good", "good", "bad", "bad"))
 
+#This is the function we need to use not the above!! 
+CM_plot_linear <- confusion_matrix_plot(Actual_values = Actual_values,
+                                 Predicted_values = Predicted_values,
+                                 confusion_matrix = confusion_matrix1,
+                                 goodbad = goodbad,
+                                 title_input = "Confusion Matrix of Linear Model")
+                                 #subtitle_input = "")
+
+CM_plot_log <- confusion_matrix_plot(Actual_values = Actual_values,
+                                     Predicted_values = Predicted_values,
+                                     confusion_matrix = confusion_matrix2,
+                                     goodbad = goodbad,
+                                     title_input = "Confusion Matrix of Logarithm Regression Model")
+#                                     subtitle_input = str_c("Accuracy = ", round(performance$acc, 3) * 100, "%"))
 
 # Visualise
 # ------------------------------------------------------------------------------
