@@ -56,7 +56,8 @@ density_pk <- density_plot(data = data,
                            x_p = PK,
                            title_input = "Density plot of PK values")
 
-density_protein_plot <- ((density_pk/density_h) | (density_ld/density_ck))
+density_protein_plot <- ((density_pk/density_h) | (density_ld/density_ck)) + 
+  plot_layout(guides = "collect") & theme(legend.position = "bottom")
 
 # Age and Protein ---------------------------------------------------------
 boxplot_ck <- boxplot_func(data = data_subset,
