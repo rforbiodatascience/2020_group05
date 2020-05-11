@@ -35,6 +35,7 @@ nn_dat %>%
 
 # Split into training/test set --------------------------------------------
 # leave one out
+set.seed(44)
 test_f <- 0.20
 nn_dat <- nn_dat %>%
   mutate(partition = sample(x = c('train','test'),
@@ -115,47 +116,54 @@ nn_dat %>%
   select(-contains("feat")) %>% 
   head(3)
 
-# Visualization
-# ------------------------------------------------------------------------------
-title     = "Classification Performance of Artificial Neural Network"
-sub_title = str_c("Accuracy = ", round(perf$acc, 3) * 100, "%")
-x_lab     = "True carrier"
-y_lab     = "Predicted carrier"
-plt1 <- nn_dat %>% 
-  ggplot(aes(x = class_num, y = y_pred, colour = Correct)) +
-  geom_jitter() +
-  scale_x_discrete(labels = levels(nn_dat$class_label)) +
-  scale_y_discrete(labels = levels(nn_dat$class_label)) +
-  theme_bw() +
-  labs(title = title, subtitle = sub_title, x = x_lab, y = y_lab)
-
-# AUC / ROC 
-# ------------------------------------------------------------------------------
-#Calculating True-positive rate (TPR) and False-positive rate (FPR)
-roc <- nn_dat %>% 
-  select(carrier, y_pred) %>%
-  mutate(Positive = carrier == 1) %>%            #Carrier holds the real information (True/False)
-  group_by(y_pred) %>%                            
-  summarise(Positive = sum(Positive),            #Turned to integers
-            Negative = n() - sum(Positive)) %>% 
-  arrange(-y_pred) %>%
-  mutate(TPR = cumsum(Positive) / sum(Positive),
-         FPR = cumsum(Negative) / sum(Negative))
-
-#Calculating the area under the curve (AUC)
-auc_value <- roc %>% 
-  summarise(AUC = sum(diff(FPR) * na.omit(lead(TPR) + TPR)) / 2)
-
-auc_value
-
 # Confusing matrix
 # ------------------------------------------------------------------------------
+nn_dat <- nn_dat %>% 
+  mutate(CM = case_when(y_pred == 1 & carrier == 1 ~ "TP",
+                        y_pred == 1 & carrier == 0 ~ "FP",
+                        y_pred == 0 & carrier == 1 ~ "FN",
+                        y_pred == 0 & carrier == 0 ~ "TN"))
 
+#summaries results of values in new table
+confusion_matrix <- nn_dat %>% 
+  select(CM) %>% 
+  group_by(CM) %>% 
+  summarise(freq = n())
+
+#make tibble
+cm_tibble <- tibble(CM = c("TP", "FN", "TN", "FP"), freq = c(0, 0, 0, 0))
+
+confusion_matrix <- cm_tibble %>% 
+  full_join(confusion_matrix, by = "CM") %>% 
+  mutate(freq = freq.x + freq.y) %>% 
+  select(CM, freq)
+
+
+#Setting up for visulisation
+Actual_values <- factor(c("carrier", "non_carrier", "non_carrier", "carrier"))
+Predicted_values <- factor(c("non_carrier", "carrier", "non_carrier", "carrier"))
+
+Y <- confusion_matrix %>% 
+  select(freq) %>% 
+  unlist(use.names = FALSE)
+
+df <- data.frame(Actual_values, Predicted_values, Y)
+
+confusion_matrix_plot <- df %>% 
+  ggplot(mapping = aes(x = Actual_values, y = Predicted_values)) +
+  geom_tile(aes(fill = Y), colour = "white") +
+  geom_text(aes(label = sprintf("%1.0f", Y))) +
+  scale_fill_gradient(low = "lightblue", high = "lightgreen") +
+  theme_bw() + 
+  theme(legend.position = "none") +
+  labs(x = "Actual values", 
+       y = "Predicted values", 
+       title = "Confusion Matrix of ANN")
 
 # Write data
 # ------------------------------------------------------------------------------
-ggsave(filename = "results/ann_classification.png",
-       plot = plt1,
+ggsave(filename = "results/ann_cm.png",
+       plot = confusion_matrix_plot,
        width = 10,
        height = 6)
 
