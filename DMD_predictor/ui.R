@@ -1,10 +1,11 @@
 # Load libraries
 library(shiny)
+library(shinythemes)
 
 # Define UI for application that draws a histogram
 shinyUI(
-    fluidPage(
-        
+    fluidPage(theme = shinytheme("darkly"),
+        #shinythemes::themeSelector(),
         # App title ----
         titlePanel("DMD predictor"),
         

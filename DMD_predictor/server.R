@@ -97,7 +97,7 @@ shinyServer(function(input, output) {
             xlab("Enzyme level (unit ?!)") + 
             ggtitle("Pyruvate Kinase levels")
         
-        ((dist_pk/dist_h) | (dist_ld/dist_ck)) + 
+        ((dist_ck/dist_h) | (dist_pk/dist_ld)) + 
         plot_layout(guides = "collect") & 
         theme(legend.position = "bottom")
     })

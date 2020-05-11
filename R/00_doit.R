@@ -17,7 +17,8 @@ install_if_needed(c("tidyverse",
                     "purrr",
                     "ggrepel",
                     "shiny",
-                    "patchwork"))
+                    "patchwork",
+                    "shinythemes"))
 
 
 # Run all files -----------------------------------------------------------
