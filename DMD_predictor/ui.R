@@ -1,101 +1,68 @@
-#
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
-
 # Load libraries
 library(shiny)
-library(tidyverse)
-library(keras)
-
-# Load dataframe + model
-ANN_model <- load_model_hdf5("../data/04_ANN_model")
-
-summary(ANN_model)
-
-x <- c(0.029065200, 0.5892857, 0.075559701, 0.29569892)
-
-x_shiny <- matrix(x, nrow = 1, ncol = 4)
-#colnames(x_shiny) <- c("CK_feat", "H_feat", "PK_feat", "LD_feat")
-
-x_shiny
-
-
-# ANN prediction --------------------------------------------
-prediction_ANN <- ANN_model %>% 
-    predict_classes(x_shiny)
-
-prediction_ANN
-
 
 # Define UI for application that draws a histogram
-shinyUI(fluidPage(
-
-    # App title ----
-    titlePanel("DMD predictor"),
-    
-    # Sidebar layout with input and output definitions ----
-    sidebarLayout(
+shinyUI(
+    fluidPage(
         
-        # Sidebar panel for inputs ----
-        sidebarPanel(
-            
-            # Input: Text for providing a caption ----
-            # Note: Changes made to the caption in the textInput control
-            # are updated in the output area immediately as you type
-            textInput(inputId = "caption",
-                      label = "Caption:",
-                      value = "Data Summary"),
-            
-            # Input: Selector for choosing dataset ----
-            selectInput(inputId = "dataset",
-                        label = "Choose a dataset:",
-                        choices = c("rock", "pressure", "cars")),
-            
-            # Input: Numeric entry for number of obs to view ----
-            numericInput(inputId = "obs",
-                         label = "Number of observations to view:",
-                         value = 10),
-            
-            # Input: Numeric entry for number of obs to view ----
-            numericInput(inputId = "pk", 
-                         label = "Pyruvate Kinase (PK)", 
-                         value = 0-110, min = 0, max = 110),
-            
-            # Input: Numeric entry for number of obs to view ----
-            numericInput(inputId = "ck", 
-                         label = "Creatine Kinase (CK)", 
-                         value = 0, min = 0, max = 1300),
-            
-            # Input: Numeric entry for number of obs to view ----
-            numericInput(inputId = "h", 
-                         label = "Hemopexin (H)", 
-                         value = 0, min = 0, max = 120),
-            
-            # Input: Numeric entry for number of obs to view ----
-            numericInput(inputId = "ld", 
-                         label = "Lactate Dehydroginase (LD)", 
-                         value = 0, min = 0, max = 450)
-            
-        ),
+        # App title ----
+        titlePanel("DMD predictor"),
         
-        # Main panel for displaying outputs ----
-        mainPanel(
+        # Sidebar layout with input and output definitions ----
+        sidebarLayout(
             
-            # Output: Formatted text for caption ----
-            h3(textOutput("caption", container = span)),
-            
-            # Output: Verbatim text for data summary ----
-            verbatimTextOutput("summary"),
-            
-            # Output: HTML table with requested number of observations ----
-            tableOutput("view")
+            # Sidebar panel for inputs ----
+            sidebarPanel(
                 
-            )
+                # Input: Selector for choosing dataset ----
+                radioButtons(inputId = "models",
+                             label = "Choose a model:",
+                             choices = c("Linear", "Logistic", "ANN")),
+                
+                sliderInput(inputId = "ck", 
+                            label = "Creatine Kinase (CK)", 
+                            value = 650, min = 0, max = 1300),
+                
+                sliderInput(inputId = "h", 
+                            label = "Hemopexin (H)", 
+                            value = 60, min = 0, max = 120),
+                
+                sliderInput(inputId = "pk", 
+                            label = "Pyruvate Kinase (PK)", 
+                            value = 55, min = 0, max = 110),
+                
+                # Input: Numeric entry for number of obs to view ----
+                sliderInput(inputId = "ld", 
+                            label = "Lactate Dehydroginase (LD)", 
+                            value = 225, min = 0, max = 450),
+                
+                # Include clarifying text ----
+                helpText("Note: while the data view will show only the specified",
+                         "number of observations, the summary will still be based",
+                         "on the full dataset."),
+                
+                # Input: actionButton() to defer the rendering of output ----
+                # until the user explicitly clicks the button (rather than
+                # doing it immediately when inputs change). This is useful if
+                # the computations required to render output are inordinately
+                # time-consuming.
+                actionButton("update", "Update View")
+                
+            ),
+            
+            # Main panel for displaying outputs ----
+            mainPanel(
+                
+                # Output: Formatted text for caption ----
+                tableOutput("values"),
+                
+                verbatimTextOutput("vector"),
+                
+                verbatimTextOutput("results"),
+                
+                textOutput("prediction")
+            )    
         )
+        
     )
 )

@@ -1,63 +1,100 @@
-#
-# This is the server logic of a Shiny web application. You can run the
-# application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
-
 library(shiny)
+library(tidyverse)
+library(keras)
+
+# Define functions --------------------------------------------------------
+#source(file = "../R/99_proj_func.R")
+
+# Load model
+ANN_model <- load_model_hdf5("../data/07_ANN_model") # HUSKE AT TILFØJE ../ på alle PATHS!!!!! inden du kører APPEN
+
+# Load data ---------------------------------------------------------------
+df <- read_tsv(file = "../data/03_aug_data.tsv", 
+               col_types = cols(carrier = col_factor()))
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
-
     
-    # Return the requested dataset ----
-    # By declaring datasetInput as a reactive expression we ensure
-    # that:
-    #
-    # 1. It is only called when the inputs it depends on changes
-    # 2. The computation and result are shared by all the callers,
-    #    i.e. it only executes a single time
-    datasetInput <- reactive({
-        switch(input$dataset,
-               "rock" = rock,
-               "pressure" = pressure,
-               "cars" = cars)
+    enzymesValues <- reactive({
+        
+        data.frame(
+            Name = c("Creatine Kinase",
+                     "Hemopexin",
+                     "Puryvate Kinase",
+                     "Lactate Dehydroginase"),
+            Value = as.character(c(input$ck,
+                                   input$h,
+                                   input$pk,
+                                   input$ld)),
+            stringsAsFactors = FALSE)
+        
     })
     
-    # Create caption ----
-    # The output$caption is computed based on a reactive expression
-    # that returns input$caption. When the user changes the
-    # "caption" field:
-    #
-    # 1. This function is automatically called to recompute the output
-    # 2. New caption is pushed back to the browser for re-display
-    #
-    # Note that because the data-oriented reactive expressions
-    # below don't depend on input$caption, those expressions are
-    # NOT called when input$caption changes
-    output$caption <- renderText({
-        input$caption
+    output$values <- renderTable({
+        enzymesValues()
     })
     
-    # Generate a summary of the dataset ----
-    # The output$summary depends on the datasetInput reactive
-    # expression, so will be re-executed whenever datasetInput is
-    # invalidated, i.e. whenever the input$dataset changes
-    output$summary <- renderPrint({
-        dataset <- datasetInput()
-        summary(dataset)
+    User_vector <- reactive({
+        
+        data.frame(
+            CK_feat = as.numeric(input$ck),
+            H_feat = as.numeric(input$h),
+            PK_feat = as.numeric(input$pk),
+            LD_feat = as.numeric(input$ld),
+            stringsAsFactors = FALSE) %>% 
+            as.matrix
+        
     })
     
-    # Show the first "n" observations ----
-    # The output$view depends on both the databaseInput reactive
-    # expression and input$obs, so it will be re-executed whenever
-    # input$dataset or input$obs is changed
-    output$view <- renderTable({
-        head(datasetInput(), n = input$obs)
+    output$vector <- renderPrint({
+        User_vector()
     })
     
-
+    
+    output$prediction <- renderText({
+        
+        vector <- User_vector()
+        
+        paste0("The predicted class number is ", predict_classes(ANN_model, vector, verbose = 1))
+    })
+    
+    
+    
+    # ANN prediction --------------------------------------------
+    #prediction_ANN <- ANN_model %>% 
+    #predict_classes()
+    #test_matrix <- matrix(c(input$ck, input$h, input$pk, input$ld), nrow = 1)
+    
+    #print(test_matrix)
+    
+    
+    
+    
+    # } else if(modelInput()=="Logistic") {
+    
+    # The Matrix
+    #output$matrix <- renderPrint({
+    # test_matrix <- matrix(c(input$ck, input$h, input$pk, input$ld), nrow = 1)
+    # })
+    
+    # Enzyme levels
+    #output$enzymes <- renderText({
+    # pred_data <- matrix(input$ck, input$h, input$pk, input$ld, nrow = 1)
+    #})
+    
+    
+    # } else if(modelInput()=="ANN") {
+    
+    
+    
+    #asdasdasdasdeasd
+    
+    
+    
+    #}  else{
+    #print("Error no Algorithm selected")
+    # }
+    
+    
+    
 })
