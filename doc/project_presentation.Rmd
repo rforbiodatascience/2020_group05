@@ -20,12 +20,21 @@ knitr::opts_chunk$set(echo = TRUE)
 
 </center>
 
-## Materials and Methods | Selection and preparation of data
+## Materials and Methods | Selection and preparation of data { .smaller}
+Data set of 192 observations, with 10 attributes after cleaning.
 
-- Collected from the 1985 book  
-- Originated from a 1981 study(@Percy1981) 
+- Collected from the 1985 book (@Andrews1985).
+- Originated from a 1981 study (@Percy1981). 
 
-Data set of 192 observations, with 10 attrites after cleaning.
+
+Attributes (11):
+
+<font size="3">
+
+Observation Number, ID, Age, Month, Year, CK, LD, PK, H, Season, Carrier 
+</font>
+
+
 
 
 ## Materials and Methods | Attributes
@@ -33,22 +42,29 @@ Data set of 192 observations, with 10 attrites after cleaning.
 Maybe something about the attributes?
 
 
-| Attributes         | Example       |
-|--------------------|:-------------:|
-| Observation Number | ``1``         | 
-| ID                 | ``509``       |
-| Age                | ``22``        |
-| Month              | ``6``         |
-| Year               | ``1979``      |
-| CK                 | ``52``        |
+
 
 ## Results | Data Visualization
 
 Add some of the visualisation plots 
 
+## Results | PCA {.columns-2 .smaller}
+
+```{r, echo = FALSE, out.width = "300px"}
+knitr::include_graphics("/cloud/project/results/05_PCA_var_exp.png")
+```
+
 ## Results | PCA
 
+```{r, echo = FALSE, fig.cap ="A caption", out.width = "800px"}
+knitr::include_graphics("/cloud/project/results/05_pc1_pc2.png")
+
+```
+
+
 ## Results | Linear Model
+he
+
 
 ## Results | Logistic Model
 
