@@ -1,77 +1,91 @@
-#PC Analysis of the data
+# Principal Component Analysis
 
-# Clear workspace
-# ------------------------------------------------------------------------------
+# Clear workspace ---------------------------------------------------------
 rm(list = ls())
 
-# Load libraries
-# ------------------------------------------------------------------------------
+
+# Load libraries ----------------------------------------------------------
 library("tidyverse")
 library("ggrepel")
 library("broom")
 
-# Define functions
-# ------------------------------------------------------------------------------
+
+# Define functions --------------------------------------------------------
+source(file = "R/99_proj_func.R")
 
 
-# Load data
-# ------------------------------------------------------------------------------
-dmd_data <- read_tsv(file = "data/03_aug_data.tsv")
+# Load data ---------------------------------------------------------------
+data <- read_tsv(file = "data/03_aug_data.tsv")
 
-# Wrangle data
-# ------------------------------------------------------------------------------
-dmd_data <- drop_na(dmd_data) %>%
+
+# Wrangle data ------------------------------------------------------------
+data <- data %>%
   select(carrier, CK, H, PK, LD)
 
-#wrangle and save data
-#makes a 20x20 matrix with the values againt each other 
-dmd_data <- dmd_data %>% 
-  select(carrier:LD) %>%
-  write_tsv(path = "data/04_PCA_table.tsv")
-
-#creation of PCA object
-dmd_pca <- dmd_data %>% 
+# PCA object
+pca_object <- data %>% 
   prcomp(center = TRUE, scale = TRUE)
 
-#get the data we want to show
-dmd_pca_aug <- dmd_pca %>% 
-  augment(dmd_data)
+# Add fitted values to dataframe
+data <- pca_object %>% 
+  augment(data)
 
-#variance explained
-var_exp <- dmd_pca %>% 
+
+# Variance explained plot -------------------------------------------------
+# Extract variance explained
+var_exp <- pca_object %>% 
   tidy("pcs") %>% 
-  pull(percent)
+  pull(cumulative)
+var_exp <- var_exp  * 100
 
-var_exp_plot <- var_exp_plot %>%
+PC <- c("PC1", "PC2", "PC3", "PC4", "PC5")
+
+var_exp_plot_data <- tibble(PC, var_exp)
+
+# Plot
+var_exp_plot <- var_exp_plot_data %>% 
   ggplot(aes(PC, var_exp)) +
   geom_point() + 
-  geom_line()
+  labs(title = "Cumulative variance explained", 
+       x = "Dimension", 
+       y = "Variance explained (%)") +
+  ylim(0, 100)
 
-#getting x and y values of the two PC components we want to plot
-x <- dmd_pca %>% 
+var_exp_plot
+
+
+# PCA plot ----------------------------------------------------------------
+# Extract variance explained by PC1 and PC2 for axis labels
+PC1 <- pca_object %>% 
   tidy("pcs") %>% 
-  filter(PC==1) %>% 
+  filter(PC == 1) %>% 
   pull(percent)
-x <- str_c("PC1 (", round(x*100, 2), "%)")
+PC1 <- str_c("PC1 (", round(PC1 * 100, 2), "%)")
 
-y <- dmd_pca %>%
+PC2 <- pca_object %>%
   tidy("pcs") %>% 
-  filter(PC==2) %>% 
+  filter(PC == 2) %>% 
   pull(percent)
-y <- str_c("PC2 (", round(y*100, 2), "%)")
+PC2 <- str_c("PC2 (", round(PC2 * 100, 2), "%)")
 
-#plotting the PCA
-#PC1 and PC2
-pc1_pc2 <- dmd_pca_aug %>%
-  ggplot(aes(x = .fittedPC1, y = .fittedPC2,
-             colour = factor(carrier))) +
+# Plot PC1 and PC2
+pc1_pc2_plot <- data %>%
+  ggplot(aes(x = .fittedPC1, y = .fittedPC2, colour = factor(carrier))) +
   geom_point(size = 1.0) +
   theme(legend.position = "bottom") +  
-  labs(x = x, y = y, colour = "Carrier Status", title = "Principal Component Analysis (PCA)")
+  labs(x = PC1, 
+       y = PC2, 
+       colour = "Carrier Status", 
+       title = "Principal Component Analysis (PCA)")
 
-# Write data
-# -----------------------------------------------------------------
-ggsave(filename = "results/pc1_pc2.png",
-       plot = pc1_pc2,
+
+# Write data --------------------------------------------------------------
+ggsave(filename = "results/05_PCA_var_exp.png",
+       plot = var_exp_plot,
+       width = 10, 
+       height = 6)
+
+ggsave(filename = "results/05_pc1_pc2.png",
+       plot = pc1_pc2_plot,
        width = 10, 
        height = 6)
