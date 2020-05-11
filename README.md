@@ -44,7 +44,11 @@ Further documentation can be found in the folder doc.
 
 Monday:
 Tobias: 
-- [] Finish Shiny App (make folder or repo as we wish)
+- [x] Adding ANN Classification
+- [] Adding Logistic Classification
+- [] Adding Linear Regression
+- [] Make all four responsive distributions (1/4)
+- [] Make the App look nice n tidy :)))
 
 Cecilie:
 - [x] Make functions work (Non standard evaluation)
@@ -68,6 +72,7 @@ Tuesday:
 - [] Make presentation 
 - [] Written here 'how to run the scripts'
 - [] Go through learning objectives
+- [] Go through all the plots
 
 ----Everything tidy check
 - [] 00_doit
