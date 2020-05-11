@@ -43,8 +43,16 @@ Tuesday:
 - [] Make sure it can run start to finish in one go
 - [] Make presentation 
 - [] Written here 'how to run the scripts'
-- [] Go through scripts to make sure everything is 'Tidy'
 - [] Go through learning objectives
+
+----Everything tidy check
+- [] 00_doit
+- [] 01_load
+- [] 02_clean
+- [] 03_augment
+- [] 04_
+- [] ....
+- [] pca
 
 Wednesday:
 - [] Practice presentation
