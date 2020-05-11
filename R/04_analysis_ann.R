@@ -1,196 +1,180 @@
-# Clear workspace
-# ------------------------------------------------------------------------------
+# Clear Workspace ---------------------------------------------------------
 rm(list = ls())
 
-# Load libraries
-# ------------------------------------------------------------------------------
+# Load libraries ----------------------------------------------------------
 library("tidyverse")
 library("keras")
 library("devtools")
 #install_keras(tensorflow = "1.13.1") # KØR DENNE FØRSTE GANG PÅ DIN RSTUDIO CLOUD
 
-# Define functions
-# ------------------------------------------------------------------------------
+
+# Define functions --------------------------------------------------------
 source(file = "R/99_proj_func.R")
 
-# Load data
-# ------------------------------------------------------------------------------
-df <- read_tsv(file = "data/03_aug_data.tsv", col_types = cols(carrier = col_factor()))
-df <- df %>% drop_na()
+# Load data ---------------------------------------------------------------
+df <- read_tsv(file = "data/03_aug_data.tsv", 
+               col_types = cols(carrier = col_factor()))
 
-# Wrangle data
-# ------------------------------------------------------------------------------
+# Wrangle data ------------------------------------------------------------
 nn_dat <- df %>% 
   select(CK, H, PK, LD, carrier) %>% 
-    mutate(CK = normalize(CK),
-           H = normalize(H),
-           PK = normalize(PK),
-           LD = normalize(LD)) %>% 
-      rename(CK_feat = CK,
-             H_feat = H,
-             PK_feat = PK,
-             LD_feat = LD) %>% 
-        mutate(class_num = as.numeric(carrier) - 1,
-               class_label = ifelse(carrier == 0, 'non-carrier', 'carrier'))
+  mutate(CK = normalize(CK),
+         H  = normalize(H),
+         PK = normalize(PK),
+         LD = normalize(LD)) %>% 
+  rename(CK_feat = CK,
+         H_feat  = H,
+         PK_feat = PK,
+         LD_feat = LD) %>% 
+  mutate(class_num = as.numeric(carrier) - 1,
+         class_label = ifelse(carrier == 0, "non-carrier", "carrier"))
 
-nn_dat %>% 
+nn_dat %>%
   head(3)
 
-# Split into training/test set
-# ------------------------------------------------------------------------------
-test_f <- 0.20
-nn_dat <- nn_dat %>%
-  mutate(partition = sample(x = c('train','test'),
-                            size = nrow(.),
-                            replace = TRUE,
-                            prob = c(1 - test_f, test_f)))
+# Split into training/test set --------------------------------------------
+# Stratification
+test_size <- 0.25
+
+nn_dat_test <- nn_dat %>%
+  group_by(carrier) %>% 
+  sample_frac(size = test_size,
+              replace = FALSE) %>% 
+  mutate(partition = "test")
+
+nn_dat <- nn_dat %>% 
+  full_join(nn_dat_test) %>%
+  replace_na(list(partition = "train"))
 
 nn_dat %>% count(partition)
 
 # Train partition
 x_train <- nn_dat %>%
-  filter(partition == 'train') %>%
+  filter(partition == "train") %>%
   select(contains("feat")) %>%
   as.matrix
 
 y_train <- nn_dat %>%
-  filter(partition == 'train') %>%
+  filter(partition == "train") %>%
   pull(carrier) %>% 
   to_categorical(2)
 
 # Test partition
 x_test <- nn_dat %>%
-  filter(partition == 'test') %>%
+  filter(partition == "test") %>%
   select(contains("feat")) %>%
   as.matrix
 
 y_test <- nn_dat %>%
-  filter(partition == 'test') %>%
+  filter(partition == "test") %>%
   pull(carrier) %>% 
   to_categorical(2)
 
-# Define the model
-# ------------------------------------------------------------------------------
+# Model building --------------------------------------------------------
 model <- keras_model_sequential() %>% 
-  layer_dense(units = 4, activation = 'relu', input_shape = 4, kernel_initializer = 'random_normal') %>% 
-  layer_dense(units = 3, activation = 'relu', kernel_initializer = 'random_normal') %>% 
-  layer_dense(units = 2, activation = 'sigmoid', kernel_initializer = 'random_normal')
+  layer_dense(units = 4, activation = "relu", kernel_initializer = "random_normal", input_shape = 4) %>% 
+  layer_dense(units = 3, activation = "relu", kernel_initializer = "random_normal") %>% 
+  layer_dense(units = 2, activation = "sigmoid", kernel_initializer = "random_normal")
+
+# NOTE: relu is very computational efficient, quick convergence. sigmoid is computational 
+# expensive but gives clear predictions.
+# Input shape = 4 because we have four variables. 
+# kernel_initializer = the start weights, random_normal takes random values from a normal distribution
+# units = number of hidden units, input should be same as amount of variables, output layer should 
+# be 1 when it is a classifier like ours, hidden layer somewhere in between.
 
 # Compile model
 model %>%
-  compile(loss = 'binary_crossentropy',
-          optimizer = 'adam',
-          metrics = c('accuracy'))
+  compile(loss      = "binary_crossentropy",
+          optimizer = "adam",
+          metrics   = c("accuracy"))
+
+# NOTE: binary_crossentropy is the default and preferred loss function for binary classification problem
 
 model %>%
   summary
 
-# Train the ANN
-# ------------------------------------------------------------------------------
+
+# Train the ANN -----------------------------------------------------------
 history <- model %>%
-          fit(x = x_train,
-              y = y_train,
-              epochs = 300,
-              batch_size = 10)
+  fit(x = x_train,
+      y = y_train,
+      epochs = 200,
+      batch_size = 10)
 
-plot(history) 
+ANN_plot <- plot(history) 
 
-# Evaluate network performance
-perf <- model %>% 
-       evaluate(x_test, y_test)
-perf
+
+# Evaluate network performance --------------------------------------------
+performance <- model %>% 
+  evaluate(x_test, y_test)
+performance
 
 nn_dat <- nn_dat %>%
-  filter(partition == 'test') %>%
+  filter(partition == "test") %>%
   mutate(class_num = factor(class_num),
-         y_pred = factor(predict_classes(model, x_test)),
-         Correct = factor(ifelse(class_num == y_pred, "Yes", "No")))
+         y_pred    = factor(predict_classes(model, x_test)),
+         Correct   = factor(ifelse(class_num == y_pred, "Yes", "No")))
 
-plot_dat %>% 
+nn_dat %>% 
   select(-contains("feat")) %>% 
   head(3)
 
-# Visualization
-# ------------------------------------------------------------------------------
-title     = "Classification Performance of Artificial Neural Network"
-sub_title = str_c("Accuracy = ", round(perf$acc, 3) * 100, "%")
-x_lab     = "True carrier"
-y_lab     = "Predicted carrier"
-plt1 <- plot_dat %>% 
-  ggplot(aes(x = class_num, y = y_pred, colour = Correct)) +
-  geom_jitter() +
-  scale_x_discrete(labels = levels(nn_dat$class_label)) +
-  scale_y_discrete(labels = levels(nn_dat$class_label)) +
-  theme_bw() +
-  labs(title = title, subtitle = sub_title, x = x_lab, y = y_lab)
+# Confusion matrix --------------------------------------------------------
+# Calculate: true positives (TP), true negatives (TN), 
+#            false positives (FP) and false negatives (FN)
 
-# Confusing matrix
-# ------------------------------------------------------------------------------
-confmatplot <- function(G, GHAT){
-  # Plot confusion matrix based on the true labels in G and the predicted labels in GHAT
-  #
-  # Author: Laura Frølich, lff@imm.dtu.dk
-  # Edited by (november 2018): Martin J�rgensen, marjor@dtu.dk
-  
-  cm =  table(G, GHAT)
-  classes <- sort(unique(c(G, GHAT))) # classes in alphabetical order
-  nclasses <- length(classes)
-  
-  if(dim(cm)[2]<nclasses){
-    presentCols <- colnames(cm)
-    matchingcols <- match(presentCols, classes)
-    mismatchingcols <- (1:nclasses)[-matchingcols]
-    while(length(mismatchingcols)!=0){
-      icol <- mismatchingcols[1]
-      ## new code
-      if(icol == 1){
-        cm <- cbind(rep(0, times = dim(cm)[1]), cm[,1:dim(cm)[2]])
-      }else if( icol == nclasses){
-        cm <- cbind(cm[,1:dim(cm)[2]],rep(0, times = dim(cm)[1]))
-      }else{
-        cm <- cbind(cm[,1:(icol-1)],rep(0,times = dim(cm)[1]),cm[,icol:dim(cm)[2]])
-      }
-      mismatchingcols <- mismatchingcols[-1]
-      ##
-    }
-    colnames(cm) <- classes[1:dim(cm)[2]]
-    presentCols <- colnames(cm)
-    matchingcols <- match(presentCols, classes)
-    mismatchingcols <- (1:nclasses)[-matchingcols]
-  }  
-  
-  
-  nclasses <- dim(cm)[1]
-  classNames <- colnames(cm)
-  
-  image(1:nclasses, 1:nclasses, t(cm[nclasses:1,]), 
-        main='Confusion matrix', xlab='Predicted carrier', ylab="Actual carrier", xaxt="n", yaxt="n", col=heat.colors(nclasses^2)[(nclasses^2):1])
-  
-  errorrate <- (sum(cm)-sum(diag(cm)))/sum(cm)*100 # error rate
-  accuracy <- (sum(diag(cm)))/sum(cm)*100 # accuracy
-  
-  mtext(paste('Accuracy = ', round(accuracy, digits = 2), '%, Error Rate = ', round(errorrate, digits = 2), '%', sep=''))
-  
-  axisseq <- 1:nclasses
-  axis(1, at=axisseq, labels=FALSE)
-  axis(2, at=axisseq, labels=FALSE)
-  
-  text(par("usr")[1] - 0.15, axisseq, srt = 90, adj = 0.5, labels = classNames[length(classNames):1], xpd = TRUE) #?
-  text(axisseq, par("usr")[3] - 0.15, srt = 0, adj = 0.5, labels = classNames, xpd = TRUE)
-  
-  for(iclass in 1:nclasses){
-    for(jclass in 1:nclasses){
-      text(jclass, iclass, labels=cm[length(classNames)-iclass+1,jclass])
-    }
-  }
-}
+TP <- nn_dat %>% 
+  filter(carrier == 1 & y_pred == 1) %>% 
+  nrow()
 
-confmatplot(as.numeric(nn_dat$class_num)-1, as.numeric(nn_dat$y_pred)-1)
+TN <- nn_dat %>% 
+  filter(carrier == 0 & y_pred == 0) %>% 
+  nrow()
+
+FP <- nn_dat %>% 
+  filter(carrier == 0 & y_pred == 1) %>% 
+  nrow()
+
+FN <- nn_dat %>% 
+  filter(carrier == 1 & y_pred == 0) %>% 
+  nrow()
+
+# Collect into a matrix and add values for visualisation
+confusion_matrix <- c(TP, TN, FP, FN)
+Actual_values    <- factor(c(1, 0, 0, 1))
+Predicted_values <- factor(c(1, 0, 1, 0))
+goodbad          <- factor(c("good", "good", "bad", "bad"))
+confusion_df     <- tibble(confusion_matrix, Actual_values, Predicted_values, goodbad)
+
+# Plot
+confusion_matrix_plot <- confusion_df %>% 
+  ggplot(mapping = aes(x = Actual_values, y = Predicted_values, fill = goodbad)) +
+  geom_tile(color = "grey", size = 1, alpha = 0.9) +
+  geom_text(aes(label = sprintf("%1.0f", confusion_matrix)), fontface = "bold", size = 10) +
+  #scale_fill_gradient(low = "lightblue", high = "lightgreen") +
+  scale_fill_manual(values = c(good = "forestgreen", bad = "indianred3")) +
+  theme_bw() + 
+  theme(legend.position = "none") +
+  labs(x = "Actual values", 
+       y = "Predicted values", 
+       title = "Confusion Matrix of Artificial Neural Network",
+       subtitle = str_c("Accuracy = ", round(perf$acc, 3) * 100, "%"))
+
+confusion_matrix_plot
 
 # Write data
 # ------------------------------------------------------------------------------
-ggsave(filename = "results/ann_classification.png",
-       plot = plt1,
-       width = 10,
-       height = 6)
+ggsave(filename = "results/ann_confusion_matrix.png",
+       plot     = confusion_matrix_plot,
+       width    = 10,
+       height   = 6)
 
+ggsave(filename = "results/ann_training.png",
+       plot     = ANN_plot,
+       width    = 10,
+       height   = 6)
+
+# Save ANN model for Shiny-App
+save_model_hdf5(model, 
+                filepath = "data/04_ANN_model")

@@ -15,8 +15,6 @@ library("patchwork")
 # ------------------------------------------------------------------------------
 data <- read_tsv(file = "data/03_aug_data.tsv") %>% 
   mutate(carrier = factor(carrier))
-# col_types = cols(col_factor(carrier))) 
-View(data)
 
 
 # Wrangle data
@@ -31,24 +29,50 @@ data_subset <- data %>%
 # ----------------Age Distribution----------------------------
 #Age distribution of the data: 
 age_distribution <- data %>% 
-  ggplot(mapping = aes(x = Age, fill = carrier, alpha = 0.5)) +
-  geom_density() + 
+  ggplot(mapping = aes(x = Age, fill = carrier)) +
+  geom_density(alpha = 0.5) + 
   labs(title = "Distribution of Age and Carrier")
+
+
+#----------------Protein levels density----------------------
+pl_ck <- data %>% 
+  ggplot(mapping = aes(x = CK, fill = carrier)) +
+  geom_density(alpha = 0.5) + 
+  labs(title = "Density plot of the CK values")
+
+pl_ck <- data %>% 
+  density_plot(CK)
+density_plot(data$CK)
+
+pl_h <- data %>% 
+  ggplot(mapping = aes(x = H, fill = carrier)) +
+  geom_density(alpha = 0.5) + 
+  labs(title = "Density plot of the H values")
+
+pl_pk <- data %>% 
+  ggplot(mapping = aes(x = PK, fill = carrier)) +
+  geom_density(alpha = 0.5) + 
+  labs(title = "Density plot of the PK value")
+
+pl_ld <- data %>% 
+  ggplot(mapping = aes(x = LD, fill = carrier)) +
+  geom_density(alpha = 0.5) + 
+  labs(title = "Density plot of the LD value")
+
+density_proteins <- ((pl_pk/pl_h) | (pl_ld/pl_ck))
 
 #----------------Age and Protein-----------------------------
 #Is there a clear pattern depending on age? 
 pl2_ck <- data_subset %>% 
-  ggplot(mapping = aes(x = age_group, y = CK, fill = carrier), 
-         alpha = 0.5) +
-  geom_boxplot() + 
+  ggplot(mapping = aes(x = age_group, y = CK, fill = carrier)) +
+  geom_boxplot(alpha = 0.5) + 
   labs(title = "Distribution of levels of creatine kinase (CK) to age",
        x = "Age Group") +
   theme(legend.position = "none")
 
 pl2_ld <- data_subset %>% 
-  ggplot(mapping = aes(x = age_group, y = LD, fill = carrier), 
-         alpha = 0.5) +
-  geom_boxplot() + 
+  ggplot(mapping = aes(x = age_group, y = LD, fill = carrier)) +
+  geom_boxplot(alpha = 0.5) + 
   labs(title = "Distribution of levels of LD to age",
        x = "Age Group")+
   theme(legend.position = "none")
@@ -56,9 +80,8 @@ pl2_ld <- data_subset %>%
 
 #Age groups, using grid to make two plots at once
 pl2_age_group <- data_subset %>% 
-  ggplot(mapping = aes(x = age_group, y = Level, fill = carrier), 
-         alpha = 0.8) +
-  geom_boxplot()+
+  ggplot(mapping = aes(x = age_group, y = Level, fill = carrier)) +
+  geom_boxplot(alpha = 0.5)+
   labs(title = 'The levels of H and PK shown among age groups', 
        fill = "Carrier Status",
        x = "Age group",
@@ -88,7 +111,6 @@ pl3_pk_ld <- data %>%
   ggplot(mapping = aes(x = PK, y = LD, fill = carrier)) +
   geom_point(pch = 21) +
   labs(title = "Distribution of levels of PK and LD")
-pl3_pk_ld
 
 pl3_pk_h <- data %>% 
   ggplot(mapping = aes(x = PK, y = H, fill = carrier)) +
@@ -109,6 +131,11 @@ ggsave(filename = "results/age_distribution.png",
        plot = age_distribution,
        width = 10,
        height = 6)
+
+ggsave(filename = "results/density_proteins.png",
+       plot = density_proteins,
+       width = 10, 
+       height = 10)
 
 ggsave(filename = "results/age_groups_protein_levels.png",
        plot = protein_ages,

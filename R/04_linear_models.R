@@ -13,15 +13,7 @@ library("tidymodels")
 
 # Define functions
 # ------------------------------------------------------------------------------
-log_reg_model_def <- function(df) {
-  glm(carrier ~ PK + LD + H + CK, 
-      family = binomial(link = "logit"), 
-      data = data)}
-
-#obs - this is not used: 
-simple_model_def <- function(df) {
-  lm(carrier ~ LD + H + PK + CK,
-     data = data)}
+source(file = "R/99_proj_func.R")
 
 
 # Load data
@@ -44,15 +36,22 @@ data_batch <- data_batch %>%
 
 #Adding a linear model and the using the holdout to predict
 data_batch <- data_batch %>% 
-  mutate(models = map(.x = modeldata, .f = log_reg_model_def)) %>%  #Adding model
-  mutate(pred = map2(models, leaveout, predict)) %>%                #Adding prediction
-  unnest(pred, leaveout)                                            #Unpacking dataframes
+  mutate(simple_model = map(.x = modeldata, .f = simple_model_def),       #Adding simpel model
+         log_model = map(.x = modeldata, .f = log_reg_model_def)) %>%  #Adding log model
+  mutate(pred_log = map2(log_model, leaveout, predict),
+         pred_sim = map2(simple_model, leaveout, predict)) %>%            #Adding prediction from log
+  unnest(pred_log, pred_sim, leaveout)                                            #Unpacking dataframes
+
+
+data_batch <- data_batch %>% 
+  pivot_longer(c(log_model, simple_model), names_to = "Model_Type", values_to = "models") %>% 
+  pivot_longer(c(pred_log, pred_sim), names_to = "pred_type", values_to = "pred")
 
 #Calculating True-positive rate (TPR) and False-positive rate (FPR)
 roc <- data_batch %>% 
-  select(carrier, pred) %>%
+  select(pred_type, Model_Type, carrier, pred) %>%
   mutate(Positive = carrier == 1) %>%            #Carrier holds the real information (True/False)
-  group_by(pred) %>%                            
+  group_by(pred_type, pred) %>%                            
   summarise(Positive = sum(Positive),            #Turned to integers
             Negative = n() - sum(Positive)) %>% 
   arrange(-pred) %>%
@@ -60,7 +59,7 @@ roc <- data_batch %>%
          FPR = cumsum(Negative) / sum(Negative))
 
 #Calculating the area under the curve (AUC)
-auc_value <- roc %>% 
+auc_value <- roc %>% group_by(pred_type) %>% 
   summarise(AUC = sum(diff(FPR) * na.omit(lead(TPR) + TPR)) / 2)
 auc_value
 
@@ -98,10 +97,13 @@ df <- data.frame(Actual_values, Predicted_values, Y)
 # Visualise
 # ------------------------------------------------------------------------------
 roc_plot <- roc %>% 
-  ggplot(aes(FPR, TPR)) +
-  geom_line(color = "blue") +
+  ggplot(aes(FPR, TPR, color = pred_type)) +
+  geom_line() +
   theme_bw()+
-  labs(title = "ROC plot with logistic regression model", subtitle = "AUC = 0.945") 
+  labs(title = "ROC plot with logistic regression model", 
+       subtitle = str_c("AUC Log model = ", round(auc_value$AUC[1],3), "   ", 
+                        "AUC Simple Model = ", round(auc_value$AUC[2], 3)))
+roc_plot
 
 confusion_matrix_plot <- df %>% 
   ggplot(mapping = aes(x = Actual_values, y = Predicted_values)) +
