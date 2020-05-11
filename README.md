@@ -1,18 +1,41 @@
 # 2020_group05
-## Description of the data: 
-209 observations correspond to blood samples on 192 patients (17 patients have two samples in the dataset)
+## Description: 
+Duchenne Muscular Dystrophy (DMD) is a rare, genetic disorder that causes progressive degeneration and atrophy of skeletal and heart muscles. Most females with this mutation show no evidence of muscular weakness, but they are able to pass the mutation on to their offspring without showing any symptoms.our enzyme and serum proteins have been linked to carrier status in asymptomatic females. These include creatine kinase (CK), hemopexin (H), lactate dehydroginase (LD) and pyruvate kinase (PK), which are measured in blood samples from serum. 
 
-### Background for study: 
-Enzyme levels were measured in known carriers (75 samples) and in a group of non-carriers (134 samples). 
-Anomaly of the dataset: 16 out of 17 subjects having two blood samples drawn had differing carrier status for the two observations.
+## Data:
+The raw data consist of two datasets. One contains 209 observations from bloodsamples, with 13 variables. Most importantly, the measured enzyme levels of the four serum markers. The other dataset contains the information on which observation is a carrier (75 samples) or non-carrier (134 samples). 
+Other varibles such as hospital id, age and data of sample is also included in the data. 
 
-### Goals:
-Investigate the chance of a women being a carrier of DMD  based on serum markers and family pedigree. 
-Another question of interest is whether age and season should be taken into account. It is of interest to measure how much pk and ld add toward predicting the carrier status. The importance of age and sample date is also of interest.
+### Goal:
+Create different models which can asses if the woman is likely to be a carrier or not.  
+
+## Software Requirements:
+* R 
+
+R packages: 
+
+* Tidyverse
+* Devtools
+* Keras
+* rsample
+* tidymodels
+* broom 
+* purr
+* ggrepel
+* shiny
+* patchwork
  
-## Running the scripts:
-In the folder 'R', the script 00_doit.R is placed. Run this script and it will check that all nessary packages are installed and download them in case they are not. 
-Then the script will run every script in the correct order. All generated data will be placed in data, while the outputted plots will can be found in results. 
+## Installation:
+The following code download this data analysis pipeline, when run in the terminal: ??
+
+```{r}
+git clone https://github.com/rforbiodatascience/2020_group05
+```
+ 
+## Usage:
+In the '/R' run '00_doit.R'.
+It will check that all nessary packages are installed and download them in case they are not. 
+Then the script will run every script in the correct order. All generated data will be placed in '/data', while the outputted plots will can be found in '/results'. 
 Further documentation can be found in the folder doc.
 
 
