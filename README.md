@@ -20,25 +20,31 @@ Further documentation can be found in the folder doc.
 ## To do List: 
 
 Monday:
-- [] Finish Shiny App
-- [] Make functions work 
-- [] make function for confusionmatrix 
+Tobias: 
+- [] Finish Shiny App (make folder or repo as we wish)
+
+Cecilie:
+- [] Make functions work (Non standard evaluation)
+- [X] Make function for confusionmatrix 
+
+Astrid: 
+- [] correct linar model confusion matrix 
+- [] change name of simple model
+
+Carina:
+- [] Change confusion matrix axis reversed
+- [] Plots good names and numbers
+
 - [x] Make stratification for ANN work 
-- [] Maybe add AGE as a variable to the models?
+- [X] Maybe add AGE as a variable to the models? - No see plot
+
 
 Tuesday:
 - [] Make sure it can run start to finish in one go
-- [] Finished markdown
+- [] Make presentation 
 - [] Written here 'how to run the scripts'
 - [] Go through scripts to make sure everything is 'Tidy'
 - [] Go through learning objectives
 
 Wednesday:
 - [] Practice presentation
-
-## Questions
-- Hvordan skal det skrives/presenteres?
-- Er præsentation 20 min? 
-- Functioner virker ikke..??
-- Shiny app, skal vi have flere modeller eller bare én
-- Skal den have sit eget repo. 
