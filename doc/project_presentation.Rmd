@@ -1,0 +1,48 @@
+---
+title: "Project presentation"
+author: "Astrid, Carina, Cecilie and Tobias"
+date: "11/05/2020"
+output: ioslides_presentation
+bibliography: R-course.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+## Materials and Methods | Pipeline for project
+
+<center>
+
+![*Figure 1: Flowchart showing the pipeline for the project.*](/cloud/project/doc/pictures/pipeline.png){width=800px}
+
+</center>
+
+## Materials and Methods | Selection and preparation of data
+
+Some words about the data
+
+- selection of the data
+- other things
+
+## Materials and Methods | Attributes
+
+Maybe something about the attributes?
+
+
+| Attributes         | Example       |
+|--------------------|:-------------:|
+| Observation Number | ``1``         | 
+| ID                 | ``509``       |
+| Age                | ``22``        |
+| Month              | ``6``         |
+| Year               | ``1979``      |
+| CK                 | ``52``        |
+
+## Results | Data Visualization
+
+Add some of the visualisation plots 
+
+
