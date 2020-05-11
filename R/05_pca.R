@@ -44,15 +44,24 @@ var_exp_plot_data <- tibble(PC, var_exp)
 
 # Plot
 var_exp_plot <- var_exp_plot_data %>% 
-  ggplot(aes(PC, var_exp)) +
+  ggplot(mapping = aes(PC, var_exp)) +
   geom_point() + 
   labs(title = "Cumulative variance explained", 
        x = "Dimension", 
        y = "Variance explained (%)") +
   ylim(0, 100)
 
-var_exp_plot
+var_exp_plot <- var_exp_plot_data %>% 
+  ggplot(mapping = aes(x = PC, y = var_exp)) +
+  geom_bar(stat = "identity", width = 0.5) +
+  geom_line(group = 1) +
+  geom_point(group = 1) +
+  grids() +
+  labs(title = "Cumulative variance explained", 
+       x = "Dimension", 
+       y = "Variance explained (%)")
 
+var_exp_plot
 
 # PCA plot ----------------------------------------------------------------
 # Extract variance explained by PC1 and PC2 for axis labels
