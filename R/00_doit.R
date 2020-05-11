@@ -1,9 +1,10 @@
-# Run all scripts!
-# ------------------------------------------------------------------------------
+
+# Set working directory ---------------------------------------------------
 setwd('/cloud/project/')
 
-# Checking for the required packages
-# download if not present
+
+# Check packages ----------------------------------------------------------
+# Checking for the required packages download if not present
 packages <- c("tidyverse",
               "devtools",
               "keras",
@@ -17,6 +18,8 @@ packages <- c("tidyverse",
 
 install.packages(setdiff(packages, rownames(installed.packages())))
 
+
+# Run all files -----------------------------------------------------------
 source(file = "R/01_load.R")
 source(file = "R/02_clean.R")
 source(file = "R/03_augment.R")
