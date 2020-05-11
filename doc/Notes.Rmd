@@ -1,0 +1,19 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Begrundelser for valg i ANN: 
+NOTE: 
+relu is very computational efficient, quick convergence. sigmoid is computational 
+expensive but gives clear predictions.
+
+Input shape = 4 because we have four variables. 
+
+kernel_initializer = the start weights, random_normal takes random values from a normal distribution
+
+units = number of hidden units, input should be same as amount of variables, output layer should be 1 when it is a classifier like ours, hidden layer somewhere in between.
+
+binary_crossentropy is the default and preferred loss function for binary classification problem
+
+
