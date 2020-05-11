@@ -28,12 +28,13 @@ Cecilie:
 - [X] Make function for confusionmatrix 
 
 Astrid: 
-- [] correct linar model confusion matrix 
-- [] change name of simple model
+- [X] correct linar model confusion matrix 
+- [X] change name of simple model
 
 Carina:
-- [] Change confusion matrix axis reversed
+- [X] Change confusion matrix axis reversed
 - [] Plots good names and numbers
+- [] Begin tidycheck
 
 - [x] Make stratification for ANN work 
 - [X] Maybe add AGE as a variable to the models? - No see plot
