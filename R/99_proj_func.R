@@ -35,26 +35,16 @@ simple_model_def <- function(df) {
   lm(carrier ~ LD + H + PK + CK,
      data = data)}
 
-<<<<<<< HEAD
-#density plot function
-density_plot <- function(data, x_p, title_input) {
-=======
 # Density plot function
-density_plot <- function(data, x_p) {
->>>>>>> 85f5cdcc837eb4aa40924a95b79aabd15e7de589
+density_plot <- function(data, x_p, title_input) {
     ggplot(data = data, 
            mapping = aes(x = {{x_p}}, fill = carrier)) +
     geom_density(alpha = 0.5) + 
     labs(title = title_input)
 }
 
-<<<<<<< HEAD
-#Boxplot function 
-boxplot_func <- function(data, x_protein, age_group, title_input, x_label_input){
-=======
 # Boxplot function 
-boxplot_func <- function(x_protein){
->>>>>>> 85f5cdcc837eb4aa40924a95b79aabd15e7de589
+boxplot_func <- function(data, x_protein, age_group, title_input, x_label_input){
   ggplot(data = data, 
          mapping = aes(x = {{age_group}}, y = {{x_protein}}, fill = carrier)) +
   geom_boxplot(alpha = 0.5) + 
@@ -63,16 +53,10 @@ boxplot_func <- function(x_protein){
   theme(legend.position = "none")
 }
 
-<<<<<<< HEAD
-#Scatterplot function
+# Scatterplot function
 scatter_func <- function(data, x_protein, y_protein, title_input){
   ggplot(data = data,
          mapping = aes(x = {{x_protein}}, y = {{y_protein}}, fill = carrier)) +
-=======
-# Scatterplot function
-scatter_func <- function(x_protein, y_protein){
-  ggplot(mapping = aes(x = x_protein, y = y_protein, fill = carrier)) +
->>>>>>> 85f5cdcc837eb4aa40924a95b79aabd15e7de589
   geom_point(pch = 21) + 
   labs(title = title_input)
 }
