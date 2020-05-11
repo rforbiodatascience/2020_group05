@@ -16,9 +16,9 @@ simple_model_def <- function(df) {
      data = data)}
 
 #density plot function
-density_plot <- function(x_p) {
+density_plot <- function(data, x_p) {
     ggplot(data = data, 
-           mapping = aes(x = x_p, fill = carrier)) +
+           mapping = aes(x = {{x_p}}, fill = carrier)) +
     geom_density(alpha = 0.5) + 
     labs(title = "Density plot of the CK values")
 }
@@ -41,15 +41,15 @@ scatter_func <- function(x_protein, y_protein){
 }
 
 #Confusion matrix plot:
-confusion_matrix_plot <- function(Actual_values, Predicted_values, Y, title_input){
-  ggplot(mapping = aes(x = Actual_values, y = Predicted_values)) +
-  geom_tile(aes(fill = Y), colour = "white") +
-  geom_text(aes(label = sprintf("%1.0f", Y))) +
-  scale_fill_gradient(low = "lightblue", high = "lightgreen") +
+confusion_matrix_plot <- function(Actual_values, Predicted_values, confusion_matrix, goodbad, title_input, subtitle_input){
+  ggplot(mapping = aes(x = Actual_values, y = Predicted_values, fill = goodbad)) +
+  geom_tile(color = "grey", size = 1, alpha = 0.9) +
+  geom_text(aes(label = sprintf("%1.0f", confusion_matrix)), fontface = "bold", size = 10) +
+  scale_fill_manual(values = c(good = "forestgreen", bad = "indianred3")) +
   theme_bw() + 
   theme(legend.position = "none") +
   labs(x = "Actual values", 
        y = "Predicted values", 
-       title = title_input)
-       #subtitle = "Threshold = 0.5")
+       title = title_input,
+       subtitle = subtitle_input)
 }

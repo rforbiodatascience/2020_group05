@@ -11,6 +11,9 @@ rm(list = ls())
 library("tidyverse")
 library("patchwork")
 
+# 
+source(file = "R/99_proj_func.R")
+
 # Load data
 # ------------------------------------------------------------------------------
 data <- read_tsv(file = "data/03_aug_data.tsv") %>% 
@@ -41,7 +44,8 @@ pl_ck <- data %>%
   labs(title = "Density plot of the CK values")
 
 pl_ck <- data %>% 
-  density_plot(CK)
+  density_plot(x_p = CK)
+#non-standard evaluation
 density_plot(data$CK)
 
 pl_h <- data %>% 

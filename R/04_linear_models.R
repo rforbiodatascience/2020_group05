@@ -1,4 +1,3 @@
-# LINEAR MODELS AND SO ON!!!!!!
 # Clear workspace
 # ------------------------------------------------------------------------------
 rm(list = ls())
@@ -82,9 +81,6 @@ confusion_matrix <- data_batch %>%
   group_by(CM) %>% 
   summarise(freq = n())
 
-#Setting up for visulisation
-Actual_values <- factor(c("carrier", "non_carrier", "non_carrier", "carrier"))
-Predicted_values <- factor(c("non_carrier", "carrier", "non_carrier", "carrier"))
 
 Y <- confusion_matrix %>% 
   select(freq) %>% 
@@ -105,6 +101,19 @@ roc_plot <- roc %>%
                         "AUC Simple Model = ", round(auc_value$AUC[2], 3)))
 roc_plot
 
+# Confusion matrix
+confusion_matrix <- Y
+Actual_values    <- factor(c(1, 0, 0, 1))
+Predicted_values <- factor(c(1, 0, 1, 0))
+goodbad          <- factor(c("good", "good", "bad", "bad"))
+
+CM_plot <- confusion_matrix_plot(Actual_values = Actual_values,
+                                 Predicted_values = Predicted_values,
+                                 confusion_matrix = confusion_matrix,
+                                 goodbad = goodbad,
+                                 title_input = "Confusion Matrix of Logistic Model",
+                                 subtitle_input = str_c("Threshold = 0.5"))
+
 CM_plot <- confusion_matrix_plot(Actual_values = Actual_values, 
                       Predicted_values = Predicted_values,
                       Y = Y,
@@ -119,7 +128,7 @@ ggsave(filename = "results/roc_log.png",
        height = 6)
 
 ggsave(filename = "results/confusion_matrix.png",
-       plot = confusion_matrix_plot,
+       plot = CM_plot,
        width = 10, 
        height = 6)
 

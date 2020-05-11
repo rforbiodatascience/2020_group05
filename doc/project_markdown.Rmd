@@ -1,6 +1,6 @@
 ---
 title: "Project"
-output: html_document
+output: ioslides_presentation
 bibliography: R-course.bib
 ---
 

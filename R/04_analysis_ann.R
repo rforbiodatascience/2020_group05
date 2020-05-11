@@ -145,28 +145,18 @@ confusion_matrix <- c(TP, TN, FP, FN)
 Actual_values    <- factor(c(1, 0, 0, 1))
 Predicted_values <- factor(c(1, 0, 1, 0))
 goodbad          <- factor(c("good", "good", "bad", "bad"))
-confusion_df     <- tibble(confusion_matrix, Actual_values, Predicted_values, goodbad)
 
-# Plot
-confusion_matrix_plot <- confusion_df %>% 
-  ggplot(mapping = aes(x = Actual_values, y = Predicted_values, fill = goodbad)) +
-  geom_tile(color = "grey", size = 1, alpha = 0.9) +
-  geom_text(aes(label = sprintf("%1.0f", confusion_matrix)), fontface = "bold", size = 10) +
-  #scale_fill_gradient(low = "lightblue", high = "lightgreen") +
-  scale_fill_manual(values = c(good = "forestgreen", bad = "indianred3")) +
-  theme_bw() + 
-  theme(legend.position = "none") +
-  labs(x = "Actual values", 
-       y = "Predicted values", 
-       title = "Confusion Matrix of Artificial Neural Network",
-       subtitle = str_c("Accuracy = ", round(perf$acc, 3) * 100, "%"))
-
-confusion_matrix_plot
+CM_plot <- confusion_matrix_plot(Actual_values = Actual_values,
+                                 Predicted_values = Predicted_values,
+                                 confusion_matrix = confusion_matrix,
+                                 goodbad = goodbad,
+                                 title_input = "Confusion Matrix of Artificial Neural Network",
+                                 subtitle_input = str_c("Accuracy = ", round(performance$acc, 3) * 100, "%"))
 
 # Write data
 # ------------------------------------------------------------------------------
 ggsave(filename = "results/ann_confusion_matrix.png",
-       plot     = confusion_matrix_plot,
+       plot     = CM_plot,
        width    = 10,
        height   = 6)
 
