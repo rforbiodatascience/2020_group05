@@ -10,28 +10,49 @@ Anomaly of the dataset: 16 out of 17 subjects having two blood samples drawn had
 Investigate the chance of a women being a carrier of DMD  based on serum markers and family pedigree. 
 Another question of interest is whether age and season should be taken into account. It is of interest to measure how much pk and ld add toward predicting the carrier status. The importance of age and sample date is also of interest.
  
-##How to run the scripts
-Add text here!
+## Running the scripts:
+In the folder 'R', the script 00_doit.R is placed. Run this script and it will check that all nessary packages are installed and download them in case they are not. 
+Then the script will run every script in the correct order. All generated data will be placed in data, while the outputted plots will can be found in results. 
+Further documentation can be found in the folder doc.
 
 
 #-----Delete this at some point:!!!!
 ## To do List: 
 
 Monday:
-- [] Finish Shiny App
-- [] Make functions work 
-- [] make function for confusionmatrix 
+Tobias: 
+- [] Finish Shiny App (make folder or repo as we wish)
+
+Cecilie:
+- [] Make functions work (Non standard evaluation)
+- [X] Make function for confusionmatrix 
+
+Astrid: 
+- [] correct linar model confusion matrix 
+- [] change name of simple model
+
+Carina:
+- [] Change confusion matrix axis reversed
+- [] Plots good names and numbers
+
 - [x] Make stratification for ANN work 
-- [] Maybe add AGE as a variable to the models?
+- [X] Maybe add AGE as a variable to the models? - No see plot
+
 
 Tuesday:
 - [] Make sure it can run start to finish in one go
-- [] Finished markdown
+- [] Make presentation 
 - [] Written here 'how to run the scripts'
-- [] Go through scripts to make sure everything is 'Tidy'
-- [] Go throug learning objectives
+- [] Go through learning objectives
+
+----Everything tidy check
+- [] 00_doit
+- [] 01_load
+- [] 02_clean
+- [] 03_augment
+- [] 04_
+- [] ....
+- [] pca
 
 Wednesday:
 - [] Practice presentation
-
-##Questions
