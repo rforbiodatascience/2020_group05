@@ -1,27 +1,21 @@
-# Clear workspace
-# ------------------------------------------------------------------------------
+# Clear workspace ---------------------------------------------------------
 rm(list = ls())
 
-# Load libraries
-# ------------------------------------------------------------------------------
+# Load Libraries--------------------------------------------------------------------
 library("tidyverse")
 library("broom")
 library("rsample")
 library("purrr")
 library("tidymodels")
 
-# Define functions
-# ------------------------------------------------------------------------------
+# Define functions --------------------------------------------------------
 source(file = "R/99_proj_func.R")
 
-
-# Load data
-# ------------------------------------------------------------------------------
+# Load data ---------------------------------------------------------------
 data <- read_tsv(file = "data/03_aug_data.tsv")
 
 
-# Wrangle data
-# ------------------------------------------------------------------------------
+# Wrangle data ------------------------------------------------------------
 # leave one out
 data_batch <- loo_cv(data)
 
@@ -30,30 +24,34 @@ data_batch <- data_batch %>%
   mutate(modeldata = map(splits, analysis),
          leaveout = map(splits, assessment))
 
-#Modeling
-#-------------------------------------------------------------------------------
 
+# Modelling ---------------------------------------------------------------
 #Adding a linear model and the using the holdout to predict
 data_batch <- data_batch %>% 
-  mutate(simple_model = map(.x = modeldata, .f = simple_model_def),       #Adding simpel model
-         log_model = map(.x = modeldata, .f = log_reg_model_def)) %>%  #Adding log model
+  mutate(linear_model = map(.x = modeldata, .f = linear_model_def),       #Adding linaer model
+         log_model = map(.x = modeldata, .f = log_reg_model_def)) %>%     #Adding log model
   mutate(pred_log = map2(log_model, leaveout, predict),
-         pred_sim = map2(simple_model, leaveout, predict)) %>%            #Adding prediction from log
-  unnest(pred_log, pred_sim, leaveout)                                            #Unpacking dataframes
-
+         pred_linear = map2(linear_model, leaveout, predict)) %>%         #Adding prediction from log
+  unnest(pred_log, pred_linear, leaveout)                                 #Unpacking dataframes
 
 data_batch <- data_batch %>% 
-  pivot_longer(c(log_model, simple_model), names_to = "Model_Type", values_to = "models") %>% 
-  pivot_longer(c(pred_log, pred_sim), names_to = "pred_type", values_to = "pred")
+  pivot_longer(c(log_model, linear_model), 
+               names_to = "Model_Type", 
+               values_to = "models") %>% 
+  pivot_longer(c(pred_log, pred_linear), 
+               names_to = "pred_type", 
+               values_to = "pred")
 
-#Maybe not the most elegant solution to the double work but it cleans up the dataset
+#Clean out the wrong combinations
 data_batch <- data_batch %>% 
   filter(Model_Type == "log_model" & pred_type == "pred_log" | 
-           Model_Type == "simple_model" & pred_type == "pred_sim")
+         Model_Type == "linear_model" & pred_type == "pred_linear")
 
+
+# Roc & Auc---------------------------------------------------------------------
 #Calculating True-positive rate (TPR) and False-positive rate (FPR)
 roc <- data_batch %>% 
-  select(pred_type, Model_Type, carrier, pred) %>%
+  select(pred_type, carrier, pred) %>%
   mutate(Positive = carrier == 1) %>%            #Carrier holds the real information (True/False)
   group_by(pred_type, pred) %>%                            
   summarise(Positive = sum(Positive),            #Turned to integers
@@ -65,9 +63,10 @@ roc <- data_batch %>%
 #Calculating the area under the curve (AUC)
 auc_value <- roc %>% group_by(pred_type) %>% 
   summarise(AUC = sum(diff(FPR) * na.omit(lead(TPR) + TPR)) / 2)
-auc_value
 
-#---Calculating Confusion matrix when threshold is 0.5
+
+# Confusion Matrix --------------------------------------------------------
+#Threshold is at 0.5
 #Change to binary prediction
 data_batch <- data_batch %>%
   mutate(pred_binary = case_when(pred > 0.5 ~ 1, #Change this value!??
@@ -86,7 +85,8 @@ confusion_matrix <- data_batch %>%
   summarise(freq = n()) 
 
 confusion_matrix1 <- confusion_matrix %>% 
-  filter(pred_type == "pred_sim") %>% 
+  filter(pred_type == "pred_linear") %>% 
+  arrange(desc(CM)) %>% 
   ungroup() %>% 
   select(freq) %>% 
   unlist(use.names = FALSE)
@@ -102,61 +102,45 @@ Actual_values    <- factor(c(1, 0, 0, 1))
 Predicted_values <- factor(c(1, 0, 1, 0))
 goodbad          <- factor(c("good", "good", "bad", "bad"))
 
-#This is the function we need to use not the above!! 
-CM_plot_linear <- confusion_matrix_plot(Actual_values = Actual_values,
-                                 Predicted_values = Predicted_values,
-                                 confusion_matrix = confusion_matrix1,
-                                 goodbad = goodbad,
-                                 title_input = "Confusion Matrix of Linear Model")
-                                 #subtitle_input = "")
 
-CM_plot_log <- confusion_matrix_plot(Actual_values = Actual_values,
-                                     Predicted_values = Predicted_values,
-                                     confusion_matrix = confusion_matrix2,
-                                     goodbad = goodbad,
-                                     title_input = "Confusion Matrix of Logarithm Regression Model")
-#                                     subtitle_input = str_c("Accuracy = ", round(performance$acc, 3) * 100, "%"))
-
-# Visualise
-# ------------------------------------------------------------------------------
+# Visualise ---------------------------------------------------------------
 roc_plot <- roc %>% 
   ggplot(aes(FPR, TPR, color = pred_type)) +
   geom_line() +
   theme_bw()+
   labs(title = "ROC plot with logistic regression model", 
        subtitle = str_c("AUC Log model = ", round(auc_value$AUC[1],3), "   ", 
-                        "AUC Simple Model = ", round(auc_value$AUC[2], 3)))
-roc_plot
+                        "AUC Linear Model = ", round(auc_value$AUC[2], 3)))
 
-# Confusion matrix
-confusion_matrix <- Y
-Actual_values    <- factor(c(1, 0, 0, 1))
-Predicted_values <- factor(c(1, 0, 1, 0))
-goodbad          <- factor(c("good", "good", "bad", "bad"))
 
-CM_plot <- confusion_matrix_plot(Actual_values = Actual_values,
-                                 Predicted_values = Predicted_values,
-                                 confusion_matrix = confusion_matrix,
-                                 goodbad = goodbad,
-                                 title_input = "Confusion Matrix of Logistic Model",
-                                 subtitle_input = str_c("Threshold = 0.5"))
 
-CM_plot <- confusion_matrix_plot(Actual_values = Actual_values, 
-                      Predicted_values = Predicted_values,
-                      Y = Y,
-                      title_input = "Confusion Matrix of Simple Linear Model (Threshold = 0.5)")
-CM_plot
+CM_plot_linear <- confusion_matrix_plot(Actual_values = Actual_values,
+                                        Predicted_values = Predicted_values,
+                                        confusion_matrix = confusion_matrix1,
+                                        goodbad = goodbad,
+                                        title_input = "Confusion Matrix of Linear Model",
+                                        subtitle_input = " ")
 
-# Write data
-# ------------------------------------------------------------------------------
+CM_plot_log <- confusion_matrix_plot(Actual_values = Actual_values,
+                                     Predicted_values = Predicted_values,
+                                     confusion_matrix = confusion_matrix2,
+                                     goodbad = goodbad,
+                                     title_input = "Confusion Matrix of Logarithmic Regression Model",
+                                     subtitle_input = "  ")
+
+# Write data --------------------------------------------------------------
 ggsave(filename = "results/roc_log.png",
        plot = roc_plot,
        width = 10,
        height = 6)
 
-ggsave(filename = "results/confusion_matrix.png",
-       plot = CM_plot,
+ggsave(filename = "results/confusion_matrix_linear_model.png",
+       plot = CM_plot_linaer,
        width = 10, 
        height = 6)
 
+ggsave(filename = "results/confusion_matrix_log_model.png",
+       plot = CM_plot_linaer,
+       width = 10, 
+       height = 6)
 
