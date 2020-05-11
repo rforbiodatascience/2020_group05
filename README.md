@@ -35,3 +35,7 @@ Wednesday:
 - [] Practice presentation
 
 ##Questions
+- Hvordan skal det skrives/presenteres?
+- Er præsentation 20 min? 
+- Functioner virker ikke..??
+- Shiny app, skal vi have flere modeller eller bare én
