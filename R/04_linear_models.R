@@ -135,12 +135,12 @@ ggsave(filename = "results/roc_log.png",
        height = 6)
 
 ggsave(filename = "results/confusion_matrix_linear_model.png",
-       plot = CM_plot_linaer,
+       plot = CM_plot_linear,
        width = 10, 
        height = 6)
 
 ggsave(filename = "results/confusion_matrix_log_model.png",
-       plot = CM_plot_linaer,
+       plot = CM_plot_log,
        width = 10, 
        height = 6)
 
