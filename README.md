@@ -50,6 +50,7 @@ Tobias:
 - [x] Make all four responsive distributions (4/4)
 - [] Make the App look nice n tidy :)))
 - [] Missing last thing on Linear Reg (doesnt make alot of sense to have a threshold of 0.5 for this)
+- [] Possible scaling on some plots?
 
 Cecilie:
 - [x] Make functions work (Non standard evaluation)
