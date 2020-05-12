@@ -8,6 +8,7 @@ rm(list = ls())
 library("tidyverse")
 library("ggrepel")
 library("broom")
+library("patchwork")
 
 
 # Define functions --------------------------------------------------------
@@ -76,14 +77,12 @@ pc1_pc2_plot <- data %>%
        colour = "Carrier Status", 
        title = "Principal Component Analysis (PCA)")
 
+#Combined:
+combined <- (var_exp_plot | pc1_pc2_plot) +
+  plot_layout(widths = c(1, 2))
 
 # Write data --------------------------------------------------------------
-ggsave(filename = "results/05_PCA_var_exp.png",
-       plot = var_exp_plot,
-       width = 6, 
-       height = 4)
-
-ggsave(filename = "results/05_pc1_pc2.png",
-       plot = pc1_pc2_plot,
-       width = 10, 
+ggsave(filename = "results/05_pca_and_variance.png",
+       plot = combined,
+       width = 10,
        height = 6)
