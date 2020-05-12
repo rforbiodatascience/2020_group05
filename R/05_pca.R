@@ -8,6 +8,7 @@ rm(list = ls())
 library("tidyverse")
 library("ggrepel")
 library("broom")
+library("patchwork")
 
 
 # Define functions --------------------------------------------------------
@@ -46,11 +47,10 @@ var_exp_plot <- var_exp %>%
                        breaks = c("deepskyblue", "black"),
                        labels = c("PCA", "Cumulative"),
                        guide = "legend") +
-  labs(title = "Principal Component Analysis Variance Explained", 
+  theme(legend.position = "bottom") +  
+  labs(title = "PCA Variance Explained", 
        x = "Dimension", 
        y = "Variance explained (%)")
-
-var_exp_plot
 
 # PCA plot ----------------------------------------------------------------
 # Extract variance explained by PC1 and PC2 for axis labels
@@ -76,14 +76,12 @@ pc1_pc2_plot <- data %>%
        colour = "Carrier Status", 
        title = "Principal Component Analysis (PCA)")
 
+#Combined:
+combined <- (var_exp_plot | pc1_pc2_plot) +
+  plot_layout(widths = c(1, 2))
 
 # Write data --------------------------------------------------------------
-ggsave(filename = "results/05_PCA_var_exp.png",
-       plot = var_exp_plot,
-       width = 6, 
-       height = 4)
-
-ggsave(filename = "results/05_pc1_pc2.png",
-       plot = pc1_pc2_plot,
-       width = 10, 
+ggsave(filename = "results/05_pca_and_variance.png",
+       plot = combined,
+       width = 10,
        height = 6)
