@@ -65,58 +65,60 @@ density_protein_plot <- ((density_pk/density_h) | (density_ld/density_ck)) +
 boxplot_ck <- boxplot_func(data = data_subset,
                            x_protein = CK,
                            age_group = age_group,
-                           title_input = "Distribution of levels of CK to age")
+                           title_input = "Creatine Kinase")
 
 boxplot_ld <- boxplot_func(data = data_subset,
                            x_protein = LD,
                            age_group = age_group,
-                           title_input = "Distribution of levels of LD to age")
+                           title_input = "Lactate Dehydroginase")
 
 #Age groups, using grid to make two plots at once
 boxplot_pk_h <- data_subset %>% 
   ggplot(mapping = aes(x = age_group, y = Level, fill = carrier)) +
   geom_boxplot(alpha = 0.5)+
-  labs(title = "The levels of H and PK shown among age groups", 
+  labs(title = "Hemopexin and Pyruvate Kinase", 
        fill = "Carrier Status",
        x = "Age group",
        y = "Protein level") + 
   facet_grid(Protein ~.) 
 
-protein_ages_plot <- ((boxplot_ck/boxplot_ld) | boxplot_pk_h)
+protein_ages_plot <- ((boxplot_ck/boxplot_ld) | boxplot_pk_h) +
+  plot_annotation(title = "Enzyme levels among age groups")
 
 # Protein-protein ---------------------------------------------------------
 # Correlation between carrier-status and the levels of enzyme
 CK_vs_LD <- scatter_func(data = data,
                          x_protein = CK,
                          y_protein = LD,
-                         title_input = "Distribution of levels of CK and LD")
+                         title_input = "CK and LD")
 
 CK_vs_H <- scatter_func(data = data,
                         x_protein = CK,
                         y_protein = H,
-                        title_input = "Distribution of levels of CK and H")
+                        title_input = "CK and H")
 
 CK_vs_PK <- scatter_func(data = data,
                          x_protein = CK,
                          y_protein = PK,
-                         title_input = "Distribution of levels of CK and PK")
+                         title_input = "CK and PK")
 
 LD_vs_H <- scatter_func(data = data,
                         x_protein = LD,
                         y_protein = H,
-                        title_input = "Distribution of levels of LD and H")
+                        title_input = "LD and H")
 
 LD_vs_PK <- scatter_func(data = data,
                          x_protein = LD,
                          y_protein = PK,
-                         title_input = "Distribution of levels of LD and PK")
+                         title_input = "LD and PK")
 
 H_vs_PK <- scatter_func(data = data,
                         x_protein = H,
                         y_protein = PK,
-                        title_input = "Distribution of levels of H and PK")
+                        title_input = "H and PK")
 
 protein_protein_plot <- ( CK_vs_H/H_vs_PK | CK_vs_PK/LD_vs_PK | CK_vs_LD/LD_vs_H) +
+  plot_annotation(title = "Correlation between enzyme levels") +
   plot_layout(guides = "collect") & 
   theme(legend.position = "bottom")
 
