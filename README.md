@@ -70,7 +70,7 @@ Carina:
 Tuesday:
 Small practical stuff missing: 
 - [] Linear into app (Tobias)
-- [] Change PCA variance explained a little (carina)
+- [X] Change PCA variance explained a little (carina)
 - [] ROC plot Legend change (Astrid)
 
 
