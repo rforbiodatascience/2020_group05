@@ -77,7 +77,7 @@ Small practical stuff missing:
 - [] Make presentation 
 - [] Make sure it can run start to finish in one go
 - [] Written here 'how to run the scripts'
-- [] Go through learning objectives (Carina starts looking at this after lunch)
+- [X] Go through learning objectives 
 - [X] Go through all the plots
 
 ----Everything tidy check
