@@ -1,5 +1,6 @@
 ---
-title: "Project presentation"
+title: "Predicting Carrier Status of DMD in Women"
+subtitle: "Project presentation"
 author: "Astrid, Carina, Cecilie and Tobias"
 date: "11/05/2020"
 output: ioslides_presentation
@@ -11,6 +12,10 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Introduction
+* What is Duchenne Muscular Dystrophy (DMD)?
+* Why is it interesting to be able to do this? 
+* Today: Genetic testing of X chromosome 
+
 
 ## Materials and Methods | Pipeline for project
 
@@ -23,7 +28,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Materials and Methods | Selection and preparation of data { .smaller}
 Data set of 192 observations, with 10 attributes after cleaning.
 
-- Collected from the 1985 book (@Andrews1985).
+- Collected from the 1985 book 'Data' (@Andrews1985).
 - Originated from a 1981 study (@Percy1981). 
 
 
@@ -34,44 +39,130 @@ Attributes (11):
 Observation Number, ID, Age, Month, Year, CK, LD, PK, H, Season, Carrier 
 </font>
 
+<div class="notes">
+Creatine kinase (CK), Hemopexin (H), Lactate dehydroginase (LD) and Pyruvate kinase (PK)
+</div>
 
 
+##  Materials and Methods | Attributes/Example { .smaller}
 
-## Materials and Methods | Attributes
+```{r include=FALSE}
+library('tidyverse')
+```
+```{r echo=FALSE}
+data <- read_tsv(file = "../data/03_aug_data.tsv", 
+                 col_types = cols(carrier = col_factor()))
+data %>%
+  filter(ID < 640 & ID > 630) %>% 
+  select(-ObservationNumber)
+```
+<div class="notes">
+Maybe something about the attributes?? 
+What are they, is there anything that needs explaning.
+</div>
 
-Maybe something about the attributes?
 
+## Results | Descriptive Data Analysis
 
+```{r, echo = FALSE, out.width= "700px"}
+knitr::include_graphics("/cloud/project/results/04_age_distribution.png")
+```
 
+## Results | Descriptive Data Analysis 
 
-## Results | Data Visualization
+```{r, echo = FALSE, out.width = "700px", out.height= "500px"}
+knitr::include_graphics("/cloud/project/results/04_density_proteins.png")
+```
 
-Add some of the visualisation plots 
+<div class="notes">
+Not to dare any conclusions from this. It is purely a visualisation of this specific
+data set. 
+ - We can see an overlap = not two clearly seperate groups
+</div>
+
+## Results | Descriptive Data Analysis 
+
+```{r, echo = FALSE, out.width = "700px", out.height= "400px"}
+knitr::include_graphics("/cloud/project/results/04_proteins.png")
+```
+
+<div class="notes">
+Decide on what slides we actually want here...
+
+- There is no clear trends in the data
+- No obvious correlation between two of the proteins. 
+
+</div>
+## Results | Descriptive Data Analysis 
+
+```{r, echo = FALSE, out.width = "700px", out.height= "400px"}
+knitr::include_graphics("/cloud/project/results/04_age_groups_protein_levels.png")
+```
+
+<div class = "notes">
+- Many outliers, maybe just the dataset is too small
+- should we remove them? no...
+- No clear trend with age, generally carriers seem to have higher levels of protein
+</div>
+
 
 ## Results | PCA {.columns-2 .smaller}
 
-```{r, echo = FALSE, out.width = "300px"}
-knitr::include_graphics("/cloud/project/results/05_PCA_var_exp.png")
+```{r, echo = FALSE, out.width = "750px", out.height = "400"}
+knitr::include_graphics("/cloud/project/results/05_pca_and_variance.png")
 ```
 
-## Results | PCA
+<div class="notes">
+- It is possible to devide the data almost completely
 
-```{r, echo = FALSE, fig.cap ="A caption", out.width = "800px"}
-knitr::include_graphics("/cloud/project/results/05_pc1_pc2.png")
+Did we use this in some way?? 
+</div>
+
+
+## Results | Linear and Logartimic Regression Model
+```{r, echo = FALSE, out.width = "800px", out.height= "400px"}
+knitr::include_graphics("/cloud/project/results/06_roc.png")
 
 ```
-
 
 ## Results | Linear Model
-he
 
+```{r, echo = FALSE, out.width = "800px", out.height= "400px"}
+knitr::include_graphics("/cloud/project/results/06_confusion_matrix_linear_model.png")
+
+```
 
 ## Results | Logistic Model
 
-## Results | ANN
+```{r, echo = FALSE, out.width = "800px", out.height= "400px"}
+knitr::include_graphics("/cloud/project/results/06_confusion_matrix_log_model.png")
+
+```
+
+## Results | Artificial Neural Network
+
+```{r, echo = FALSE, out.width = "800px", out.height= "400px"}
+knitr::include_graphics("/cloud/project/results/07_ann_confusion_matrix.png")
+
+```
+
 
 ## Results | Shiny App
 
+Insert link to app here: 
+
 ## Discussion
 
+- 'Small' dataset 
+-  Age as a variable in models
+-  Season 
+
 ## Conclusion
+Goal: 
+Predict carrier status of Duchenne Muscular Dystrophy in women.
+
+Did we succed: 
+
+  * Linear AUC = 
+  * Logistic AUC = 
+  * ANN acuracy = 
