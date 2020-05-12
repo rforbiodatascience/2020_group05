@@ -47,11 +47,10 @@ var_exp_plot <- var_exp %>%
                        breaks = c("deepskyblue", "black"),
                        labels = c("PCA", "Cumulative"),
                        guide = "legend") +
-  labs(title = "Principal Component Analysis Variance Explained", 
+  theme(legend.position = "bottom") +  
+  labs(title = "PCA Variance Explained", 
        x = "Dimension", 
        y = "Variance explained (%)")
-
-var_exp_plot
 
 # PCA plot ----------------------------------------------------------------
 # Extract variance explained by PC1 and PC2 for axis labels
