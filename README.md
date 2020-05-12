@@ -68,8 +68,14 @@ Carina:
 
 
 Tuesday:
-- [] Make sure it can run start to finish in one go
+Small practical stuff missing: 
+- [] Linear into app (Tobias)
+- [] Change PCA variance explained a little (carina)
+- [] ROC plot Legend change (Astrid)
+
+
 - [] Make presentation 
+- [] Make sure it can run start to finish in one go
 - [] Written here 'how to run the scripts'
 - [] Go through learning objectives
 - [] Go through all the plots
