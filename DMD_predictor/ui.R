@@ -1,10 +1,11 @@
 # Load libraries
 library(shiny)
+library(shinythemes)
 
 # Define UI for application that draws a histogram
 shinyUI(
-    fluidPage(
-        
+    fluidPage(theme = shinytheme("flatly"),
+        #shinythemes::themeSelector(),
         # App title ----
         titlePanel("DMD predictor"),
         
@@ -14,39 +15,31 @@ shinyUI(
             # Sidebar panel for inputs ----
             sidebarPanel(
                 
+                # Include clarifying text ----
+                helpText("Below you should fill in your respective values.",
+                         "You can switch back and forth between the models"),
+                
                 # Input: Selector for choosing dataset ----
                 radioButtons(inputId = "models",
                              label = "Choose a model:",
-                             choices = c("Linear", "Logistic", "ANN")),
+                             choices = c( "ANN", "Linear", "Logistic")),
                 
                 sliderInput(inputId = "ck", 
                             label = "Creatine Kinase (CK)", 
-                            value = 650, min = 0, max = 1300),
+                            value = 25, min = 0, max = 150), # Meget høj MAX-værdi --- muligvis outlier
                 
                 sliderInput(inputId = "h", 
                             label = "Hemopexin (H)", 
-                            value = 60, min = 0, max = 120),
+                            value = 80, min = 0, max = 120),
                 
                 sliderInput(inputId = "pk", 
                             label = "Pyruvate Kinase (PK)", 
-                            value = 55, min = 0, max = 110),
+                            value = 10, min = 0, max = 50),
                 
                 # Input: Numeric entry for number of obs to view ----
                 sliderInput(inputId = "ld", 
                             label = "Lactate Dehydroginase (LD)", 
-                            value = 225, min = 0, max = 450),
-                
-                # Include clarifying text ----
-                helpText("Note: while the data view will show only the specified",
-                         "number of observations, the summary will still be based",
-                         "on the full dataset."),
-                
-                # Input: actionButton() to defer the rendering of output ----
-                # until the user explicitly clicks the button (rather than
-                # doing it immediately when inputs change). This is useful if
-                # the computations required to render output are inordinately
-                # time-consuming.
-                actionButton("update", "Update View")
+                            value = 150, min = 0, max = 450)
                 
             ),
             
@@ -54,13 +47,23 @@ shinyUI(
             mainPanel(
                 
                 # Output: Formatted text for caption ----
-                tableOutput("values"),
+                h3(textOutput("prediction_ann")),
                 
-                verbatimTextOutput("vector"),
+                br(), br(),
                 
-                verbatimTextOutput("results"),
+                textOutput("probabilities"),
                 
-                textOutput("prediction")
+                br(), br(),
+                
+                plotOutput("distributions"),
+                
+                br(), br(),
+                
+                textOutput("prediction_lm"),
+                
+                br(), br(),
+                
+                textOutput("prediction_log")
             )    
         )
         

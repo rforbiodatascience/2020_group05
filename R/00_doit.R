@@ -17,7 +17,8 @@ install_if_needed(c("tidyverse",
                     "purrr",
                     "ggrepel",
                     "shiny",
-                    "patchwork"))
+                    "patchwork",
+                    "shinythemes"))
 
 
 # Run all files -----------------------------------------------------------
@@ -25,6 +26,6 @@ source(file = "R/01_load.R")
 source(file = "R/02_clean.R")
 source(file = "R/03_augment.R")
 source(file = "R/04_visualisation.R")
-source(file = "R/04_pca.R")
-source(file = "R/04_analysis_ann.R") 
-source(file = "R/04_linear_models.R")
+source(file = "R/05_pca.R")
+source(file = "R/06_linear_models.R")
+source(file = "R/07_analysis_ann.R")

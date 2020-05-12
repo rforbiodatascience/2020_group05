@@ -44,7 +44,11 @@ Further documentation can be found in the folder doc.
 
 Monday:
 Tobias: 
-- [] Finish Shiny App (make folder or repo as we wish)
+- [x] Adding ANN Classification
+- [] Adding Logistic Classification
+- [] Adding Linear Regression
+- [x] Make all four responsive distributions (4/4)
+- [] Make the App look nice n tidy :)))
 
 Cecilie:
 - [x] Make functions work (Non standard evaluation)
@@ -64,10 +68,17 @@ Carina:
 
 
 Tuesday:
-- [] Make sure it can run start to finish in one go
+Small practical stuff missing: 
+- [] Linear into app (Tobias)
+- [X] Change PCA variance explained a little (carina)
+- [X] ROC plot Legend change (Astrid)
+
+
 - [] Make presentation 
+- [] Make sure it can run start to finish in one go
 - [] Written here 'how to run the scripts'
-- [] Go through learning objectives
+- [X] Go through learning objectives 
+- [X] Go through all the plots
 
 ----Everything tidy check
 - [] 00_doit

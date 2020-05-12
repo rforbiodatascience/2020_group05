@@ -6,7 +6,6 @@ library("tidyverse")
 library("broom")
 library("rsample")
 library("purrr")
-library("tidymodels")
 
 # Define functions --------------------------------------------------------
 source(file = "R/99_proj_func.R")
@@ -28,10 +27,12 @@ data_batch <- data_batch %>%
 # Modelling ---------------------------------------------------------------
 # Adding a linear model and predict on the holdout, unpack dataframes
 data_batch <- data_batch %>% 
-  mutate(linear_model = map(.x = modeldata, .f = linear_model_def),       
-         log_model = map(.x = modeldata, .f = log_reg_model_def)) %>%     
-  mutate(pred_log = map2(log_model, leaveout, predict),
-         pred_linear = map2(linear_model, leaveout, predict)) %>%        
+  mutate(linear_model = map(.x = modeldata, 
+                            .f = linear_model_def),       
+         log_model    = map(.x = modeldata, 
+                            .f = log_reg_model_def),     
+         pred_linear  = map2(linear_model, leaveout, predict),         
+         pred_log     = map2(log_model, leaveout, predict, type = "response")) %>%        
   unnest(pred_log, pred_linear, leaveout)                                 
 
 data_batch <- data_batch %>% 
@@ -47,7 +48,7 @@ data_batch <- data_batch %>%
   filter(Model_Type == "log_model" & pred_type == "pred_log" | 
          Model_Type == "linear_model" & pred_type == "pred_linear")
 
-
+View(data_batch)
 # Roc & Auc----------------------------------------------------------------
 # Calculating True-positive rate (TPR) and False-positive rate (FPR)
 roc <- data_batch %>% 
@@ -105,7 +106,8 @@ roc_plot <- roc %>%
   theme_bw() +
   labs(title = "ROC plot of the models", 
        subtitle = str_c("AUC Linear model = ", round(auc_value$AUC[1],3), ",   ", 
-                        "AUC Logistic Model = ", round(auc_value$AUC[2], 3)))
+                        "AUC Logistic Model = ", round(auc_value$AUC[2], 3))) +
+  scale_color_discrete(name = "Prediction", labels = c("Linear", "Logistic"))
 
 CM_plot_linear <- confusion_matrix_plot(confusion_matrix = confusion_matrix1,
                                         title_input = "Confusion Matrix of Linear Model",
@@ -116,7 +118,7 @@ CM_plot_log <- confusion_matrix_plot(confusion_matrix = confusion_matrix2,
                                      subtitle_input = "  ")
 
 # Write data --------------------------------------------------------------
-ggsave(filename = "results/06_roc_log.png",
+ggsave(filename = "results/06_roc.png",
        plot   = roc_plot,
        width  = 10,
        height = 6)
