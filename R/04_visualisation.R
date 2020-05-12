@@ -131,8 +131,8 @@ ggsave(filename = "results/04_age_distribution.png",
 
 ggsave(filename = "results/04_density_proteins.png",
        plot = density_protein_plot,
-       width = 10, 
-       height = 10)
+       width = 7, 
+       height = 7)
 
 ggsave(filename = "results/04_age_groups_protein_levels.png",
        plot = protein_ages_plot,
