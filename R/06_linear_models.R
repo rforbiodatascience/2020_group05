@@ -6,7 +6,6 @@ library("tidyverse")
 library("broom")
 library("rsample")
 library("purrr")
-library("tidymodels")
 
 # Define functions --------------------------------------------------------
 source(file = "R/99_proj_func.R")
@@ -117,7 +116,7 @@ CM_plot_log <- confusion_matrix_plot(confusion_matrix = confusion_matrix2,
                                      subtitle_input = "  ")
 
 # Write data --------------------------------------------------------------
-ggsave(filename = "results/06_roc_log.png",
+ggsave(filename = "results/06_roc.png",
        plot   = roc_plot,
        width  = 10,
        height = 6)
