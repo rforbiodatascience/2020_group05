@@ -32,23 +32,21 @@ data <- pca_object %>%
 
 
 # Variance explained plot -------------------------------------------------
-# Extract variance explained
 var_exp <- pca_object %>% 
   tidy("pcs") %>% 
-  pull(cumulative)
-var_exp <- var_exp  * 100
-
-PC <- c("PC1", "PC2", "PC3", "PC4", "PC5")
-
-var_exp_plot_data <- tibble(PC, var_exp)
-
+  mutate(percent = percent * 100,
+         cumulative = cumulative * 100)
 # Plot
-var_exp_plot <- var_exp_plot_data %>% 
-  ggplot(mapping = aes(x = PC, y = var_exp)) +
-  geom_bar(stat = "identity", width = 0.5) +
-  geom_line(group = 1) +
-  geom_point(group = 1) +
-  labs(title = "Cumulative variance explained", 
+var_exp_plot <- var_exp %>% 
+  ggplot(mapping = aes(x = PC)) +
+  geom_bar(aes(y = percent, fill = "deepskyblue"), stat = "identity", width = 0.5) +
+  geom_line(aes(y = cumulative, fill = "black"), group = 1) +
+  geom_point(aes(y = cumulative), group = 1) +
+  scale_fill_identity(name = "",
+                       breaks = c("deepskyblue", "black"),
+                       labels = c("PCA", "Cumulative"),
+                       guide = "legend") +
+  labs(title = "Variance explained", 
        x = "Dimension", 
        y = "Variance explained (%)")
 
