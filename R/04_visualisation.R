@@ -58,7 +58,7 @@ density_pk <- data %>%
 density_protein_plot <- ((density_pk/density_h) | (density_ld/density_ck)) + 
   plot_annotation(title = "Density plot of enzyme levels") +
   plot_layout(guides = "collect") & 
-  theme(legend.position = "bottom")
+  theme(legend.position = "right")
   
 
 # Age and Protein ---------------------------------------------------------
@@ -132,7 +132,7 @@ ggsave(filename = "results/04_age_distribution.png",
 ggsave(filename = "results/04_density_proteins.png",
        plot = density_protein_plot,
        width = 7, 
-       height = 7)
+       height = 5)
 
 ggsave(filename = "results/04_age_groups_protein_levels.png",
        plot = protein_ages_plot,
