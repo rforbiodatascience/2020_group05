@@ -45,10 +45,11 @@ Further documentation can be found in the folder doc.
 Monday:
 Tobias: 
 - [x] Adding ANN Classification
-- [] Adding Logistic Classification
-- [] Adding Linear Regression
+- [x] Adding Logistic Classification
+- [x] Adding Linear Regression
 - [x] Make all four responsive distributions (4/4)
 - [] Make the App look nice n tidy :)))
+- [] Missing last thing on Linear Reg (doesnt make alot of sense to have a threshold of 0.5 for this)
 
 Cecilie:
 - [x] Make functions work (Non standard evaluation)
@@ -69,7 +70,7 @@ Carina:
 
 Tuesday:
 Small practical stuff missing: 
-- [] Linear into app (Tobias)
+- [x] Linear into app (Tobias)
 - [X] Change PCA variance explained a little (carina)
 - [X] ROC plot Legend change (Astrid)
 
