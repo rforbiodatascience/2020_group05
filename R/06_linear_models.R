@@ -105,7 +105,8 @@ roc_plot <- roc %>%
   theme_bw() +
   labs(title = "ROC plot of the models", 
        subtitle = str_c("AUC Linear model = ", round(auc_value$AUC[1],3), ",   ", 
-                        "AUC Logistic Model = ", round(auc_value$AUC[2], 3)))
+                        "AUC Logistic Model = ", round(auc_value$AUC[2], 3))) +
+  scale_color_discrete(name = "Prediction", labels = c("Linear", "Logistic"))
 
 CM_plot_linear <- confusion_matrix_plot(confusion_matrix = confusion_matrix1,
                                         title_input = "Confusion Matrix of Linear Model",
