@@ -3,7 +3,11 @@ title: "Predicting Carrier <br> Status of DMD <br> in Women"
 subtitle: "Project presentation"
 author: "Astrid, Carina, Cecilie and Tobias"
 date: "11/05/2020"
-output: ioslides_presentation
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: true
+    logo: /cloud/project/doc/pictures/DTU_Logo_Corporate_Red_RGB.png
 bibliography: R-course.bib
 ---
 
