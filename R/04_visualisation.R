@@ -37,23 +37,26 @@ age_distribution_plot <- data %>%
 
 
 # Protein levels density --------------------------------------------------
-density_ck <- density_plot(data = data,
-                           x_p = CK,
-                           title_input = "Density plot of CK values")
+density_ck <- data %>% 
+  filter(CK < 500) %>% 
+  density_plot(x_p = CK,
+               title_input = "Creatine Kinase")
 
 density_h <- density_plot(data = data,
                           x_p = H,
-                          title_input = "Density plot of H values")
+                          title_input = "Hemopexin")
 
 density_ld <- density_plot(data = data,
                            x_p = LD,
-                           title_input = "Density plot of LD values")
+                           title_input = "Lactate Dehydroginase")
 
-density_pk <- density_plot(data = data,
-                           x_p = PK,
-                           title_input = "Density plot of PK values")
+density_pk <- data %>% 
+  filter(PK < 80) %>% 
+  density_plot(x_p = PK,
+               title_input = "Pyruvate Kinase")
 
 density_protein_plot <- ((density_pk/density_h) | (density_ld/density_ck)) + 
+  plot_annotation(title = "Density plot of enzyme levels") +
   plot_layout(guides = "collect") & 
   theme(legend.position = "bottom")
   
@@ -62,7 +65,7 @@ density_protein_plot <- ((density_pk/density_h) | (density_ld/density_ck)) +
 boxplot_ck <- boxplot_func(data = data_subset,
                            x_protein = CK,
                            age_group = age_group,
-                           title_input = "Distribution of levels of creatine kinase (CK) to age")
+                           title_input = "Distribution of levels of CK to age")
 
 boxplot_ld <- boxplot_func(data = data_subset,
                            x_protein = LD,
