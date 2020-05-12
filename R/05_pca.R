@@ -46,7 +46,7 @@ var_exp_plot <- var_exp %>%
                        breaks = c("deepskyblue", "black"),
                        labels = c("PCA", "Cumulative"),
                        guide = "legend") +
-  labs(title = "Variance explained", 
+  labs(title = "Principal Component Analysis Variance Explained", 
        x = "Dimension", 
        y = "Variance explained (%)")
 
@@ -80,7 +80,7 @@ pc1_pc2_plot <- data %>%
 # Write data --------------------------------------------------------------
 ggsave(filename = "results/05_PCA_var_exp.png",
        plot = var_exp_plot,
-       width = 3, 
+       width = 6, 
        height = 4)
 
 ggsave(filename = "results/05_pc1_pc2.png",
