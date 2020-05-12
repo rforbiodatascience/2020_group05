@@ -70,13 +70,14 @@ What are they, is there anything that needs explaning.
 </div>
 
 
-## Results | Descriptive Data Analysis
+
+## Results | Descriptive Data Analysis {.flexbox .vcenter}
 
 ```{r, echo = FALSE, out.width= "700px"}
 knitr::include_graphics("/cloud/project/results/04_age_distribution.png")
 ```
 
-## Results | Descriptive Data Analysis 
+## Results | Descriptive Data Analysis {.flexbox .vcenter}
 ```{r, echo = FALSE, out.width = "600px"}
 knitr::include_graphics("/cloud/project/results/04_density_proteins.png")
 ```
@@ -87,7 +88,7 @@ data set.
  - We can see an overlap = not two clearly seperate groups
 </div>
 
-## Results | Descriptive Data Analysis 
+## Results | Descriptive Data Analysis {.flexbox .vcenter}
 
 ```{r, echo = FALSE, out.width = "700px", out.height= "400px"}
 knitr::include_graphics("/cloud/project/results/04_proteins.png")
@@ -100,7 +101,7 @@ Decide on what slides we actually want here...
 - No obvious correlation between two of the proteins. 
 
 </div>
-## Results | Descriptive Data Analysis 
+## Results | Descriptive Data Analysis {.flexbox .vcenter}
 
 ```{r, echo = FALSE, out.width = "700px", out.height= "400px"}
 knitr::include_graphics("/cloud/project/results/04_age_groups_protein_levels.png")
@@ -113,7 +114,7 @@ knitr::include_graphics("/cloud/project/results/04_age_groups_protein_levels.png
 </div>
 
 
-## Results | PCA {.columns-2 .smaller}
+## Results | PCA {.columns-2 .smaller .flexbox .vcenter}
 
 ```{r, echo = FALSE, out.width = "750px", out.height = "400"}
 knitr::include_graphics("/cloud/project/results/05_pca_and_variance.png")
@@ -126,27 +127,27 @@ Did we use this in some way??
 </div>
 
 
-## Results | Linear and Logistic Regression Model
+## Results | Linear and Logistic Regression Model {.flexbox .vcenter}
 ```{r, echo = FALSE, out.width = "800px", out.height= "450px"}
 knitr::include_graphics("/cloud/project/results/06_roc.png")
 
 ```
 
-## Results | Linear Model
+## Results | Linear Model {.flexbox .vcenter}
 
 ```{r, echo = FALSE, out.width = "800px", out.height= "400px"}
 knitr::include_graphics("/cloud/project/results/06_confusion_matrix_linear_model.png")
 
 ```
 
-## Results | Logistic Model
+## Results | Logistic Model {.flexbox .vcenter}
 
 ```{r, echo = FALSE, out.width = "800px", out.height= "400px"}
 knitr::include_graphics("/cloud/project/results/06_confusion_matrix_log_model.png")
 
 ```
 
-## Results | Artificial Neural Network
+## Results | Artificial Neural Network {.flexbox .vcenter}
 
 ```{r, echo = FALSE, out.width = "800px", out.height= "400px"}
 knitr::include_graphics("/cloud/project/results/07_ann_confusion_matrix.png")
