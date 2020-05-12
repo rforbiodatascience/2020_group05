@@ -52,8 +52,6 @@ var_exp_plot <- var_exp_plot_data %>%
        x = "Dimension", 
        y = "Variance explained (%)")
 
-var_exp_plot
-
 # PCA plot ----------------------------------------------------------------
 # Extract variance explained by PC1 and PC2 for axis labels
 PC1 <- pca_object %>% 
