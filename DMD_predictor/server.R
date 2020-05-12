@@ -37,23 +37,28 @@ shinyServer(function(input, output) {
         
         class_predicted_ann <- predict_classes(ANN_model, vector_input, verbose = 1) 
         
+        probability_ann <- predict_proba(ANN_model, vector_input, verbose = 1)
+        
         if (class_predicted_ann == 0) { 
-        paste0("Congratulations, you've been classified as a non-carrier :)")
+        paste("Congratulations, you've been classified as a non-carrier :)",
+              "",
+              "The classification is based on this predicted probability: ", 
+               round(probability_ann[1], digits = 3),
+              "",
+              "where", round(probability_ann[1], digits = 3),
+              "specifies the certainty of correct classification", sep = "\n")
         }
         else {
-        paste0("You've been classified as a carrier. :(")
+        paste("You've been classified as a carrier :(",
+               "",
+               "The classification is based on this predicted probability: ",
+               round(probability_ann[2], digits = 3),
+              "",
+              "where", round(probability_ann[2], digits = 3),
+              "specifies the certainty of correct classification", sep = "\n")
         }
     })
     
-    output$probabilities <- renderText({
-        
-        vector_input <- User_vector()
-        
-        probability_ann <- predict_proba(ANN_model, vector_input, verbose = 1)
-        
-        paste0("The classification is based on this probability: ", 
-               round(probability_ann[1], digits = 3))
-    })
     
     # Logistic model ---------------------------------------------------------------
     
@@ -69,9 +74,24 @@ shinyServer(function(input, output) {
                          family = binomial(link = "logit"), 
                          data = df)
         
-        class_predicted_log <- predict(log_model, vector_input)
+        class_predicted_log <- predict(log_model, vector_input, type = "response")
         
-        paste0("Logistic model predicted: ", round(class_predicted_log, digits = 3))
+        if (class_predicted_log <= 0.500) { 
+            paste("Congratulations, you've been classified as a non-carrier :)",
+                  "",
+                  "The classification is based on this probability: ", 
+                  round(class_predicted_log, digits = 3),
+                  "",
+                  "where ", round(class_predicted_log, digits = 3), 
+                  "specifies the probability of being a carrier",
+                  sep = "\n")
+        }
+        else {
+            paste("You've been classified as a carrier :(",
+                  "",
+                  "The classification is based on this probability: ",
+                  round(class_predicted_log, digits = 3), sep = "\n")
+        }
     
     })
     # Linear model ---------------------------------------------------------------
@@ -87,9 +107,20 @@ shinyServer(function(input, output) {
         lm_model <- lm(carrier ~ LD + H + PK + CK,
                        data = df)
         
-        class_predicted_lm <- predict(lm_model, vector_input)
+        class_predicted_lm <- predict(lm_model, vector_input, type = "response")
         
-        paste0("Linear model predicted: ", round(class_predicted_lm, digits = 3))
+        if (class_predicted_lm <= 0.500) { 
+            paste("Congratulations, you've been classified as a non-carrier :)",
+                  "",
+                  "The classification is based on this probability: ", 
+                  round(class_predicted_lm, digits = 3), sep = "\n")
+        }
+        else {
+            paste("You've been classified as a carrier :(",
+                  "",
+                  "The classification is based on this probability: ",
+                  round(class_predicted_lm, digits = 3), sep = "\n")
+        }
         
     })
     # Distributions ---------------------------------------------------------------
@@ -132,4 +163,5 @@ shinyServer(function(input, output) {
         plot_layout(guides = "collect") & 
         theme(legend.position = "right")
     })
+    
 })
