@@ -4,8 +4,8 @@ library(shinythemes)
 
 # Define UI for application that draws a histogram
 shinyUI(
-    fluidPage(
-        shinythemes::themeSelector(),
+    fluidPage(theme = shinytheme("flatly"),
+        #shinythemes::themeSelector(),
         # App title ----
         titlePanel("DMD predictor"),
         
@@ -14,6 +14,10 @@ shinyUI(
             
             # Sidebar panel for inputs ----
             sidebarPanel(
+                
+                # Include clarifying text ----
+                helpText("Below you should fill in your respective values.",
+                         "You can switch back and forth between the models"),
                 
                 # Input: Selector for choosing dataset ----
                 radioButtons(inputId = "models",
@@ -35,19 +39,7 @@ shinyUI(
                 # Input: Numeric entry for number of obs to view ----
                 sliderInput(inputId = "ld", 
                             label = "Lactate Dehydroginase (LD)", 
-                            value = 150, min = 0, max = 450),
-                
-                # Include clarifying text ----
-                helpText("Note: while the data view will show only the specified",
-                         "number of observations, the summary will still be based",
-                         "on the full dataset."),
-                
-                # Input: actionButton() to defer the rendering of output ----
-                # until the user explicitly clicks the button (rather than
-                # doing it immediately when inputs change). This is useful if
-                # the computations required to render output are inordinately
-                # time-consuming.
-                actionButton("update", "Update View")
+                            value = 150, min = 0, max = 450)
                 
             ),
             
@@ -55,13 +47,13 @@ shinyUI(
             mainPanel(
                 
                 # Output: Formatted text for caption ----
-                tableOutput("values"),
+                h3(textOutput("prediction")),
                 
-                verbatimTextOutput("vector"),
+                br(), br(),
                 
-                verbatimTextOutput("results"),
+                textOutput("probabilities"),
                 
-                h1(textOutput("prediction")),
+                br(), br(),
                 
                 plotOutput("distributions")
             )    

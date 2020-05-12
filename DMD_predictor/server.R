@@ -4,7 +4,7 @@ library(keras)
 library(patchwork)
 
 # Define functions --------------------------------------------------------
-#source(file = "../R/99_proj_func.R")
+source(file = "../R/99_proj_func.R")
 
 # Load model
 ANN_model <- load_model_hdf5("../data/07_ANN_model") # HUSKE AT TILFØJE ../ på alle PATHS!!!!! inden du kører APPEN
@@ -15,25 +15,6 @@ df <- read_tsv(file = "../data/03_aug_data.tsv",
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
-    
-    enzymeValues <- reactive({
-        
-        data.frame(
-            Name = c("Creatine Kinase",
-                     "Hemopexin",
-                     "Puryvate Kinase",
-                     "Lactate Dehydroginase"),
-            Value = as.character(c(input$ck,
-                                   input$h,
-                                   input$pk,
-                                   input$ld)),
-            stringsAsFactors = FALSE)
-        
-    })
-    
-    output$values <- renderTable({
-        enzymeValues()
-    })
     
     User_vector <- reactive({
         
@@ -53,8 +34,26 @@ shinyServer(function(input, output) {
         
         vector <- User_vector()
         
-        paste0("The ANN has classified you as ", predict_classes(ANN_model, vector, verbose = 1))
+        
+        
+        class_predicted <- predict_classes(ANN_model, vector, verbose = 1) 
+        
+        if (class_predicted == 0) { 
+        paste0("Congratulations, you've been classified as a non-carrier :)")
+        }
+        else {
+        paste0("You've been classified as a carrier. :(")
+        }
+    })
     
+    output$probabilities <- renderText({
+        
+        vector <- User_vector()
+        
+        probability_ann <- predict_proba(ANN_model, vector, verbose = 1)
+        
+        paste0("The classification is based on this probability: ", 
+               round(probability_ann[1], digits = 3))
     })
     
     # Logistic ---------------------------------------------------------------
@@ -68,37 +67,39 @@ shinyServer(function(input, output) {
     output$distributions <- renderPlot({
     
     dist_ld <- df %>% 
-        ggplot(aes(LD)) +
-        geom_density(fill = "#69b3a2", color="#e9ecef", alpha=0.8) +
+        ggplot(aes(LD, fill = carrier)) +
+        geom_density(alpha=0.8) +
         geom_vline(xintercept = input$ld, colour = "red") +
         xlab("Enzyme level (unit ?!)") + 
         ggtitle("Lactate Dehydroginase levels")
     
     dist_h <- df %>% 
-        ggplot(aes(H)) +
-        geom_density(fill = "#69b3a2", color="#e9ecef", alpha=0.8) +
+        ggplot(aes(H, fill = carrier)) +
+        geom_density(alpha=0.8) +
         geom_vline(xintercept = input$h, colour = "red") +
         xlab("Enzyme level (unit ?!)") + 
         ggtitle("Hexopexin levels")
     
     dist_ck <- df %>% 
         filter(CK <= 150) %>% 
-            ggplot(aes(CK)) +
-            geom_density(fill = "#69b3a2", color="#e9ecef", alpha=0.8) +
+            ggplot(aes(CK, fill = carrier)) +
+            geom_density(alpha=0.8) +
             geom_vline(xintercept = input$ck, colour = "red") +
             xlab("Enzyme level (unit ?!)") + 
             ggtitle("Creatine Kinase levels")
         
     dist_pk <- df %>% 
         filter(PK <= 60) %>% 
-            ggplot(aes(PK)) +
-            geom_density(fill = "#69b3a2", color="#e9ecef", alpha=0.8) +
+            ggplot(aes(PK, fill = carrier)) +
+            geom_density(alpha=0.8) +
             geom_vline(xintercept = input$pk, colour = "red") +
             xlab("Enzyme level (unit ?!)") + 
             ggtitle("Pyruvate Kinase levels")
         
         ((dist_ck/dist_h) | (dist_pk/dist_ld)) + 
+        plot_annotation(title = "Density plot of enzyme levels", 
+                        caption = "Filtered CK levels <= 150. Filtered PK levels <= 60") +
         plot_layout(guides = "collect") & 
-        theme(legend.position = "bottom")
+        theme(legend.position = "right")
     })
 })
