@@ -27,10 +27,12 @@ data_batch <- data_batch %>%
 # Modelling ---------------------------------------------------------------
 # Adding a linear model and predict on the holdout, unpack dataframes
 data_batch <- data_batch %>% 
-  mutate(linear_model = map(.x = modeldata, .f = linear_model_def),       
-         log_model = map(.x = modeldata, .f = log_reg_model_def)) %>%     
-  mutate(pred_log = map2(log_model, leaveout, predict),
-         pred_linear = map2(linear_model, leaveout, predict)) %>%        
+  mutate(linear_model = map(.x = modeldata, 
+                            .f = linear_model_def),       
+         log_model    = map(.x = modeldata, 
+                            .f = log_reg_model_def),     
+         pred_linear  = map2(linear_model, leaveout, predict),         
+         pred_log     = map2(log_model, leaveout, predict, type = "response")) %>%        
   unnest(pred_log, pred_linear, leaveout)                                 
 
 data_batch <- data_batch %>% 
@@ -46,7 +48,7 @@ data_batch <- data_batch %>%
   filter(Model_Type == "log_model" & pred_type == "pred_log" | 
          Model_Type == "linear_model" & pred_type == "pred_linear")
 
-
+View(data_batch)
 # Roc & Auc----------------------------------------------------------------
 # Calculating True-positive rate (TPR) and False-positive rate (FPR)
 roc <- data_batch %>% 
