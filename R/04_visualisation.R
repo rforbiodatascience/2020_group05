@@ -65,7 +65,7 @@ density_protein_plot <- ((density_pk/density_h) | (density_ld/density_ck)) +
 boxplot_ck <- boxplot_func(data = data_subset,
                            x_protein = CK,
                            age_group = age_group,
-                           title_input = "Distribution of levels of creatine kinase (CK) to age")
+                           title_input = "Distribution of levels of CK to age")
 
 boxplot_ld <- boxplot_func(data = data_subset,
                            x_protein = LD,
