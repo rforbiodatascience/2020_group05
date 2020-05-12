@@ -6,12 +6,13 @@ library(patchwork)
 # Define functions --------------------------------------------------------
 source(file = "../R/99_proj_func.R")
 
-# Load model
-ANN_model <- load_model_hdf5("../data/07_ANN_model") # HUSKE AT TILFØJE ../ på alle PATHS!!!!! inden du kører APPEN
-
 # Load data ---------------------------------------------------------------
 df <- read_tsv(file = "../data/03_aug_data.tsv", 
                col_types = cols(carrier = col_factor()))
+
+# Load models
+ANN_model <- load_model_hdf5("../data/07_ANN_model") # HUSKE AT TILFØJE ../ på alle PATHS!!!!! inden du kører APPEN
+
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
@@ -30,15 +31,13 @@ shinyServer(function(input, output) {
     
     
     # ANN ---------------------------------------------------------------
-    output$prediction <- renderText({
+    output$prediction_ann <- renderText({
         
-        vector <- User_vector()
+        vector_input <- User_vector()
         
+        class_predicted_ann <- predict_classes(ANN_model, vector_input, verbose = 1) 
         
-        
-        class_predicted <- predict_classes(ANN_model, vector, verbose = 1) 
-        
-        if (class_predicted == 0) { 
+        if (class_predicted_ann == 0) { 
         paste0("Congratulations, you've been classified as a non-carrier :)")
         }
         else {
@@ -48,20 +47,51 @@ shinyServer(function(input, output) {
     
     output$probabilities <- renderText({
         
-        vector <- User_vector()
+        vector_input <- User_vector()
         
-        probability_ann <- predict_proba(ANN_model, vector, verbose = 1)
+        probability_ann <- predict_proba(ANN_model, vector_input, verbose = 1)
         
         paste0("The classification is based on this probability: ", 
                round(probability_ann[1], digits = 3))
     })
     
-    # Logistic ---------------------------------------------------------------
+    # Logistic model ---------------------------------------------------------------
     
+    output$prediction_log <- renderText({
     
+        vector_input <- User_vector() %>% 
+            as.tibble() %>% rename(CK = CK_feat,
+                                   PK = PK_feat,
+                                   LD = LD_feat,
+                                   H = H_feat)
+        
+        log_model <- glm(carrier ~ PK + LD + H + CK, 
+                         family = binomial(link = "logit"), 
+                         data = df)
+        
+        class_predicted_log <- predict(log_model, vector_input)
+        
+        paste0("Logistic model predicted: ", round(class_predicted_log, digits = 3))
     
-    # Linear ---------------------------------------------------------------
+    })
+    # Linear model ---------------------------------------------------------------
     
+    output$prediction_lm <- renderText({
+        
+        vector_input <- User_vector() %>% 
+            as.tibble() %>% rename(CK = CK_feat,
+                                   PK = PK_feat,
+                                   LD = LD_feat,
+                                   H = H_feat)
+        
+        lm_model <- lm(carrier ~ LD + H + PK + CK,
+                       data = df)
+        
+        class_predicted_lm <- predict(lm_model, vector_input)
+        
+        paste0("Linear model predicted: ", round(class_predicted_lm, digits = 3))
+        
+    })
     # Distributions ---------------------------------------------------------------
     
     output$distributions <- renderPlot({

@@ -47,7 +47,7 @@ shinyUI(
             mainPanel(
                 
                 # Output: Formatted text for caption ----
-                h3(textOutput("prediction")),
+                h3(textOutput("prediction_ann")),
                 
                 br(), br(),
                 
@@ -55,7 +55,15 @@ shinyUI(
                 
                 br(), br(),
                 
-                plotOutput("distributions")
+                plotOutput("distributions"),
+                
+                br(), br(),
+                
+                textOutput("prediction_lm"),
+                
+                br(), br(),
+                
+                textOutput("prediction_log")
             )    
         )
         
