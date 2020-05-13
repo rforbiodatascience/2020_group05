@@ -40,22 +40,10 @@ shinyServer(function(input, output) {
         probability_ann <- predict_proba(ANN_model, vector_input, verbose = 1)
         
         if (class_predicted_ann == 0) { 
-        paste("Congratulations, you've been classified as a non-carrier :)",
-              "",
-              "The classification is based on this predicted probability: ", 
-               round(probability_ann[1], digits = 3),
-              "",
-              "where", round(probability_ann[1], digits = 3),
-              "specifies the certainty of correct classification", sep = "\n")
+        paste("Congratulations, you've been classified as a non-carrier :)")
         }
         else {
-        paste("You've been classified as a carrier :(",
-               "",
-               "The classification is based on this predicted probability: ",
-               round(probability_ann[2], digits = 3),
-              "",
-              "where", round(probability_ann[2], digits = 3),
-              "specifies the certainty of correct classification", sep = "\n")
+        paste("You've been classified as a carrier :(")
         }
     })
     
@@ -77,20 +65,10 @@ shinyServer(function(input, output) {
         class_predicted_log <- predict(log_model, vector_input, type = "response")
         
         if (class_predicted_log <= 0.500) { 
-            paste("Congratulations, you've been classified as a non-carrier :)",
-                  "",
-                  "The classification is based on this probability: ", 
-                  round(class_predicted_log, digits = 3),
-                  "",
-                  "where ", round(class_predicted_log, digits = 3), 
-                  "specifies the probability of being a carrier",
-                  sep = "\n")
+            paste("Congratulations, you've been classified as a non-carrier :)")
         }
         else {
-            paste("You've been classified as a carrier :(",
-                  "",
-                  "The classification is based on this probability: ",
-                  round(class_predicted_log, digits = 3), sep = "\n")
+            paste("You've been classified as a carrier :(")
         }
     
     })
@@ -110,16 +88,10 @@ shinyServer(function(input, output) {
         class_predicted_lm <- predict(lm_model, vector_input, type = "response")
         
         if (class_predicted_lm <= 0.500) { 
-            paste("Congratulations, you've been classified as a non-carrier :)",
-                  "",
-                  "The classification is based on this probability: ", 
-                  round(class_predicted_lm, digits = 3), sep = "\n")
+            paste("Congratulations, you've been classified as a non-carrier :)")
         }
         else {
-            paste("You've been classified as a carrier :(",
-                  "",
-                  "The classification is based on this probability: ",
-                  round(class_predicted_lm, digits = 3), sep = "\n")
+            paste("You've been classified as a carrier :(")
         }
         
     })
