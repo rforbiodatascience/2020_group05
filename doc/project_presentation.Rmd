@@ -156,9 +156,11 @@ knitr::include_graphics("../results/07_ann_confusion_matrix.png")
 ```
 
 
-## Results | Shiny App
+## Shiny App
 
 https://rforbiodatascience-2020-group5.shinyapps.io/dmd_predictor/ 
+
+Extra packaged used: shinythemes
 
 ## Discussion
 
