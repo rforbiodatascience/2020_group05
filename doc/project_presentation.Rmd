@@ -82,7 +82,7 @@ knitr::include_graphics("../results/04_age_distribution.png")
 ```
 
 ## Results | Descriptive Data Analysis {.flexbox .vcenter}
-```{r, echo = FALSE, out.width = "600px"}
+```{r, echo = FALSE, out.width = "500px",}
 knitr::include_graphics("../results/04_density_proteins.png")
 ```
 
@@ -95,11 +95,8 @@ data set.
 ## Results | Descriptive Data Analysis {.flexbox .vcenter}
 
 ```{r, echo = FALSE, out.width = "700px", out.height= "400px"}
-<<<<<<< HEAD
-knitr::include_graphics("/cloud/project/results/04_age_groups_protein_levels.png")
-=======
+knitr::include_graphics("../results/04_age_groups_protein_levels.png")
 knitr::include_graphics("../results/04_proteins.png")
->>>>>>> 11555357d096c7afa9bf8ad7fd277cd552118f7e
 ```
 
 <div class="notes">
@@ -112,11 +109,8 @@ Decide on what slides we actually want here...
 ## Results | Descriptive Data Analysis {.flexbox .vcenter}
 
 ```{r, echo = FALSE, out.width = "700px", out.height= "400px"}
-<<<<<<< HEAD
-knitr::include_graphics("/cloud/project/results/04_proteins.png")
-=======
+knitr::include_graphics("../results/04_proteins.png")
 knitr::include_graphics("../results/04_age_groups_protein_levels.png")
->>>>>>> 11555357d096c7afa9bf8ad7fd277cd552118f7e
 ```
 
 <div class = "notes">
