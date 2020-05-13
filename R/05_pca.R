@@ -6,7 +6,6 @@ rm(list = ls())
 
 # Load libraries ----------------------------------------------------------
 library("tidyverse")
-library("ggrepel")
 library("broom")
 library("patchwork")
 

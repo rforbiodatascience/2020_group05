@@ -20,7 +20,6 @@ R packages:
 * rsample 0.0.6
 * broom 0.5.6
 * purr 0.3.4
-* ggrepel 0.8.2
 * shiny 1.4.0.2
 * patchwork 1.0.0
 * shinythemes 1.1.2
