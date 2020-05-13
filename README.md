@@ -42,35 +42,9 @@ Further documentation can be found in the folder doc.
 #-----Delete this at some point:!!!!
 ## To do List: 
 
-Monday:
-Tobias: 
-- [x] Adding ANN Classification
-- [x] Adding Logistic Classification
-- [x] Adding Linear Regression
-- [x] Make all four responsive distributions (4/4)
-- [] Make the App look nice n tidy :)))
-- [] Missing last thing on Linear Reg (doesnt make alot of sense to have a threshold of 0.5 for this)
-
-Cecilie:
-- [x] Make functions work (Non standard evaluation)
-- [X] Make function for confusionmatrix 
-
-Astrid: 
-- [X] correct linar model confusion matrix 
-- [X] change name of simple model
-
-Carina:
-- [X] Change confusion matrix axis reversed
-- [X] Plots good names and numbers
-- [X] tidycheck
-
-- [x] Make stratification for ANN work 
-- [X] Maybe add AGE as a variable to the models? - No see plot
-
-
 Tuesday:
 Small practical stuff missing: 
-- [x] Linear into app (Tobias)
+- [] Linear into app (Tobias)
 - [X] Change PCA variance explained a little (carina)
 - [X] ROC plot Legend change (Astrid)
 
