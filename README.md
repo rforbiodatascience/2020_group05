@@ -45,6 +45,7 @@ Further documentation can be found in the folder doc.
 Tuesday:
 Small practical stuff missing: 
 - [] Linear into app (Tobias)
+- [] Make axis logarithmic on protein-protein plot - ALTERNATIVELY, CHANGE THE PLOT (Astrid)
 - [X] Change PCA variance explained a little (carina)
 - [X] ROC plot Legend change (Astrid)
 

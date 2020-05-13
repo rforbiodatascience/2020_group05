@@ -1,7 +1,7 @@
 ---
-title: "Predicting Carrier <br> Status of DMD <br> in Women"
+title: "Predicting Carrier Status of DMD <br> in Women"
 subtitle: "Project presentation"
-author: "Astrid, Carina, Cecilie and Tobias"
+author: "Astrid (s164491), Carina (s193122), Cecilie (s164464) and Tobias (s193123)"
 date: "11/05/2020"
 output:
   ioslides_presentation:
@@ -95,7 +95,7 @@ data set.
 ## Results | Descriptive Data Analysis {.flexbox .vcenter}
 
 ```{r, echo = FALSE, out.width = "700px", out.height= "400px"}
-knitr::include_graphics("/cloud/project/results/04_proteins.png")
+knitr::include_graphics("/cloud/project/results/04_age_groups_protein_levels.png")
 ```
 
 <div class="notes">
@@ -108,7 +108,7 @@ Decide on what slides we actually want here...
 ## Results | Descriptive Data Analysis {.flexbox .vcenter}
 
 ```{r, echo = FALSE, out.width = "700px", out.height= "400px"}
-knitr::include_graphics("/cloud/project/results/04_age_groups_protein_levels.png")
+knitr::include_graphics("/cloud/project/results/04_proteins.png")
 ```
 
 <div class = "notes">
@@ -168,6 +168,7 @@ Insert link to app here:
 - 'Small' dataset 
 -  Age as a variable in models
 -  Season 
+- Cross-validation could improve ANN
 
 ## Conclusion
 Goal: 
