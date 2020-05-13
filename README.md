@@ -23,6 +23,7 @@ R packages:
 * ggrepel 0.8.2
 * shiny 1.4.0.2
 * patchwork 1.0.0
+* shinythemes 1.1.2
  
 ## Installation:
 The following code download this data analysis pipeline, when run in the terminal:
