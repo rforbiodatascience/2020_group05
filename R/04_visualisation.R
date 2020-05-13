@@ -18,7 +18,7 @@ data <- read_tsv(file = "data/03_aug_data.tsv",
 
 
 # Wrangle data ------------------------------------------------------------
-# Creating age groups and merging H and PK (These have similar scale of protein levels)
+# Creating subset of age groups and merging all proteins
 data_subset_age <- data %>% 
   mutate(age_group = cut(x = Age, 
                          breaks = seq(10, 100, by = 10))) 
@@ -39,26 +39,26 @@ age_distribution_plot <- data %>%
 
 # Protein levels density --------------------------------------------------
 density_ck <- data %>% 
-  filter(CK < 500) %>% 
+  filter(CK < 300) %>% 
   density_plot(x_p = CK,
-               title_input = "Creatine Kinase")
+               title_input = "Creatine Kinase (CK)")
 
 density_h <- density_plot(data = data,
                           x_p = H,
-                          title_input = "Hemopexin")
+                          title_input = "Hemopexin (H)")
 
 density_ld <- density_plot(data = data,
                            x_p = LD,
-                           title_input = "Lactate Dehydroginase")
+                           title_input = "Lactate Dehydroginase (LD)")
 
 density_pk <- data %>% 
   filter(PK < 80) %>% 
   density_plot(x_p = PK,
-               title_input = "Pyruvate Kinase")
+               title_input = "Pyruvate Kinase (PK)")
 
 density_protein_plot <- ((density_pk/density_h) | (density_ld/density_ck)) + 
   plot_annotation(title = "Density plot of enzyme levels") +
-  plot_layout(guides = "collect") & 
+  plot_layout(guides = "collect") + 
   theme(legend.position = "right")
   
 
@@ -85,8 +85,9 @@ boxplot_pk <- boxplot_func(data = data_subset_age,
 
 protein_ages_plot <- ((boxplot_ck/boxplot_ld) | boxplot_h/boxplot_pk) +
   plot_annotation(title = "Enzyme levels among age groups") +
-  plot_layout(guides = "collect") & 
+  plot_layout(guides = "collect") + 
   theme(legend.position = "right")
+
 
 # Protein-protein ---------------------------------------------------------
 # Correlation between carrier-status and the levels of enzyme
@@ -125,7 +126,7 @@ protein_protein_plot <- ( CK_vs_H/H_vs_PK | CK_vs_PK/LD_vs_PK | CK_vs_LD/LD_vs_H
   plot_layout(guides = "collect") & 
   theme(legend.position = "bottom")
 
-#---Carrrier stauts and protein
+# Carrier status and protein ---------------------------------------------
 level_carrier_plot <-data_subset_pivot %>% 
   ggplot(mapping = aes(x = Level, y = carrier)) +
   geom_point() + 

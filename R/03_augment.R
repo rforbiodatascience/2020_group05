@@ -6,10 +6,6 @@ rm(list = ls())
 library("tidyverse")
 
 
-# Define functions --------------------------------------------------------
-source(file = "R/99_proj_func.R")
-
-
 # Load data ---------------------------------------------------------------
 df         <- read_tsv(file = "data/02_clean_data_df.tsv")
 df_carrier <- read_tsv(file = "data/02_clean_data_df_carrier.tsv", 

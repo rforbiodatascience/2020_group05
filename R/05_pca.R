@@ -11,10 +11,6 @@ library("broom")
 library("patchwork")
 
 
-# Define functions --------------------------------------------------------
-source(file = "R/99_proj_func.R")
-
-
 # Load data ---------------------------------------------------------------
 data <- read_tsv(file = "data/03_aug_data.tsv")
 
