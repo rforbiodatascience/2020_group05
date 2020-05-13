@@ -10,9 +10,11 @@ output:
     logo: pictures/DTU_Logo_Corporate_Red_RGB.png
 bibliography: R-course.bib
 ---
-
+nocite: | 
+  @Astrid2020
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
 ```
 
 ## Introduction {.flexbox .vcenter}
@@ -38,8 +40,8 @@ Gør skriftstørrelse størrere på skrift rundt om bokse.
 ## Materials and Methods | Selection and preparation of data
 Data set of 192 observations, with 10 attributes after cleaning.
 
-- Collected from the 1985 book 'Data' (@Andrews1985).
-- Originated from a 1981 study (@Percy1981). 
+- Collected from the 1985 book 'Data' (@Andrews1985)
+- Originated from a 1981 study (@Percy1981)
 
 Clean
 
