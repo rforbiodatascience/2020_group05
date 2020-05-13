@@ -163,7 +163,7 @@ knitr::include_graphics("../results/07_ann_confusion_matrix.png")
 
 ## Results | Shiny App
 
-Insert link to app here: 
+https://rforbiodatascience-2020-group5.shinyapps.io/dmd_predictor/ 
 
 ## Discussion
 
