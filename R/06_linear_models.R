@@ -63,7 +63,7 @@ roc <- data_batch %>%
   mutate(TPR = cumsum(Positive) / sum(Positive),
          FPR = cumsum(Negative) / sum(Negative))
 
-#Finding optimal threshold, so as few are False Negative
+# Finding optimal threshold, so as few are False Negative
 threshold_log <- roc %>% 
   filter(pred_type == "pred_log",
          TPR == 1) %>% 
@@ -87,7 +87,6 @@ auc_value <- roc %>%
 
 
 # Confusion Matrix --------------------------------------------------------
-# Threshold is at 0.5
 # Change to binary prediction
 data_batch <- data_batch %>%
   mutate(pred_binary = if_else(pred_type == "pred_linear", 
@@ -140,7 +139,7 @@ CM_plot_log <- confusion_matrix_plot(confusion_matrix = confusion_matrix2,
                                      title_input = "Confusion Matrix of Logistic Regression Model",
                                      subtitle_input = "  ")
 
-#combine:
+# combine:
 cm_combine <- (CM_plot_linear | CM_plot_log)
 
 # Write data --------------------------------------------------------------
