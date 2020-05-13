@@ -20,26 +20,6 @@ install_if_needed <- function(pkgs) {
 }
 
 
-# Augment -----------------------------------------------------------------
-# Normalisation function
-normalize <- function(x) {
-  return ((x - min(x)) / (max(x) - min(x)))
-}
-
-
-# Models ------------------------------------------------------------------
-# Logistic classification model
-log_reg_model_def <- function(df) {
-  glm(carrier ~ PK + LD + H + CK, 
-      family = binomial(link = "logit"), 
-      data = data)}
-
-# Linear model 
-linear_model_def <- function(df) {
-  lm(carrier ~ LD + H + PK + CK,
-     data = data)}
-
-
 # Plots -------------------------------------------------------------------
 # Density plot function
 density_plot <- function(data, x_p, title_input) {
@@ -55,7 +35,7 @@ boxplot_func <- function(data, x_protein, age_group, title_input, x_label_input)
          mapping = aes(x = {{age_group}}, y = {{x_protein}}, fill = carrier)) +
   geom_boxplot(alpha = 0.5) + 
   labs(title = title_input,
-       x = "Age Group")+
+       x = "Age Group") +
   theme(legend.position = "none")
 }
 
@@ -67,6 +47,7 @@ scatter_func <- function(data, x_protein, y_protein, title_input){
   labs(title = title_input)
 }
 
+# Scatterplot with logarithmic x-scale
 scatter_func_log <- function(data, x_protein, y_protein, title_input){
   ggplot(data = data,
          mapping = aes(x = {{x_protein}}, y = {{y_protein}}, fill = carrier)) +
@@ -74,6 +55,19 @@ scatter_func_log <- function(data, x_protein, y_protein, title_input){
   labs(title = title_input) +
   scale_x_log10()
 }
+
+
+# Models ------------------------------------------------------------------
+# Logistic classification model
+log_reg_model_def <- function(df) {
+  glm(carrier ~ PK + LD + H + CK, 
+      family = binomial(link = "logit"), 
+      data = data)}
+
+# Linear model 
+linear_model_def <- function(df) {
+  lm(carrier ~ LD + H + PK + CK,
+     data = data)}
 
 # Confusion matrix plot
 confusion_matrix_plot <- function(confusion_matrix, title_input, subtitle_input){
