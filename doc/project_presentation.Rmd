@@ -2,7 +2,7 @@
 title: "Predicting Carrier Status of DMD <br> in Women"
 subtitle: "Project presentation"
 author: "Astrid (s164491), Carina (s193122), Cecilie (s164464) and Tobias (s193123)"
-date: "11/05/2020"
+date: "14/05/2020"
 output:
   ioslides_presentation:
     widescreen: true
@@ -15,17 +15,19 @@ bibliography: R-course.bib
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Introduction
+## Introduction {.flexbox .vcenter}
+
 * What is Duchenne Muscular Dystrophy (DMD)?
 * Hypothesis: Is it possible to predict carrier status based on enzyme levels?
 * Today: Genetic testing of X chromosome 
+
 
 
 ## Materials and Methods | Pipeline for project
 
 <center>
 
-![*Figure 1: Flowchart showing the pipeline for the project.*](pictures/pipeline.png){width=800px}
+![*Figure 1: Flowchart showing the pipeline for the project.*](pictures/pipeline.png){width=950px}
 
 </center>
 
@@ -33,30 +35,29 @@ knitr::opts_chunk$set(echo = TRUE)
 Gør skriftstørrelse størrere på skrift rundt om bokse.
 </div>
 
-## Materials and Methods | Selection and preparation of data { .smaller}
+## Materials and Methods | Selection and preparation of data
 Data set of 192 observations, with 10 attributes after cleaning.
 
 - Collected from the 1985 book 'Data' (@Andrews1985).
 - Originated from a 1981 study (@Percy1981). 
 
-Attributes (11):
+Clean
 
-<font size="3">
+* Removed redundant variables
+* Renamed variables
+* Changed NA values
 
-Observation Number, ID, Age, Month, Year, Creatine kinase (CK), Hemopexin (H), Lactate dehydroginase (LD) and Pyruvate kinase (PK)
-</font>
-<br>
-<br>
-<font size="3">
-In augment, season and carrier was added
-</font>
+Augment
+
+* Add season and carrier status
+* Removal of NA's
 
 <div class="notes">
 Creatine kinase (CK), Hemopexin (H), Lactate dehydroginase (LD) and Pyruvate kinase (PK)
 </div>
 
 
-##  Materials and Methods | Data set { .smaller}
+##  Materials and Methods | Data set 
 
 ```{r include=FALSE}
 library('tidyverse')
@@ -68,6 +69,7 @@ data %>%
   filter(ID < 640 & ID > 630) %>% 
   select(-ObservationNumber)
 ```
+
 <div class="notes">
 Maybe something about the attributes?? 
 What are they, is there anything that needs explaning.
@@ -77,12 +79,12 @@ What are they, is there anything that needs explaning.
 
 ## Results | Descriptive Data Analysis {.flexbox .vcenter}
 
-```{r, echo = FALSE, out.width= "700px"}
+```{r, echo = FALSE, out.width= "800px"}
 knitr::include_graphics("../results/04_age_distribution.png")
 ```
 
 ## Results | Descriptive Data Analysis {.flexbox .vcenter}
-```{r, echo = FALSE, out.width = "500px",}
+```{r, echo = FALSE, out.width = "650px",}
 knitr::include_graphics("../results/04_density_proteins.png")
 ```
 
@@ -94,9 +96,8 @@ data set.
 
 ## Results | Descriptive Data Analysis {.flexbox .vcenter}
 
-```{r, echo = FALSE, out.width = "700px", out.height= "400px"}
+```{r, echo = FALSE, out.width = "800px"}
 knitr::include_graphics("../results/04_age_groups_protein_levels.png")
-knitr::include_graphics("../results/04_proteins.png")
 ```
 
 <div class="notes">
@@ -108,9 +109,8 @@ Decide on what slides we actually want here...
 </div>
 ## Results | Descriptive Data Analysis {.flexbox .vcenter}
 
-```{r, echo = FALSE, out.width = "700px", out.height= "400px"}
+```{r, echo = FALSE, out.width = "800px"}
 knitr::include_graphics("../results/04_proteins.png")
-knitr::include_graphics("../results/04_age_groups_protein_levels.png")
 ```
 
 <div class = "notes">
@@ -122,7 +122,7 @@ knitr::include_graphics("../results/04_age_groups_protein_levels.png")
 
 ## Results | PCA {.columns-2 .smaller .flexbox .vcenter}
 
-```{r, echo = FALSE, out.width = "750px", out.height = "400"}
+```{r, echo = FALSE, out.width = "800px"}
 knitr::include_graphics("../results/05_pca_and_variance.png")
 ```
 
@@ -134,7 +134,7 @@ Did we use this in some way??
 
 
 ## Results | Linear and Logistic Regression Model {.flexbox .vcenter}
-```{r, echo = FALSE, out.width = "800px", out.height= "450px"}
+```{r, echo = FALSE, out.width = "800px"}
 knitr::include_graphics("../results/06_roc.png")
 
 ```
@@ -146,16 +146,9 @@ knitr::include_graphics("../results/06_confusion_matrix_linear_model.png")
 knitr::include_graphics("../results/06_confusion_matrix_log_model.png")
 ```
 
-## Results | Logistic Model {.flexbox .vcenter}
-
-```{r, echo = FALSE, out.width = "400px", out.height= "400px"}
-
-
-```
-
 ## Results | Artificial Neural Network {.flexbox .vcenter}
 
-```{r, echo = FALSE, out.width = "800px", out.height= "400px"}
+```{r, echo = FALSE, out.width = "800px"}
 knitr::include_graphics("../results/07_ann_confusion_matrix.png")
 
 ```
@@ -178,8 +171,8 @@ Predict carrier status of Duchenne Muscular Dystrophy in women.
 
 Did we succed: 
 
-  * Linear AUC = 
-  * Logistic AUC = 
-  * ANN acuracy = 
+  * Linear AUC = 0.92
+  * Logistic AUC = 0.945
+  * ANN accuracy = 89.5%
 
 ## References
