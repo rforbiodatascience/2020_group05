@@ -155,7 +155,5 @@ ggsave(filename = "results/07_ann_training.png",
 
 # Save ANN model for Shiny-App
 save_model_hdf5(model, 
-                filepath = "data/07_ANN_model")
+                filepath = "data/07_ANN_model.hdf5")
 
-write_tsv(nn_dat,
-          path = "data/07_ANN_data.tsv")

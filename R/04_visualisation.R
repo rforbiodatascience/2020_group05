@@ -25,9 +25,8 @@ data_subset_age <- data %>%
 
 data_subset_pivot <- data %>% 
   pivot_longer(c("H", "PK", "LD", "CK"), 
-               names_to = c("Protein_high"), 
-               values_to = "Level") %>% 
-  pivot_longer(c())
+               names_to = c("Protein"), 
+               values_to = "Level") 
 
 # Visualise ---------------------------------------------------------------
 # Age Distribution --------------------------------------------------------

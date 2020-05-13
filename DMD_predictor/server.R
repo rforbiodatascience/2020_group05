@@ -11,8 +11,7 @@ df <- read_tsv(file = "../data/03_aug_data.tsv",
                col_types = cols(carrier = col_factor()))
 
 # Load models
-ANN_model <- load_model_hdf5("../data/07_ANN_model") # HUSKE AT TILFØJE ../ på alle PATHS!!!!! inden du kører APPEN
-
+ANN_model <- load_model_hdf5("../data/07_ANN_model.hdf5")
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
@@ -103,14 +102,14 @@ shinyServer(function(input, output) {
         ggplot(aes(LD, fill = carrier)) +
         geom_density(alpha=0.8) +
         geom_vline(xintercept = input$ld, colour = "red") +
-        xlab("Enzyme level (unit ?!)") + 
+        xlab("Enzyme level") + 
         ggtitle("Lactate Dehydroginase levels")
     
     dist_h <- df %>% 
         ggplot(aes(H, fill = carrier)) +
         geom_density(alpha=0.8) +
         geom_vline(xintercept = input$h, colour = "red") +
-        xlab("Enzyme level (unit ?!)") + 
+        xlab("Enzyme level") + 
         ggtitle("Hexopexin levels")
     
     dist_ck <- df %>% 
@@ -118,7 +117,7 @@ shinyServer(function(input, output) {
             ggplot(aes(CK, fill = carrier)) +
             geom_density(alpha=0.8) +
             geom_vline(xintercept = input$ck, colour = "red") +
-            xlab("Enzyme level (unit ?!)") + 
+            xlab("Enzyme level") + 
             ggtitle("Creatine Kinase levels")
         
     dist_pk <- df %>% 
@@ -126,7 +125,7 @@ shinyServer(function(input, output) {
             ggplot(aes(PK, fill = carrier)) +
             geom_density(alpha=0.8) +
             geom_vline(xintercept = input$pk, colour = "red") +
-            xlab("Enzyme level (unit ?!)") + 
+            xlab("Enzyme level") + 
             ggtitle("Pyruvate Kinase levels")
         
         ((dist_ck/dist_h) | (dist_pk/dist_ld)) + 

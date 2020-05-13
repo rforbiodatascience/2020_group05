@@ -1,6 +1,8 @@
 # Set working directory ---------------------------------------------------
 setwd("/cloud/project/")
 
+# Clear workspace ---------------------------------------------------------
+rm(list = ls())
 
 # Define functions --------------------------------------------------------
 source(file = "R/99_proj_func.R")
@@ -12,7 +14,6 @@ install_if_needed(c("tidyverse",
                     "devtools",
                     "keras",
                     "rsample",
-                    "tidymodels",
                     "broom",
                     "purrr",
                     "ggrepel",
