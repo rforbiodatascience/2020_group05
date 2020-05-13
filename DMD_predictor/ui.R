@@ -16,14 +16,9 @@ shinyUI(
             sidebarPanel(
                 
                 # Include clarifying text ----
-                helpText("Below you should fill in your respective values.",
-                         "You can switch back and forth between the models"),
+                helpText("Below you should fill in your respective values."),
                 
                 # Input: Selector for choosing dataset ----
-                radioButtons(inputId = "models",
-                             label = "Choose a model:",
-                             choices = c( "ANN", "Linear", "Logistic")),
-                
                 sliderInput(inputId = "ck", 
                             label = "Creatine Kinase (CK)", 
                             value = 25, min = 0, max = 150), # Meget høj MAX-værdi --- muligvis outlier
@@ -46,24 +41,41 @@ shinyUI(
             # Main panel for displaying outputs ----
             mainPanel(
                 
+                tabsetPanel(type = "tabs",
+                            tabPanel("Artificial Neural Network", 
+                                     verbatimTextOutput("prediction_ann")),
+                            tabPanel("Logistic Classification", 
+                                     verbatimTextOutput("prediction_log")),
+                            tabPanel("Linear Classification", 
+                                     verbatimTextOutput("prediction_lm"))
+                ),
+                
+                br(),
+                
+                p("These density plots visualize the distribution",
+                  "of the enzyme levels among carrier/non-carrier",
+                  "in the data set used to train the model.",
+                  "From this you can see if your own levels",
+                  "(marked with the red vertical line) are clearly",
+                  "in one group or if they are in the cross-section",
+                  "where the results might be inconclusive."),
+                
                 # Output: Formatted text for caption ----
-                h3(textOutput("prediction_ann")),
+                #h5(textOutput("prediction_ann")),
+                
+                #br(), br(),
+                
+                #textOutput("probabilities"),
                 
                 br(), br(),
                 
-                textOutput("probabilities"),
+                plotOutput("distributions")
                 
-                br(), br(),
+                #textOutput("prediction_lm"),
                 
-                plotOutput("distributions"),
+                #br(), br(),
                 
-                br(), br(),
-                
-                textOutput("prediction_lm"),
-                
-                br(), br(),
-                
-                textOutput("prediction_log")
+                #textOutput("prediction_log")
             )    
         )
         

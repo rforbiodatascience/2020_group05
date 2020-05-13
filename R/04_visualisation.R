@@ -60,7 +60,7 @@ density_pk <- data %>%
 density_protein_plot <- ((density_pk/density_h) | (density_ld/density_ck)) + 
   plot_annotation(title = "Density plot of enzyme levels") +
   plot_layout(guides = "collect") & 
-  theme(legend.position = "bottom")
+  theme(legend.position = "right")
   
 
 # Age and Protein ---------------------------------------------------------
@@ -91,17 +91,17 @@ protein_ages_plot <- ((boxplot_ck/boxplot_ld) | boxplot_h/boxplot_pk) +
 
 # Protein-protein ---------------------------------------------------------
 # Correlation between carrier-status and the levels of enzyme
-CK_vs_LD <- scatter_func(data = data,
+CK_vs_LD <- scatter_func_log(data = data,
                          x_protein = CK,
                          y_protein = LD,
                          title_input = "CK and LD")
 
-CK_vs_H <- scatter_func(data = data,
+CK_vs_H <- scatter_func_log(data = data,
                         x_protein = CK,
                         y_protein = H,
                         title_input = "CK and H")
 
-CK_vs_PK <- scatter_func(data = data,
+CK_vs_PK <- scatter_func_log(data = data,
                          x_protein = CK,
                          y_protein = PK,
                          title_input = "CK and PK")
@@ -140,8 +140,8 @@ ggsave(filename = "results/04_age_distribution.png",
 
 ggsave(filename = "results/04_density_proteins.png",
        plot = density_protein_plot,
-       width = 10, 
-       height = 10)
+       width = 7, 
+       height = 5)
 
 ggsave(filename = "results/04_age_groups_protein_levels.png",
        plot = protein_ages_plot,

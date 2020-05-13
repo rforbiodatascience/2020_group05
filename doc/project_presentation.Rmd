@@ -1,9 +1,13 @@
 ---
-title: "Predicting Carrier Status of DMD in Women"
+title: "Predicting Carrier <br> Status of DMD <br> in Women"
 subtitle: "Project presentation"
 author: "Astrid, Carina, Cecilie and Tobias"
 date: "11/05/2020"
-output: ioslides_presentation
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: true
+    logo: /cloud/project/doc/pictures/DTU_Logo_Corporate_Red_RGB.png
 bibliography: R-course.bib
 ---
 
@@ -13,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introduction
 * What is Duchenne Muscular Dystrophy (DMD)?
-* Why is it interesting to be able to do this? 
+* Hypothesis: Is it possible to predict carrier status based on enzyme levels?
 * Today: Genetic testing of X chromosome 
 
 
@@ -25,18 +29,26 @@ knitr::opts_chunk$set(echo = TRUE)
 
 </center>
 
+<div class="notes">
+Gør skriftstørrelse størrere på skrift rundt om bokse.
+</div>
+
 ## Materials and Methods | Selection and preparation of data { .smaller}
 Data set of 192 observations, with 10 attributes after cleaning.
 
 - Collected from the 1985 book 'Data' (@Andrews1985).
 - Originated from a 1981 study (@Percy1981). 
 
-
 Attributes (11):
 
 <font size="3">
 
-Observation Number, ID, Age, Month, Year, CK, LD, PK, H, Season, Carrier 
+Observation Number, ID, Age, Month, Year, Creatine kinase (CK), Hemopexin (H), Lactate dehydroginase (LD) and Pyruvate kinase (PK)
+</font>
+<br>
+<br>
+<font size="3">
+In augment, season and carrier was added
 </font>
 
 <div class="notes">
@@ -44,7 +56,7 @@ Creatine kinase (CK), Hemopexin (H), Lactate dehydroginase (LD) and Pyruvate kin
 </div>
 
 
-##  Materials and Methods | Attributes/Example { .smaller}
+##  Materials and Methods | Data set { .smaller}
 
 ```{r include=FALSE}
 library('tidyverse')
@@ -62,15 +74,15 @@ What are they, is there anything that needs explaning.
 </div>
 
 
-## Results | Descriptive Data Analysis
+
+## Results | Descriptive Data Analysis {.flexbox .vcenter}
 
 ```{r, echo = FALSE, out.width= "700px"}
 knitr::include_graphics("/cloud/project/results/04_age_distribution.png")
 ```
 
-## Results | Descriptive Data Analysis 
-
-```{r, echo = FALSE, out.width = "700px", out.height= "500px"}
+## Results | Descriptive Data Analysis {.flexbox .vcenter}
+```{r, echo = FALSE, out.width = "600px"}
 knitr::include_graphics("/cloud/project/results/04_density_proteins.png")
 ```
 
@@ -80,7 +92,7 @@ data set.
  - We can see an overlap = not two clearly seperate groups
 </div>
 
-## Results | Descriptive Data Analysis 
+## Results | Descriptive Data Analysis {.flexbox .vcenter}
 
 ```{r, echo = FALSE, out.width = "700px", out.height= "400px"}
 knitr::include_graphics("/cloud/project/results/04_proteins.png")
@@ -93,7 +105,7 @@ Decide on what slides we actually want here...
 - No obvious correlation between two of the proteins. 
 
 </div>
-## Results | Descriptive Data Analysis 
+## Results | Descriptive Data Analysis {.flexbox .vcenter}
 
 ```{r, echo = FALSE, out.width = "700px", out.height= "400px"}
 knitr::include_graphics("/cloud/project/results/04_age_groups_protein_levels.png")
@@ -106,7 +118,7 @@ knitr::include_graphics("/cloud/project/results/04_age_groups_protein_levels.png
 </div>
 
 
-## Results | PCA {.columns-2 .smaller}
+## Results | PCA {.columns-2 .smaller .flexbox .vcenter}
 
 ```{r, echo = FALSE, out.width = "750px", out.height = "400"}
 knitr::include_graphics("/cloud/project/results/05_pca_and_variance.png")
@@ -119,27 +131,27 @@ Did we use this in some way??
 </div>
 
 
-## Results | Linear and Logartimic Regression Model
-```{r, echo = FALSE, out.width = "800px", out.height= "400px"}
+## Results | Linear and Logistic Regression Model {.flexbox .vcenter}
+```{r, echo = FALSE, out.width = "800px", out.height= "450px"}
 knitr::include_graphics("/cloud/project/results/06_roc.png")
 
 ```
 
-## Results | Linear Model
+## Results | Linear Model {.flexbox .vcenter}
 
 ```{r, echo = FALSE, out.width = "800px", out.height= "400px"}
 knitr::include_graphics("/cloud/project/results/06_confusion_matrix_linear_model.png")
 
 ```
 
-## Results | Logistic Model
+## Results | Logistic Model {.flexbox .vcenter}
 
 ```{r, echo = FALSE, out.width = "800px", out.height= "400px"}
 knitr::include_graphics("/cloud/project/results/06_confusion_matrix_log_model.png")
 
 ```
 
-## Results | Artificial Neural Network
+## Results | Artificial Neural Network {.flexbox .vcenter}
 
 ```{r, echo = FALSE, out.width = "800px", out.height= "400px"}
 knitr::include_graphics("/cloud/project/results/07_ann_confusion_matrix.png")
@@ -166,3 +178,5 @@ Did we succed:
   * Linear AUC = 
   * Logistic AUC = 
   * ANN acuracy = 
+
+## References
