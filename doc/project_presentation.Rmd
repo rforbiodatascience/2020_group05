@@ -141,9 +141,9 @@ knitr::include_graphics("../results/06_roc.png")
 
 ## Results | Linear Model and Logistic Model {.flexbox .vcenter}
 
-```{r, echo = FALSE, out.width = "400px", out.height= "400px"}
-knitr::include_graphics("../results/06_confusion_matrix_linear_model.png")
-knitr::include_graphics("../results/06_confusion_matrix_log_model.png")
+```{r, echo = FALSE, out.width = "900px"}
+knitr::include_graphics("../results/06_confusion_matrix_models.png")
+
 ```
 
 ## Results | Artificial Neural Network {.flexbox .vcenter}
