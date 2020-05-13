@@ -13,7 +13,7 @@ df_carrier <- read_tsv(file = "data/01_carrier_data.tsv")
 
 # Wrangle data ------------------------------------------------------------
 # View data to check for anomalities, NAs and other elements in the data.
-View(df)
+# View(df)
 
 # The first three columns are removed due to redundancy
 # 8th column is removed it provides no information as it only contains 0s

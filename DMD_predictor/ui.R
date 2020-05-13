@@ -50,6 +50,16 @@ shinyUI(
                                      verbatimTextOutput("prediction_lm"))
                 ),
                 
+                br(),
+                
+                p("These density plots visualize the distribution",
+                  "of the enzyme levels among carrier/non-carrier",
+                  "in the data set used to train the model.",
+                  "From this you can see if your own levels",
+                  "(marked with the red vertical line) are clearly",
+                  "in one group or if they are in the cross-section",
+                  "where the results might be inconclusive."),
+                
                 # Output: Formatted text for caption ----
                 #h5(textOutput("prediction_ann")),
                 
@@ -59,17 +69,7 @@ shinyUI(
                 
                 br(), br(),
                 
-                plotOutput("distributions"),
-                
-                br(),
-                
-                p("These density plots visualize the distribution",
-                         "of the enzyme levels among carrier/non-carrier",
-                         "in the data set used to train the model.",
-                         "From this you can see if your own levels",
-                         "(marked with the red vertical line) are clearly",
-                         "in one group or if they are in the cross-section",
-                         "where the results might be inconclusive.")
+                plotOutput("distributions")
                 
                 #textOutput("prediction_lm"),
                 

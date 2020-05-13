@@ -48,7 +48,7 @@ data_batch <- data_batch %>%
   filter(Model_Type == "log_model" & pred_type == "pred_log" | 
          Model_Type == "linear_model" & pred_type == "pred_linear")
 
-View(data_batch)
+
 # Roc & Auc----------------------------------------------------------------
 # Calculating True-positive rate (TPR) and False-positive rate (FPR)
 roc <- data_batch %>% 

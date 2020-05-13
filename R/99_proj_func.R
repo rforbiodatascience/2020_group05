@@ -1,6 +1,6 @@
 # Define project functions
-# ------------------------------------------------------------------------------
 
+# Install packages --------------------------------------------------------
 # Check wether a package is installed or not
 is_installed <- function (pkg) {
   if (system.file(package = pkg) == "")
@@ -19,22 +19,28 @@ install_if_needed <- function(pkgs) {
   }
 }
 
+
+# Augment -----------------------------------------------------------------
 # Normalisation function
 normalize <- function(x) {
   return ((x - min(x)) / (max(x) - min(x)))
 }
 
-# Logistic classification model:
+
+# Models ------------------------------------------------------------------
+# Logistic classification model
 log_reg_model_def <- function(df) {
   glm(carrier ~ PK + LD + H + CK, 
       family = binomial(link = "logit"), 
       data = data)}
 
-# Linear model: 
+# Linear model 
 linear_model_def <- function(df) {
   lm(carrier ~ LD + H + PK + CK,
      data = data)}
 
+
+# Plots -------------------------------------------------------------------
 # Density plot function
 density_plot <- function(data, x_p, title_input) {
     ggplot(data = data, 
@@ -61,7 +67,15 @@ scatter_func <- function(data, x_protein, y_protein, title_input){
   labs(title = title_input)
 }
 
-# Confusion matrix plot:
+scatter_func_log <- function(data, x_protein, y_protein, title_input){
+  ggplot(data = data,
+         mapping = aes(x = {{x_protein}}, y = {{y_protein}}, fill = carrier)) +
+  geom_point(pch = 21) + 
+  labs(title = title_input) +
+  scale_x_log10()
+}
+
+# Confusion matrix plot
 confusion_matrix_plot <- function(confusion_matrix, title_input, subtitle_input){
   Actual_values    <- factor(c(1, 0, 0, 1))
   Predicted_values <- factor(c(1, 0, 1, 0))

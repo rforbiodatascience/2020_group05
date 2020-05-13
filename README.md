@@ -14,22 +14,29 @@ Create different models which can asses if the woman is likely to be a carrier o
 
 R packages: 
 
-* Tidyverse
-* Devtools
-* Keras
-* rsample
-* tidymodels
-* broom 
-* purr
-* ggrepel
-* shiny
-* patchwork
+* tidyverse 1.3.0
+* devtools 2.3.0
+* keras 2.2.5.0
+* rsample 0.0.6
+* broom 0.5.6
+* purr 0.3.4
+* ggrepel 0.8.2
+* shiny 1.4.0.2
+* patchwork 1.0.0
  
 ## Installation:
-The following code download this data analysis pipeline, when run in the terminal: ??
+The following code download this data analysis pipeline, when run in the terminal:
 
 ```{r}
 git clone https://github.com/rforbiodatascience/2020_group05
+```
+In case keras installation is causing trouble, try installing it as followes:
+
+```{r}
+install_github("rstudio/keras")
+# Would you like to install miniconda? Y
+library(keras)
+install_keras(tensorflow = "1.13.1")
 ```
  
 ## Usage:
@@ -51,8 +58,8 @@ Small practical stuff missing:
 
 
 - [] Make presentation 
-- [] Make sure it can run start to finish in one go
-- [] Written here 'how to run the scripts'
+- [X] Make sure it can run start to finish in one go
+- [X] Written here 'how to run the scripts'
 - [X] Go through learning objectives 
 - [X] Go through all the plots
 
