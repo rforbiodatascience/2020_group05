@@ -74,3 +74,7 @@ Small practical stuff missing:
 
 Wednesday:
 - [] Practice presentation
+
+APP:
+
+https://rforbiodatascience-2020-group5.shinyapps.io/dmd_predictor/

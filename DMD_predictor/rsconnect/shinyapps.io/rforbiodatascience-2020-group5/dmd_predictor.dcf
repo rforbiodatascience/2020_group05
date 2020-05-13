@@ -1,0 +1,10 @@
+name: dmd_predictor
+title:
+username:
+account: rforbiodatascience-2020-group5
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2291558
+bundleId: 3141297
+url: https://rforbiodatascience-2020-group5.shinyapps.io/dmd_predictor/
+when: 1589365492.57222
