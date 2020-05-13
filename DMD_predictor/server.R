@@ -3,8 +3,6 @@ library(tidyverse)
 library(keras)
 library(patchwork)
 
-# Define functions --------------------------------------------------------
-source(file = "R/99_proj_func.R")
 
 # Load data ---------------------------------------------------------------
 df <- read_tsv(file = "data/03_aug_data.tsv", 
@@ -136,3 +134,4 @@ shinyServer(function(input, output) {
     })
     
 })
+
