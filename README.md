@@ -46,35 +46,6 @@ Then the script will run every script in the correct order. All generated data w
 Further documentation can be found in the folder doc.
 
 
-#-----Delete this at some point:!!!!
-## To do List: 
-
-Tuesday:
-Small practical stuff missing: 
-- [] Linear into app (Tobias)
-- [] Make axis logarithmic on protein-protein plot - ALTERNATIVELY, CHANGE THE PLOT (Astrid)
-- [X] Change PCA variance explained a little (carina)
-- [X] ROC plot Legend change (Astrid)
-
-
-- [] Make presentation 
-- [X] Make sure it can run start to finish in one go
-- [X] Written here 'how to run the scripts'
-- [X] Go through learning objectives 
-- [X] Go through all the plots
-
-----Everything tidy check
-- [] 00_doit
-- [] 01_load
-- [] 02_clean
-- [] 03_augment
-- [] 04_
-- [] ....
-- [] pca
-
-Wednesday:
-- [] Practice presentation
-
 APP:
 
 https://rforbiodatascience-2020-group5.shinyapps.io/dmd_predictor/
