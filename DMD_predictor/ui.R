@@ -5,7 +5,7 @@ library(shinythemes)
 # Define UI for application that draws a histogram
 shinyUI(
     fluidPage(theme = shinytheme("flatly"),
-        #shinythemes::themeSelector(),
+        
         # App title ----
         titlePanel("DMD predictor"),
         
@@ -21,7 +21,7 @@ shinyUI(
                 # Input: Selector for choosing dataset ----
                 sliderInput(inputId = "ck", 
                             label = "Creatine Kinase (CK)", 
-                            value = 25, min = 0, max = 150), # Meget høj MAX-værdi --- muligvis outlier
+                            value = 25, min = 0, max = 300), 
                 
                 sliderInput(inputId = "h", 
                             label = "Hemopexin (H)", 
@@ -60,22 +60,11 @@ shinyUI(
                   "in one group or if they are in the cross-section",
                   "where the results might be inconclusive."),
                 
-                # Output: Formatted text for caption ----
-                #h5(textOutput("prediction_ann")),
-                
-                #br(), br(),
-                
-                #textOutput("probabilities"),
                 
                 br(), br(),
                 
                 plotOutput("distributions")
-                
-                #textOutput("prediction_lm"),
-                
-                #br(), br(),
-                
-                #textOutput("prediction_log")
+        
             )    
         )
         
