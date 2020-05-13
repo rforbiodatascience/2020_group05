@@ -19,13 +19,15 @@ data <- read_tsv(file = "data/03_aug_data.tsv",
 
 # Wrangle data ------------------------------------------------------------
 # Creating age groups and merging H and PK (These have similar scale of protein levels)
-data_subset <- data %>% 
+data_subset_age <- data %>% 
   mutate(age_group = cut(x = Age, 
-                         breaks = seq(10, 100, by = 10))) %>% 
-  pivot_longer(c("H", "PK"), 
-               names_to = "Protein", 
-               values_to = "Level")
+                         breaks = seq(10, 100, by = 10))) 
 
+data_subset_pivot <- data %>% 
+  pivot_longer(c("H", "PK", "LD", "CK"), 
+               names_to = c("Protein_high"), 
+               values_to = "Level") %>% 
+  pivot_longer(c())
 
 # Visualise ---------------------------------------------------------------
 # Age Distribution --------------------------------------------------------
@@ -62,28 +64,30 @@ density_protein_plot <- ((density_pk/density_h) | (density_ld/density_ck)) +
   
 
 # Age and Protein ---------------------------------------------------------
-boxplot_ck <- boxplot_func(data = data_subset,
+boxplot_ck <- boxplot_func(data = data_subset_age,
                            x_protein = CK,
                            age_group = age_group,
                            title_input = "Creatine Kinase")
 
-boxplot_ld <- boxplot_func(data = data_subset,
+boxplot_ld <- boxplot_func(data = data_subset_age,
                            x_protein = LD,
                            age_group = age_group,
                            title_input = "Lactate Dehydroginase")
 
-#Age groups, using grid to make two plots at once
-boxplot_pk_h <- data_subset %>% 
-  ggplot(mapping = aes(x = age_group, y = Level, fill = carrier)) +
-  geom_boxplot(alpha = 0.5)+
-  labs(title = "Hemopexin and Pyruvate Kinase", 
-       fill = "Carrier Status",
-       x = "Age group",
-       y = "Protein level") + 
-  facet_grid(Protein ~.) 
+boxplot_h <- boxplot_func(data = data_subset_age,
+                           x_protein = H,
+                           age_group = age_group,
+                           title_input = "Hemopexin")
 
-protein_ages_plot <- ((boxplot_ck/boxplot_ld) | boxplot_pk_h) +
-  plot_annotation(title = "Enzyme levels among age groups")
+boxplot_pk <- boxplot_func(data = data_subset_age,
+                           x_protein = PK,
+                           age_group = age_group,
+                           title_input = "Pyruvate Kinase")
+
+protein_ages_plot <- ((boxplot_ck/boxplot_ld) | boxplot_h/boxplot_pk) +
+  plot_annotation(title = "Enzyme levels among age groups") +
+  plot_layout(guides = "collect") & 
+  theme(legend.position = "right")
 
 # Protein-protein ---------------------------------------------------------
 # Correlation between carrier-status and the levels of enzyme
@@ -122,6 +126,11 @@ protein_protein_plot <- ( CK_vs_H/H_vs_PK | CK_vs_PK/LD_vs_PK | CK_vs_LD/LD_vs_H
   plot_layout(guides = "collect") & 
   theme(legend.position = "bottom")
 
+#---Carrrier stauts and protein
+level_carrier_plot <-data_subset_pivot %>% 
+  ggplot(mapping = aes(x = Level, y = carrier)) +
+  geom_point() + 
+  facet_grid(~Protein, scales = "free")
 
 # Write data --------------------------------------------------------------
 ggsave(filename = "results/04_age_distribution.png",
@@ -141,5 +150,10 @@ ggsave(filename = "results/04_age_groups_protein_levels.png",
 
 ggsave(filename = "results/04_proteins.png",
        plot = protein_protein_plot,
+       width = 10,
+       height = 6)
+
+ggsave(filename = "results/04_level_carrier.png",
+       plot = level_carrier_plot,
        width = 10,
        height = 6)
