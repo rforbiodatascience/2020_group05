@@ -61,6 +61,14 @@ scatter_func <- function(data, x_protein, y_protein, title_input){
   labs(title = title_input)
 }
 
+scatter_func_log <- function(data, x_protein, y_protein, title_input){
+  ggplot(data = data,
+         mapping = aes(x = {{x_protein}}, y = {{y_protein}}, fill = carrier)) +
+  geom_point(pch = 21) + 
+  labs(title = title_input) +
+  scale_x_log10()
+}
+
 # Confusion matrix plot:
 confusion_matrix_plot <- function(confusion_matrix, title_input, subtitle_input){
   Actual_values    <- factor(c(1, 0, 0, 1))

@@ -87,17 +87,17 @@ protein_ages_plot <- ((boxplot_ck/boxplot_ld) | boxplot_pk_h) +
 
 # Protein-protein ---------------------------------------------------------
 # Correlation between carrier-status and the levels of enzyme
-CK_vs_LD <- scatter_func(data = data,
+CK_vs_LD <- scatter_func_log(data = data,
                          x_protein = CK,
                          y_protein = LD,
                          title_input = "CK and LD")
 
-CK_vs_H <- scatter_func(data = data,
+CK_vs_H <- scatter_func_log(data = data,
                         x_protein = CK,
                         y_protein = H,
                         title_input = "CK and H")
 
-CK_vs_PK <- scatter_func(data = data,
+CK_vs_PK <- scatter_func_log(data = data,
                          x_protein = CK,
                          y_protein = PK,
                          title_input = "CK and PK")
