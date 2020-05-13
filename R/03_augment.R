@@ -6,10 +6,6 @@ rm(list = ls())
 library("tidyverse")
 
 
-# Define functions --------------------------------------------------------
-source(file = "R/99_proj_func.R")
-
-
 # Load data ---------------------------------------------------------------
 df         <- read_tsv(file = "data/02_clean_data_df.tsv")
 df_carrier <- read_tsv(file = "data/02_clean_data_df_carrier.tsv", 
@@ -39,3 +35,7 @@ df_aug <- drop_na(df_aug)
 # Write data --------------------------------------------------------------
 write_tsv(x = df_aug,
           path = "data/03_aug_data.tsv")
+
+# Write data to Shiny-App -------------------------------------------------
+write_tsv(x = df_aug,
+          path = "DMD_predictor/data/03_aug_data.tsv")

@@ -17,7 +17,6 @@ df_carrier <- read_tsv(file = "data/01_carrier_data.tsv")
 
 # The first three columns are removed due to redundancy
 # 8th column is removed it provides no information as it only contains 0s
-
 df <- df %>% 
       select( -c(X1, X2, X3, X8))
 

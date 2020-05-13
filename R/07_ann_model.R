@@ -27,8 +27,6 @@ nn_dat <- df %>%
   mutate(class_num = as.numeric(carrier) - 1,
          class_label = ifelse(carrier == 0, "non-carrier", "carrier"))
 
-nn_dat %>%
-  head(3)
 
 # Split into training/test set --------------------------------------------
 # Stratification
@@ -43,8 +41,6 @@ nn_dat_test <- nn_dat %>%
 nn_dat <- nn_dat %>% 
   full_join(nn_dat_test) %>%
   replace_na(list(partition = "train"))
-
-nn_dat %>% count(partition)
 
 # Train partition
 x_train <- nn_dat %>%
@@ -83,8 +79,6 @@ model %>%
           optimizer = "adam",
           metrics   = c("accuracy"))
 
-model %>%
-  summary
 
 
 # Train the ANN -----------------------------------------------------------
@@ -100,17 +94,12 @@ ANN_plot <- plot(history)
 # Evaluate network performance --------------------------------------------
 performance <- model %>% 
   evaluate(x_test, y_test)
-performance
 
 nn_dat <- nn_dat %>%
   filter(partition == "test") %>%
   mutate(class_num = factor(class_num),
          y_pred    = factor(predict_classes(model, x_test)),
          Correct   = factor(ifelse(class_num == y_pred, "Yes", "No")))
-
-nn_dat %>% 
-  select(-contains("feat")) %>% 
-  head(3)
 
 # Confusion matrix --------------------------------------------------------
 # Calculate: true positives (TP), true negatives (TN), 
@@ -155,5 +144,5 @@ ggsave(filename = "results/07_ann_training.png",
 
 # Save ANN model for Shiny-App
 save_model_hdf5(model, 
-                filepath = "data/07_ANN_model.hdf5")
+                filepath = "DMD_predictor/data/07_ANN_model.hdf5")
 
