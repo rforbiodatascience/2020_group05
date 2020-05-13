@@ -7,7 +7,7 @@ output:
   ioslides_presentation:
     widescreen: true
     smaller: true
-    logo: /cloud/project/doc/pictures/DTU_Logo_Corporate_Red_RGB.png
+    logo: pictures/DTU_Logo_Corporate_Red_RGB.png
 bibliography: R-course.bib
 ---
 
@@ -25,7 +25,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 <center>
 
-![*Figure 1: Flowchart showing the pipeline for the project.*](/cloud/project/doc/pictures/pipeline.png){width=800px}
+![*Figure 1: Flowchart showing the pipeline for the project.*](pictures/pipeline.png){width=800px}
 
 </center>
 
@@ -78,12 +78,12 @@ What are they, is there anything that needs explaning.
 ## Results | Descriptive Data Analysis {.flexbox .vcenter}
 
 ```{r, echo = FALSE, out.width= "700px"}
-knitr::include_graphics("/cloud/project/results/04_age_distribution.png")
+knitr::include_graphics("../results/04_age_distribution.png")
 ```
 
 ## Results | Descriptive Data Analysis {.flexbox .vcenter}
 ```{r, echo = FALSE, out.width = "600px"}
-knitr::include_graphics("/cloud/project/results/04_density_proteins.png")
+knitr::include_graphics("../results/04_density_proteins.png")
 ```
 
 <div class="notes">
@@ -95,7 +95,7 @@ data set.
 ## Results | Descriptive Data Analysis {.flexbox .vcenter}
 
 ```{r, echo = FALSE, out.width = "700px", out.height= "400px"}
-knitr::include_graphics("/cloud/project/results/04_proteins.png")
+knitr::include_graphics("../results/04_proteins.png")
 ```
 
 <div class="notes">
@@ -108,7 +108,7 @@ Decide on what slides we actually want here...
 ## Results | Descriptive Data Analysis {.flexbox .vcenter}
 
 ```{r, echo = FALSE, out.width = "700px", out.height= "400px"}
-knitr::include_graphics("/cloud/project/results/04_age_groups_protein_levels.png")
+knitr::include_graphics("../results/04_age_groups_protein_levels.png")
 ```
 
 <div class = "notes">
@@ -121,7 +121,7 @@ knitr::include_graphics("/cloud/project/results/04_age_groups_protein_levels.png
 ## Results | PCA {.columns-2 .smaller .flexbox .vcenter}
 
 ```{r, echo = FALSE, out.width = "750px", out.height = "400"}
-knitr::include_graphics("/cloud/project/results/05_pca_and_variance.png")
+knitr::include_graphics("../results/05_pca_and_variance.png")
 ```
 
 <div class="notes">
@@ -133,28 +133,28 @@ Did we use this in some way??
 
 ## Results | Linear and Logistic Regression Model {.flexbox .vcenter}
 ```{r, echo = FALSE, out.width = "800px", out.height= "450px"}
-knitr::include_graphics("/cloud/project/results/06_roc.png")
+knitr::include_graphics("../results/06_roc.png")
 
 ```
 
-## Results | Linear Model {.flexbox .vcenter}
+## Results | Linear Model and Logistic Model {.flexbox .vcenter}
 
-```{r, echo = FALSE, out.width = "800px", out.height= "400px"}
-knitr::include_graphics("/cloud/project/results/06_confusion_matrix_linear_model.png")
-
+```{r, echo = FALSE, out.width = "400px", out.height= "400px"}
+knitr::include_graphics("../results/06_confusion_matrix_linear_model.png")
+knitr::include_graphics("../results/06_confusion_matrix_log_model.png")
 ```
 
 ## Results | Logistic Model {.flexbox .vcenter}
 
-```{r, echo = FALSE, out.width = "800px", out.height= "400px"}
-knitr::include_graphics("/cloud/project/results/06_confusion_matrix_log_model.png")
+```{r, echo = FALSE, out.width = "400px", out.height= "400px"}
+
 
 ```
 
 ## Results | Artificial Neural Network {.flexbox .vcenter}
 
 ```{r, echo = FALSE, out.width = "800px", out.height= "400px"}
-knitr::include_graphics("/cloud/project/results/07_ann_confusion_matrix.png")
+knitr::include_graphics("../results/07_ann_confusion_matrix.png")
 
 ```
 
