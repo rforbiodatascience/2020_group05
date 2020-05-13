@@ -34,7 +34,7 @@ shinyServer(function(input, output) {
         
         class_predicted_ann <- predict_classes(ANN_model, vector_input, verbose = 1) 
         
-        probability_ann <- predict_proba(ANN_model, vector_input, verbose = 1)
+        #probability_ann <- predict_proba(ANN_model, vector_input, verbose = 1)
         
         if (class_predicted_ann == 0) { 
         paste("Congratulations, you've been classified as a non-carrier :)")
@@ -84,7 +84,7 @@ shinyServer(function(input, output) {
         
         class_predicted_lm <- predict(lm_model, vector_input, type = "response")
         
-        if (class_predicted_lm <= 0.500) { 
+        if (class_predicted_lm <= 0.17) { 
             paste("Congratulations, you've been classified as a non-carrier :)")
         }
         else {
@@ -111,7 +111,7 @@ shinyServer(function(input, output) {
         ggtitle("Hexopexin levels")
     
     dist_ck <- df %>% 
-        filter(CK <= 150) %>% 
+        filter(CK <= 300) %>% 
             ggplot(aes(CK, fill = carrier)) +
             geom_density(alpha=0.8) +
             geom_vline(xintercept = input$ck, colour = "red") +
@@ -128,8 +128,8 @@ shinyServer(function(input, output) {
         
         ((dist_ck/dist_h) | (dist_pk/dist_ld)) + 
         plot_annotation(title = "Density plot of enzyme levels", 
-                        caption = "Filtered CK levels <= 150. Filtered PK levels <= 60") +
-        plot_layout(guides = "collect") & 
+                        caption = "Filtered CK levels <= 300. Filtered PK levels <= 60") +
+        plot_layout(guides = "collect") + 
         theme(legend.position = "right")
     })
     

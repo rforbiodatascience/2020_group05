@@ -5,8 +5,8 @@ account: rforbiodatascience-2020-group5
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 2291558
-bundleId: 3141423
+bundleId: 3142045
 url: https://rforbiodatascience-2020-group5.shinyapps.io/dmd_predictor/
-when: 1589368409.81534
+when: 1589377749.58642
 asMultiple: FALSE
 asStatic: FALSE
