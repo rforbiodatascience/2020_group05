@@ -4,14 +4,14 @@ library(keras)
 library(patchwork)
 
 # Define functions --------------------------------------------------------
-source(file = "../R/99_proj_func.R")
+source(file = "R/99_proj_func.R")
 
 # Load data ---------------------------------------------------------------
-df <- read_tsv(file = "../data/03_aug_data.tsv", 
+df <- read_tsv(file = "data/03_aug_data.tsv", 
                col_types = cols(carrier = col_factor()))
 
 # Load models
-ANN_model <- load_model_hdf5("../data/07_ANN_model.hdf5")
+ANN_model <- load_model_hdf5("data/07_ANN_model.hdf5")
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
