@@ -34,8 +34,6 @@ shinyServer(function(input, output) {
         
         class_predicted_ann <- predict_classes(ANN_model, vector_input, verbose = 1) 
         
-        #probability_ann <- predict_proba(ANN_model, vector_input, verbose = 1)
-        
         if (class_predicted_ann == 0) { 
         paste("Congratulations, you've been classified as a non-carrier :)")
         }
@@ -108,7 +106,7 @@ shinyServer(function(input, output) {
         geom_density(alpha=0.8) +
         geom_vline(xintercept = input$h, colour = "red") +
         xlab("Enzyme level") + 
-        ggtitle("Hexopexin levels")
+        ggtitle("Hemopexin levels")
     
     dist_ck <- df %>% 
         filter(CK <= 300) %>% 

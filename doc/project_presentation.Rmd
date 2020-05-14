@@ -20,7 +20,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Introduction {.flexbox .vcenter}
 
 * What is Duchenne Muscular Dystrophy (DMD)?
-* Hypothesis: Is it possible to predict carrier status based on enzyme levels?
+* Hypothesis: Is it possible to predict carrier status based on serum levels?
 * Today: Genetic testing of X chromosome 
 
 
@@ -160,7 +160,7 @@ knitr::include_graphics("../results/07_ann_confusion_matrix.png")
 
 https://rforbiodatascience-2020-group5.shinyapps.io/dmd_predictor/ 
 
-Extra packaged used: shinythemes
+Extra package used: shinythemes
 
 ## Discussion
 
@@ -173,10 +173,10 @@ Extra packaged used: shinythemes
 Goal: 
 Predict carrier status of Duchenne Muscular Dystrophy in women.
 
-Did we succed: 
+Did we succeed? 
 
-  * Linear AUC = 92.0 %
-  * Logistic AUC = 94.5 %
+  * Linear AUC = 92.0%
+  * Logistic AUC = 94.5%
   * ANN accuracy = 89.5%
 
 ## References
