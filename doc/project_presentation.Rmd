@@ -175,8 +175,8 @@ Predict carrier status of Duchenne Muscular Dystrophy in women.
 
 Did we succed: 
 
-  * Linear AUC = 92.0 %
-  * Logistic AUC = 94.5 %
+  * Linear AUC = 92.0%
+  * Logistic AUC = 94.5%
   * ANN accuracy = 89.5%
 
 ## References
