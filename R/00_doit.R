@@ -16,7 +16,6 @@ install_if_needed(c("tidyverse",
                     "rsample",
                     "broom",
                     "purrr",
-                    "ggrepel",
                     "shiny",
                     "patchwork",
                     "shinythemes"))
